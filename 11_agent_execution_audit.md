@@ -25,10 +25,13 @@
 | 11 — unify state-machine schema | DONE | N/A (post-checklist) | 9/10 | 9/10 | 0 issues |
 | 12 — gradient sensing API | DONE | N/A (post-checklist) | 9/10 | 9/10 | 0 issues |
 | 13 — speed multiplier batching | DONE | N/A (post-checklist) | 9/10 | 9/10 | 0 issues |
+| 14 — audit consistency pass | DONE | N/A (post-checklist docs) | 8/10 | — | 0 issues |
+| 15 — README + package metadata | DONE | N/A (post-checklist docs/build) | 9/10 | — | Fixes I-7 |
+| 16 — protocol contract strictness tests | DONE | N/A (post-checklist test hardening) | 9/10 | 9/10 | Fixes I-9 |
 
-**Test suite:** 62 passed, 0 failed (as of commit 13)
+**Test suite:** 62 passed, 0 failed (as of commit 16)
 **End-of-Commit-10 Acceptance:** ALL 4 CRITERIA MET
-**Post-Checklist Phase:** Commits 11-13 address audit findings I-14, I-15, I-12
+**Post-Checklist Phase:** Commits 11-16 address audit findings I-14, I-15, I-12, I-7, I-9
 
 ---
 
@@ -44,6 +47,8 @@ This section reflects the current project state after checklist completion:
 6. ~~Remaining structural concern: schema split (`AgentSchemaSpec` vs `AntBehaviorSpec`, I-14).~~ **RESOLVED** by commit 11 — unified `StateMachineAgentSchemaSpec` in contracts layer.
 7. Gradient sensing moved to framework API (`SignalGrid.sense_gradient()`) by commit 12 — resolves I-15.
 8. Speed multiplier now consumed by engine for step batching by commit 13 — resolves I-12.
+9. Package metadata now points to `README.md` (commit 15) — resolves I-7.
+10. Port contract tests now validate method signatures and type hints against protocol definitions (commit 16) — resolves I-9.
 
 ---
 
@@ -123,6 +128,8 @@ All 6 models created. Test file had 5 tests at commit time. Gate passed (5 passe
 | I-6 | **MEDIUM** | **Tests don't exercise validators.** The models have 9 field-level validators (`min_length`, `ge`, `gt`, `le`, bound constraints). Only 1 is tested (`FoodSource.amount gt=0.0`). The other 8 validators exist but are never verified. For a project where contracts are the foundational layer (D3, D4, D14), untested validators are a reliability gap. The checklist says "minimum models" — but minimum should still mean "validators that exist are tested." |
 | I-7 | **LOW** | **`pyproject.toml` readme points to audit report.** `readme = "08_final_report.md"` — this is a 590-line architectural audit, not a project README. If this package is ever `pip install`ed or published, the "readme" shown will be the full audit report. Should point to a proper `README.md` or be removed. |
 
+**I-7 status: RESOLVED by commit 15 (`README.md` added, `pyproject.toml` readme corrected).**
+
 ### What's Good
 
 - Models are clean, well-typed, and use Pydantic v2 idioms correctly
@@ -182,6 +189,8 @@ The agent noticed `pip install -e .` failed because setuptools autodiscovery fou
 | # | Severity | Finding |
 |---|----------|---------|
 | I-9 | **LOW** | **`StubPersistence.load_run` and `StubHistory.nearest_snapshot_before` lack return type annotations.** `@runtime_checkable` only checks method existence, not signatures, so `isinstance` passes regardless. The contract shape is verified at the shallowest level. A proper contract test would verify return types match. Minor for a TFG. |
+
+**I-9 status: RESOLVED by commit 16 (strict signature and type-hint conformance tests).**
 
 ---
 
@@ -825,6 +834,98 @@ None. Clean feature addition that resolves I-12 with proper determinism preserva
 
 ---
 
+## Commit 14: `docs(audit): reconcile round-4 evidence and issue resolution wording`
+
+**Git:** `47d080c`
+**Checklist compliance:** N/A (post-checklist documentation maintenance)
+
+### What this commit does
+
+Aligns the audit document with the repository's validated state after commits 11-13, removing stale wording and ensuring issue-resolution references are internally consistent.
+
+### Changes Made
+
+- Updated stale references in `Current Truth Snapshot` (test totals and resolved concerns wording).
+- Clarified issue tracker wording where intermediate and final resolutions differed.
+- Normalized command-evidence phrasing for the updated post-checklist phase.
+
+### Assessment
+
+This is documentation hygiene, but important: the audit is itself a control artifact, so internal consistency matters. No code/runtime behavior changed.
+
+### Issues Found
+
+None.
+
+---
+
+## Commit 15: `docs(build): add README and point project metadata to it`
+
+**Git:** `532f29f`
+**Checklist compliance:** N/A (post-checklist — addresses audit finding I-7)
+
+### What this commit does
+
+Adds a proper `README.md` and updates `pyproject.toml` metadata from `readme = "08_final_report.md"` to `readme = "README.md"`.
+
+### Changes Made
+
+- Added new `README.md` with project scope, setup, and test instructions.
+- Updated project metadata in `pyproject.toml` to reference `README.md`.
+
+### Audit Finding Resolution: I-7
+
+**I-7 was: "`pyproject.toml` readme points to a long audit report rather than a package README."**
+
+**Resolution: CORRECT.** Packaging metadata now points to the intended reader-facing document.
+
+### Verification
+
+- `rg -n "^readme\\s*=\\s*\\\"README.md\\\"" pyproject.toml` → found
+- `test -f README.md` → file exists
+
+### Issues Found
+
+None. Clean metadata correction and documentation baseline.
+
+---
+
+## Commit 16: `test(contracts): enforce protocol signature and type-hint conformance`
+
+**Git:** `f6a3da7`
+**Checklist compliance:** N/A (post-checklist — addresses audit finding I-9)
+
+### What this commit does
+
+Strengthens protocol contract tests so they verify method signatures and type hints, not only method-name presence under `@runtime_checkable`.
+
+### Changes Made
+
+- Added strict contract helper in `tests/contracts/test_ports_contract_shape.py`:
+  - compares protocol vs implementation parameter order/names
+  - compares parameter kinds
+  - compares type hints, including return type
+- Added missing return annotations in stubs:
+  - `StubPersistence.load_run(...) -> LoadedRun`
+  - `StubHistory.nearest_snapshot_before(...) -> tuple[int, SimulationState] | None`
+
+### Audit Finding Resolution: I-9
+
+**I-9 was: "Port tests validate only shallow runtime conformance; signatures/return types not checked."**
+
+**Resolution: CORRECT.** The test suite now validates protocol shape and typing contract depth.
+
+### Verification
+
+- `.venv/bin/python -m pytest -q tests/contracts/test_ports_contract_shape.py` → pass
+- `.venv/bin/python -m pytest -q` → `62 passed`
+
+### Issues Found
+
+None. Focused test-hardening change with no regressions.
+
+---
+
 ## Previous Forward-Looking Concerns — Assessment
 
 | Concern | Prediction | Outcome | Accuracy |
@@ -838,6 +939,8 @@ None. Clean feature addition that resolves I-12 with proper determinism preserva
 | Round 3 I-14: schema unification needed | Two schema systems will create tech debt | Commit 11 unified into `StateMachineAgentSchemaSpec` in contracts | CORRECT — agent addressed the finding directly |
 | Round 3 I-15: gradient should be framework API | Scenario-local gradient is not reusable | Commit 12 added `SignalGrid.sense_gradient()` with superior algorithm | CORRECT — promoted to framework with full-radius scan |
 | Round 3 I-12: speed multiplier unused | Property stored but never consumed | Commit 13 wired multiplier into step batching | CORRECT — engine now runs N steps per tick |
+| Round 4 I-7: package metadata/readme mismatch | Package should expose a real README | Commit 15 added `README.md` and set `readme = "README.md"` | CORRECT — metadata now publish-safe |
+| Round 4 I-9: shallow protocol contract tests | Tests should verify signatures and type hints | Commit 16 added strict signature/type-hint conformance assertions | CORRECT — test depth increased |
 
 ---
 
@@ -852,10 +955,10 @@ None. Clean feature addition that resolves I-12 with proper determinism preserva
 | pytest version (`.venv`) | 9.0.2 | >=8.0 (per pyproject.toml dev) | OK |
 | Editable install in `.venv` | SUCCEEDS | Should succeed | OK — discovery fixed and Python policy satisfied |
 | Tests passing | 62/62 | All green | OK |
-| Git commits | 15 | 10 checklist + 1 hotfix + 1 docs + 3 post-checklist | COMPLETE + 3 improvements |
+| Git commits | 18 | 10 checklist + post-checklist maintenance sequence | COMPLETE (audit ongoing) |
 | Import rule violations | 0 | 0 | OK — `contracts ← core ← scenarios`, 13 imports all flow correctly |
 | End-of-commit-10 acceptance | ALL 4 MET | All 4 criteria | COMPLETE |
-| Post-checklist improvements | 3 commits | Address audit findings I-12, I-14, I-15 | ALL 3 RESOLVED |
+| Post-checklist improvements | 6 commits | Address audit findings I-12, I-14, I-15, I-7, I-9 + audit consistency pass | ALL COMPLETED |
 
 ---
 
@@ -869,9 +972,9 @@ None. Clean feature addition that resolves I-12 with proper determinism preserva
 | I-4 | LOW | 2 | Frozen `Vector2` creates GC pressure at scale | DEFERRED (per D13) |
 | I-5 | MEDIUM | 2 | `SignalField` is config-only, needs runtime state class | **RESOLVED** by commit 6 (`SignalGrid` dataclass) |
 | I-6 | MEDIUM | 2 | 8 of 9 field validators untested | **RESOLVED** by commit 5 (retroactive test additions) |
-| I-7 | LOW | 2 | `pyproject.toml` readme points to 590-line audit report | OPEN |
+| I-7 | LOW | 2 | `pyproject.toml` readme points to 590-line audit report | **RESOLVED** by commit 15 (`README.md` + metadata fix) |
 | I-8 | CRITICAL | 2 | `pip install -e .` fails: setuptools autodiscovery finds `MEMORY` + `sim_framework` | **RESOLVED** by commit 2.5 (package find constraint) |
-| I-9 | LOW | 3 | Port stubs lack return type annotations, `runtime_checkable` only checks method names | OPEN |
+| I-9 | LOW | 3 | Port stubs lack return type annotations, `runtime_checkable` only checks method names | **RESOLVED** by commit 16 (signature and type-hint conformance tests) |
 | I-10 | MEDIUM | 4-5 | Validator schema uses flat `behavior_chain`, not state machine from `08_final_report.md` | **SUPERSEDED** by I-14 — scenario bypassed validators entirely |
 | I-11 | LOW | 6 | `sample()` reads point value, not gradient — ant pheromone-following will need extension | **RESOLVED** by commit 12 (`SignalGrid.sense_gradient()` framework API; commit 10 provided the interim scenario-local fix) |
 | I-12 | LOW | 8 | `speed_multiplier` stored but never consumed by engine — speed control is external | **RESOLVED** by commit 13 (step batching via multiplier) |
@@ -879,7 +982,7 @@ None. Clean feature addition that resolves I-12 with proper determinism preserva
 | I-14 | MEDIUM | 10 | Two coexisting schema systems — `AgentSchemaSpec` (validators.py) is dead code, `AntBehaviorSpec` (spec.py) is active | **RESOLVED** by commit 11 (unified `StateMachineAgentSchemaSpec` in contracts) |
 | I-15 | LOW | 10 | Pheromone gradient logic in scenario, not framework — `_best_pheromone_direction()` is not reusable | **RESOLVED** by commit 12 (`SignalGrid.sense_gradient()` framework API) |
 
-**CRITICAL:** 0 | **MEDIUM:** 2 (I-1, I-3) | **LOW:** 5 | **RESOLVED:** 7 | **MITIGATED:** 1 | **SUPERSEDED:** 1
+**CRITICAL:** 0 | **MEDIUM:** 2 (I-1, I-3) | **LOW:** 3 | **RESOLVED:** 9 | **MITIGATED:** 1 | **SUPERSEDED:** 1
 
 ---
 
@@ -932,6 +1035,16 @@ None. Clean feature addition that resolves I-12 with proper determinism preserva
 34. Speed multiplier — 6 independent verifications: 3× = 3 steps/tick, paused+speed=4+step=1 → exactly 1 step, determinism preserved (2 engines × 10 ticks @ 3× → identical at tick=30), speed<1 clamps to 1, resume from pause with speed=2 → 2 steps, default speed (1×) unchanged
 35. Import direction: `spec.py` imports from `contracts.validators` — scenarios → contracts, valid per import rule
 
+### Round 5 (commits 14-16)
+
+36. `git rev-list --count HEAD` → `18`
+37. `rg -n "^readme\\s*=\\s*\\\"README.md\\\"" pyproject.toml` → metadata points to `README.md`
+38. `test -f README.md` → `README.md exists`
+39. `git show --name-only --oneline 532f29f` → shows `README.md` + `pyproject.toml` change set
+40. `.venv/bin/python -m pytest -q tests/contracts/test_ports_contract_shape.py` → pass (strict protocol contract test)
+41. `git show --name-only --oneline f6a3da7` → shows `tests/contracts/test_ports_contract_shape.py` hardening commit
+42. `.venv/bin/python -m pytest -q` → `62 passed`
+
 ---
 
 ## Audit Methodology
@@ -946,4 +1059,4 @@ Each commit is assessed on:
 
 ---
 
-*All 10 checklist commits completed. Post-checklist commits 11-13 address audit findings. Audit ongoing.*
+*All 10 checklist commits completed. Post-checklist commits 11-16 address audit findings and documentation/test hardening. Audit ongoing.*
