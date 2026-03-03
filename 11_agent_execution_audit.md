@@ -28,10 +28,12 @@
 | 14 — audit consistency pass | DONE | N/A (post-checklist docs) | 8/10 | — | 0 issues |
 | 15 — README + package metadata | DONE | N/A (post-checklist docs/build) | 9/10 | — | Fixes I-7 |
 | 16 — protocol contract strictness tests | DONE | N/A (post-checklist test hardening) | 9/10 | 9/10 | Fixes I-9 |
+| 17 — Python policy test gate | DONE | N/A (post-checklist test policy) | 9/10 | 9/10 | Controls I-3 |
+| 18 — ants SpatialHash integration | DONE | N/A (post-checklist scenario integration) | 9/10 | 9/10 | Fixes I-13 |
 
-**Test suite:** 62 passed, 0 failed (as of commit 16)
+**Test suite:** 64 passed, 0 failed (as of commit 18)
 **End-of-Commit-10 Acceptance:** ALL 4 CRITERIA MET
-**Post-Checklist Phase:** Commits 11-16 address audit findings I-14, I-15, I-12, I-7, I-9
+**Post-Checklist Phase:** Commits 11-18 address audit findings I-14, I-15, I-12, I-7, I-9, I-13 and strengthen I-3 controls
 
 ---
 
@@ -41,7 +43,7 @@ This section reflects the current project state after checklist completion:
 
 1. Project runtime is now Python 3.11.11 in `.venv` (policy-compliant environment).
 2. Editable install works in `.venv`: `uv pip install --python .venv/bin/python -e .` succeeds.
-3. Full test suite passes in `.venv`: `62 passed, 0 failed`.
+3. Full test suite passes in `.venv`: `64 passed, 0 failed`.
 4. System Python is still 3.10.9, but it is no longer the project execution environment.
 5. Packaging discovery issue (I-8) is resolved.
 6. ~~Remaining structural concern: schema split (`AgentSchemaSpec` vs `AntBehaviorSpec`, I-14).~~ **RESOLVED** by commit 11 — unified `StateMachineAgentSchemaSpec` in contracts layer.
@@ -49,6 +51,8 @@ This section reflects the current project state after checklist completion:
 8. Speed multiplier now consumed by engine for step batching by commit 13 — resolves I-12.
 9. Package metadata now points to `README.md` (commit 15) — resolves I-7.
 10. Port contract tests now validate method signatures and type hints against protocol definitions (commit 16) — resolves I-9.
+11. Pytest session now enforces Python policy at startup (commit 17): non-3.11+ interpreters fail fast with guidance.
+12. Ant scenario now consumes `SpatialHash` infrastructure for local neighbor avoidance (commit 18) — resolves I-13.
 
 ---
 
@@ -74,6 +78,8 @@ Created all required files. All `__init__.py` files are empty (correct for a sca
 | I-1 | **MEDIUM** | **Commit message deviates from checklist.** Checklist says `chore: scaffold sim_framework package layout`. Actual: `first commit`. Conventional commits convention broken. Not a code problem but undermines the discipline the checklist was designed to enforce. |
 | I-2 | **LOW** | **`__pycache__` committed to git.** The first commit includes `tests/__pycache__/__init__.cpython-310.pyc` and `tests/__pycache__/test_smoke.cpython-310-pytest-7.1.2.pyc`. The `.gitignore` was only added in commit 2. These bytecode files are now permanently in git history. Not harmful but sloppy — the `.gitignore` should have been in commit 1 or a pre-commit. |
 | I-3 | **MEDIUM** | **System interpreter mismatch — Python 3.10.9 vs project policy `requires-python >= 3.11`.** This was a blocker before the project switched to `.venv` Python 3.11.11. It is now mitigated for local execution, but remains relevant for anyone running commands outside `.venv`. |
+
+**I-1 status: ACCEPTED (historical immutable).** This is repository-history process debt that cannot be fixed without rewriting commit history.
 
 ### What's Good
 
@@ -926,6 +932,85 @@ None. Focused test-hardening change with no regressions.
 
 ---
 
+## Commit 17: `test(policy): enforce Python 3.11+ at pytest session start`
+
+**Git:** `71fd341`
+**Checklist compliance:** N/A (post-checklist — strengthens control for I-3)
+
+### What this commit does
+
+Adds a test-session gate in `tests/conftest.py` that exits immediately when pytest is run with Python < 3.11.
+
+### Changes Made
+
+- New `pytest_sessionstart()` hook in `tests/conftest.py`.
+- If interpreter version is below 3.11, pytest exits with:
+  - `Python >= 3.11 is required for this project. Use .venv/bin/python -m pytest ...`
+
+### Assessment
+
+This does not upgrade the system interpreter, but it upgrades project safety from "documentation-only guidance" to "enforced runtime policy for tests." It prevents accidental green checks on unsupported interpreters and gives direct remediation guidance.
+
+### I-3 Control Update
+
+**I-3 remains an environment mismatch at system level, but is now operationally controlled for test execution.** Running tests outside `.venv` fails fast and explicitly.
+
+### Verification
+
+- `python -m pytest -q tests/test_smoke.py` → exits with policy message
+- `.venv/bin/python -m pytest -q` → passes
+
+### Issues Found
+
+None. Correct policy gate with clear operator feedback.
+
+---
+
+## Commit 18: `feat(scenarios): use SpatialHash for local neighbor avoidance`
+
+**Git:** `715e593`
+**Checklist compliance:** N/A (post-checklist — addresses audit finding I-13)
+
+### What this commit does
+
+Integrates `SpatialHash` directly into the ants behavior runner for local crowd-avoidance steering, with per-tick index caching.
+
+### Changes Made
+
+**`sim_framework/scenarios/ants_foraging/spec.py`:**
+- Imports `SpatialHash` from `core.physics`.
+- Adds per-runner spatial index state:
+  - `spatial_hash = SpatialHash(cell_size=1.5)`
+  - `indexed_tick` cache marker.
+- Adds `_neighbor_avoidance(agent, state)`:
+  - rebuilds index once per simulation tick
+  - queries nearby ants by radius
+  - accumulates inverse-distance repulsion vector
+  - returns normalized avoidance direction
+- Blends avoidance into final movement direction before normalization.
+
+**`tests/scenarios/test_ants_scenario_loads.py`:**
+- Added `test_behavior_runner_uses_spatial_hash_queries` (verifies build/query path is executed).
+- Added `test_behavior_runner_caches_spatial_hash_per_tick` (verifies one build per tick and rebuild on next tick).
+
+### Audit Finding Resolution: I-13
+
+**I-13 was: "`SpatialHash` exists but is not used in scenario runtime."**
+
+**Resolution: CORRECT.** `SpatialHash` is now exercised in scenario logic, not only unit tests.
+
+### Verification
+
+- `.venv/bin/python -m pytest -q tests/scenarios/test_ants_scenario_loads.py::test_behavior_runner_uses_spatial_hash_queries tests/scenarios/test_ants_scenario_loads.py::test_behavior_runner_caches_spatial_hash_per_tick` → pass
+- `.venv/bin/python -m pytest -q tests/integration/test_headless_ants_100ticks.py` → pass
+- `.venv/bin/python -m pytest -v` → `64 passed`
+
+### Issues Found
+
+None. Clean integration with deterministic per-tick indexing behavior.
+
+---
+
 ## Previous Forward-Looking Concerns — Assessment
 
 | Concern | Prediction | Outcome | Accuracy |
@@ -941,6 +1026,8 @@ None. Focused test-hardening change with no regressions.
 | Round 3 I-12: speed multiplier unused | Property stored but never consumed | Commit 13 wired multiplier into step batching | CORRECT — engine now runs N steps per tick |
 | Round 4 I-7: package metadata/readme mismatch | Package should expose a real README | Commit 15 added `README.md` and set `readme = "README.md"` | CORRECT — metadata now publish-safe |
 | Round 4 I-9: shallow protocol contract tests | Tests should verify signatures and type hints | Commit 16 added strict signature/type-hint conformance assertions | CORRECT — test depth increased |
+| Round 5 I-3 control hardening | Enforce Python policy at test runtime | Commit 17 added pytest session gate for Python >=3.11 | CORRECT — now operationally enforced |
+| Round 5 I-13 integration gap | SpatialHash should be consumed by scenario logic | Commit 18 integrated SpatialHash neighbor queries in ants runner | CORRECT — integration-level usage established |
 
 ---
 
@@ -948,17 +1035,18 @@ None. Focused test-hardening change with no regressions.
 
 | Property | Value | Expected | Status |
 |----------|-------|----------|--------|
-| System Python | 3.10.9 | >=3.11 (per pyproject.toml) | MISMATCH — mitigated by `.venv` runtime |
+| System Python | 3.10.9 | >=3.11 (per pyproject.toml) | MISMATCH — controlled by `.venv` runtime + pytest gate |
 | Project Python (`.venv`) | 3.11.11 | >=3.11 (per pyproject.toml) | OK — policy-compliant runtime |
 | Pydantic version | 2.8.2 | >=2.7 | OK |
 | pytest version (system) | 7.1.2 | >=8.0 (per pyproject.toml dev) | MISMATCH — use `.venv` pytest |
 | pytest version (`.venv`) | 9.0.2 | >=8.0 (per pyproject.toml dev) | OK |
+| Pytest runtime policy gate | ACTIVE | Reject Python <3.11 at session start | OK — commit 17 |
 | Editable install in `.venv` | SUCCEEDS | Should succeed | OK — discovery fixed and Python policy satisfied |
-| Tests passing | 62/62 | All green | OK |
-| Git commits | 18 | 10 checklist + post-checklist maintenance sequence | COMPLETE (audit ongoing) |
+| Tests passing | 64/64 | All green | OK |
+| Git commits | 21 | 10 checklist + post-checklist maintenance sequence | COMPLETE (audit ongoing) |
 | Import rule violations | 0 | 0 | OK — `contracts ← core ← scenarios`, 13 imports all flow correctly |
 | End-of-commit-10 acceptance | ALL 4 MET | All 4 criteria | COMPLETE |
-| Post-checklist improvements | 6 commits | Address audit findings I-12, I-14, I-15, I-7, I-9 + audit consistency pass | ALL COMPLETED |
+| Post-checklist improvements | 8 commits | Address audit findings I-12, I-14, I-15, I-7, I-9, I-13 + strengthen I-3 controls + audit consistency pass | ALL COMPLETED |
 
 ---
 
@@ -966,9 +1054,9 @@ None. Focused test-hardening change with no regressions.
 
 | ID | Severity | Commit | Description | Status |
 |----|----------|--------|-------------|--------|
-| I-1 | MEDIUM | 1 | Commit message deviates from checklist convention | OPEN |
+| I-1 | MEDIUM | 1 | Commit message deviates from checklist convention | ACCEPTED (historical immutable) |
 | I-2 | LOW | 1 | `__pycache__` committed to git history | OPEN (fixed going forward) |
-| I-3 | MEDIUM | 1 | System interpreter is 3.10.9 while project policy is `>=3.11`; mitigated by `.venv` Python 3.11.11 | MITIGATED |
+| I-3 | MEDIUM | 1 | System interpreter is 3.10.9 while project policy is `>=3.11`; `.venv` uses 3.11.11 and pytest now hard-fails on <3.11 (commit 17) | CONTROLLED |
 | I-4 | LOW | 2 | Frozen `Vector2` creates GC pressure at scale | DEFERRED (per D13) |
 | I-5 | MEDIUM | 2 | `SignalField` is config-only, needs runtime state class | **RESOLVED** by commit 6 (`SignalGrid` dataclass) |
 | I-6 | MEDIUM | 2 | 8 of 9 field validators untested | **RESOLVED** by commit 5 (retroactive test additions) |
@@ -978,11 +1066,11 @@ None. Focused test-hardening change with no regressions.
 | I-10 | MEDIUM | 4-5 | Validator schema uses flat `behavior_chain`, not state machine from `08_final_report.md` | **SUPERSEDED** by I-14 — scenario bypassed validators entirely |
 | I-11 | LOW | 6 | `sample()` reads point value, not gradient — ant pheromone-following will need extension | **RESOLVED** by commit 12 (`SignalGrid.sense_gradient()` framework API; commit 10 provided the interim scenario-local fix) |
 | I-12 | LOW | 8 | `speed_multiplier` stored but never consumed by engine — speed control is external | **RESOLVED** by commit 13 (step batching via multiplier) |
-| I-13 | LOW | 9 | `SpatialHash` built to spec but unused by ants scenario — unit-tested only | OPEN |
+| I-13 | LOW | 9 | `SpatialHash` built to spec but unused by ants scenario — unit-tested only | **RESOLVED** by commit 18 (scenario neighbor-avoidance integration) |
 | I-14 | MEDIUM | 10 | Two coexisting schema systems — `AgentSchemaSpec` (validators.py) is dead code, `AntBehaviorSpec` (spec.py) is active | **RESOLVED** by commit 11 (unified `StateMachineAgentSchemaSpec` in contracts) |
 | I-15 | LOW | 10 | Pheromone gradient logic in scenario, not framework — `_best_pheromone_direction()` is not reusable | **RESOLVED** by commit 12 (`SignalGrid.sense_gradient()` framework API) |
 
-**CRITICAL:** 0 | **MEDIUM:** 2 (I-1, I-3) | **LOW:** 3 | **RESOLVED:** 9 | **MITIGATED:** 1 | **SUPERSEDED:** 1
+**CRITICAL:** 0 | **MEDIUM:** 0 OPEN (I-1 accepted, I-3 controlled) | **LOW:** 2 (I-2, I-4) | **RESOLVED:** 10 | **CONTROLLED:** 1 | **ACCEPTED:** 1 | **SUPERSEDED:** 1
 
 ---
 
@@ -1045,6 +1133,16 @@ None. Focused test-hardening change with no regressions.
 41. `git show --name-only --oneline f6a3da7` → shows `tests/contracts/test_ports_contract_shape.py` hardening commit
 42. `.venv/bin/python -m pytest -q` → `62 passed`
 
+### Round 6 (commits 17-18)
+
+43. `git show --name-only --oneline 71fd341` → shows `tests/conftest.py` Python policy gate
+44. `python -m pytest -q tests/test_smoke.py` → exits immediately: `Python >= 3.11 is required... use .venv/bin/python -m pytest`
+45. `.venv/bin/python -m pytest -q` → `64 passed` (policy gate allows supported interpreter)
+46. `git show --name-only --oneline 715e593` → shows scenario + tests integration for SpatialHash
+47. `rg -n "SpatialHash|_neighbor_avoidance|query_radius|indexed_tick" sim_framework/scenarios/ants_foraging/spec.py` → confirms runtime integration points
+48. `.venv/bin/python -m pytest -q tests/scenarios/test_ants_scenario_loads.py::test_behavior_runner_uses_spatial_hash_queries tests/scenarios/test_ants_scenario_loads.py::test_behavior_runner_caches_spatial_hash_per_tick` → both pass
+49. `.venv/bin/python -m pytest -v` → `64 passed in 0.59s`
+
 ---
 
 ## Audit Methodology
@@ -1059,4 +1157,4 @@ Each commit is assessed on:
 
 ---
 
-*All 10 checklist commits completed. Post-checklist commits 11-16 address audit findings and documentation/test hardening. Audit ongoing.*
+*All 10 checklist commits completed. Post-checklist commits 11-18 address audit findings, policy controls, and integration hardening. Audit ongoing.*
