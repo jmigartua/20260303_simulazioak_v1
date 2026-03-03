@@ -82,3 +82,34 @@ def test_non_positive_deposit_is_ignored() -> None:
     grid.deposit(pos, -1.0)
 
     assert grid.sample(pos) == pytest.approx(0.0)
+
+
+def test_sense_gradient_points_to_higher_concentration() -> None:
+    grid = _grid()
+    center = Vector2(x=2.0, y=2.0)
+    east = Vector2(x=3.0, y=2.0)
+    north = Vector2(x=2.0, y=1.0)
+
+    grid.deposit(east, 5.0)
+    grid.deposit(north, 2.0)
+
+    direction = grid.sense_gradient(center, radius=2.0)
+    assert direction is not None
+    dx, dy = direction
+    assert dx > 0.0
+    assert abs(dy) < 1.0
+
+
+def test_sense_gradient_none_when_no_improvement() -> None:
+    grid = _grid()
+    center = Vector2(x=2.0, y=2.0)
+    grid.deposit(center, 3.0)
+
+    direction = grid.sense_gradient(center, radius=2.0)
+    assert direction is None
+
+
+def test_sense_gradient_rejects_non_positive_radius() -> None:
+    grid = _grid()
+    with pytest.raises(ValueError):
+        grid.sense_gradient(Vector2(x=1.0, y=1.0), radius=0.0)

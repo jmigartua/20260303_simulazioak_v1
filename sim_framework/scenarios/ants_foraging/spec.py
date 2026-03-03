@@ -105,29 +105,9 @@ def _normalize(dx: float, dy: float) -> tuple[float, float]:
     return dx / mag, dy / mag
 
 
-def _best_pheromone_direction(position: Vector2, signal_grid: SignalGrid) -> tuple[float, float] | None:
-    samples = [
-        (1.0, 0.0),
-        (-1.0, 0.0),
-        (0.0, 1.0),
-        (0.0, -1.0),
-    ]
-    best = None
-    best_value = -1.0
-
-    for dx, dy in samples:
-        value = signal_grid.sample(Vector2(x=position.x + dx, y=position.y + dy))
-        if value > best_value:
-            best_value = value
-            best = (dx, dy)
-
-    if best_value <= 0.0:
-        return None
-    return best
-
-
 def create_ant_behavior_runner(bounds: WorldBounds, signal_grid: SignalGrid):
     max_speed = ANT_WORKER_SPEC.attributes.max_speed
+    sensor_radius = ANT_WORKER_SPEC.attributes.sensor_radius
     pickup_radius = ANT_WORKER_SPEC.states["searching"].behaviors[2].params["pickup_radius"]
     drop_radius = ANT_WORKER_SPEC.states["carrying"].behaviors[1].params["arrival_radius"]
     deposit_amount = ANT_WORKER_SPEC.states["carrying"].behaviors[0].params["amount"]
@@ -155,7 +135,7 @@ def create_ant_behavior_runner(bounds: WorldBounds, signal_grid: SignalGrid):
                 carrying = 0
                 label = "searching"
         else:
-            direction = _best_pheromone_direction(agent.position, signal_grid)
+            direction = signal_grid.sense_gradient(agent.position, sensor_radius)
             if direction is None:
                 direction = _normalize(rng.uniform(-1.0, 1.0), rng.uniform(-1.0, 1.0))
             dx, dy = direction

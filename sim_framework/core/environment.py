@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from math import ceil, sqrt
 
 from sim_framework.contracts.models import SignalField, Vector2
 
@@ -44,6 +45,47 @@ class SignalGrid:
     def sample(self, position: Vector2) -> float:
         x, y = self._to_cell(position)
         return self.data[y][x]
+
+    def sense_gradient(self, position: Vector2, radius: float) -> tuple[float, float] | None:
+        if radius <= 0.0:
+            raise ValueError("radius must be > 0")
+
+        cx, cy = self._to_cell(position)
+        center_value = self.data[cy][cx]
+
+        cell_radius = int(ceil(radius))
+        best_dx = 0
+        best_dy = 0
+        best_value = center_value
+        best_dist = 0.0
+
+        for dy in range(-cell_radius, cell_radius + 1):
+            for dx in range(-cell_radius, cell_radius + 1):
+                if dx == 0 and dy == 0:
+                    continue
+
+                dist = sqrt(dx * dx + dy * dy)
+                if dist > radius:
+                    continue
+
+                nx = _clamp(cx + dx, 0, self.width - 1)
+                ny = _clamp(cy + dy, 0, self.height - 1)
+                value = self.data[ny][nx]
+
+                # Prefer higher concentration. Tie-break by farther cell to reduce jitter.
+                if (value > best_value) or (value == best_value and dist > best_dist):
+                    best_value = value
+                    best_dx = dx
+                    best_dy = dy
+                    best_dist = dist
+
+        if best_value <= center_value:
+            return None
+
+        norm = sqrt(best_dx * best_dx + best_dy * best_dy)
+        if norm == 0.0:
+            return None
+        return best_dx / norm, best_dy / norm
 
     def diffuse_step(self) -> None:
         next_data = [[0.0 for _ in range(self.width)] for _ in range(self.height)]
