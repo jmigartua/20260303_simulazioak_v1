@@ -22,6 +22,16 @@ uv pip install -e .[dev]
 .venv/bin/python -m pytest -v
 ```
 
+## Run benchmark
+
+```bash
+.venv/bin/python scripts/benchmark_headless.py --agents 100,300 --ticks 50 --repeats 2 --json-out Plans/perf_baseline_$(date +%F).json
+```
+
+Latest baseline snapshot in this repository:
+- `Plans/perf_baseline_2026-03-03.json`
+- `Plans/perf_baseline_2026-03-03.md`
+
 ## Current status
 
 - Deterministic engine loop and command handling implemented.
