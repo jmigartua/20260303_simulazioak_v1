@@ -12,7 +12,7 @@ from sim_framework.contracts.validators import (
     validate_known_behavior_names,
 )
 from sim_framework.core.environment import SignalGrid
-from sim_framework.core.physics import WorldBounds, apply_movement
+from sim_framework.core.physics import SpatialHash, WorldBounds, apply_movement
 
 ANT_WORKER_SPEC = StateMachineAgentSchemaSpec(
     agent_type="ant_worker",
@@ -111,6 +111,32 @@ def create_ant_behavior_runner(bounds: WorldBounds, signal_grid: SignalGrid):
     pickup_radius = ANT_WORKER_SPEC.states["searching"].behaviors[2].params["pickup_radius"]
     drop_radius = ANT_WORKER_SPEC.states["carrying"].behaviors[1].params["arrival_radius"]
     deposit_amount = ANT_WORKER_SPEC.states["carrying"].behaviors[0].params["amount"]
+    neighbor_radius = 1.5
+    avoid_weight = 0.35
+    spatial_hash = SpatialHash(cell_size=neighbor_radius)
+    indexed_tick: int | None = None
+
+    def _neighbor_avoidance(agent: AgentState, state: SimulationState) -> tuple[float, float]:
+        nonlocal indexed_tick
+        if indexed_tick != state.tick:
+            spatial_hash.build(state.agents)
+            indexed_tick = state.tick
+
+        ax = 0.0
+        ay = 0.0
+        nearby = spatial_hash.query_radius(agent.position, neighbor_radius)
+        for other in nearby:
+            if other.id == agent.id:
+                continue
+            dx = agent.position.x - other.position.x
+            dy = agent.position.y - other.position.y
+            dist_sq = dx * dx + dy * dy
+            if dist_sq == 0.0:
+                continue
+            inv_dist_sq = 1.0 / dist_sq
+            ax += dx * inv_dist_sq
+            ay += dy * inv_dist_sq
+        return _normalize(ax, ay)
 
     def run(agent: AgentState, state: SimulationState, rng: random.Random) -> AgentState:
         carrying = agent.carrying
@@ -139,6 +165,10 @@ def create_ant_behavior_runner(bounds: WorldBounds, signal_grid: SignalGrid):
             if direction is None:
                 direction = _normalize(rng.uniform(-1.0, 1.0), rng.uniform(-1.0, 1.0))
             dx, dy = direction
+
+        avoid_dx, avoid_dy = _neighbor_avoidance(agent, state)
+        dx += avoid_dx * avoid_weight
+        dy += avoid_dy * avoid_weight
 
         ux, uy = _normalize(dx, dy)
         next_agent = agent.model_copy(
