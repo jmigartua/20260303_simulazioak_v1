@@ -102,25 +102,12 @@ class SimulationEngine:
 
         return updated_agents
 
-    def tick(
+    def _run_single_step(
         self,
         state: SimulationState,
         behavior_runner: BehaviorRunner,
-        history: HistoryPort | None = None,
+        history: HistoryPort | None,
     ) -> SimulationState:
-        self._drain_commands(state.tick)
-
-        if self._seek_target is not None and history is not None:
-            state = history.rewind(self._seek_target, state)
-            self._seek_target = None
-
-        can_advance = (not self._paused) or (self._pending_steps > 0)
-        if not can_advance:
-            return state.model_copy(deep=True)
-
-        if self._pending_steps > 0:
-            self._pending_steps -= 1
-
         updated_agents = self._advance_agents(state, behavior_runner)
         next_state = state.model_copy(
             deep=True,
@@ -139,5 +126,35 @@ class SimulationEngine:
                 state=next_state.model_copy(deep=True),
             )
         )
+        return next_state
+
+    def tick(
+        self,
+        state: SimulationState,
+        behavior_runner: BehaviorRunner,
+        history: HistoryPort | None = None,
+    ) -> SimulationState:
+        self._drain_commands(state.tick)
+
+        if self._seek_target is not None and history is not None:
+            state = history.rewind(self._seek_target, state)
+            self._seek_target = None
+
+        can_advance = (not self._paused) or (self._pending_steps > 0)
+        if not can_advance:
+            return state.model_copy(deep=True)
+
+        if self._paused:
+            steps_to_run = 1
+        else:
+            # Engine speed affects how many deterministic simulation steps are executed
+            # per tick() call. Values in (0, 1) clamp to one step.
+            steps_to_run = max(1, int(self._speed_multiplier))
+
+        next_state = state
+        for _ in range(steps_to_run):
+            if self._pending_steps > 0:
+                self._pending_steps -= 1
+            next_state = self._run_single_step(next_state, behavior_runner, history)
 
         return next_state
