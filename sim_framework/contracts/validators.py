@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 FORBIDDEN_PAYLOAD_KEYS = {"code", "python", "script", "source"}
@@ -65,21 +65,70 @@ class BehaviorStepSpec(BaseModel):
         return value
 
 
+class StateSpec(BaseModel):
+    behaviors: list[BehaviorStepSpec] = Field(min_length=1)
+    transitions: dict[str, str] = Field(default_factory=dict)
+
+
 class AgentSchemaSpec(BaseModel):
     agent_type: str = Field(min_length=1)
     attributes: AgentAttributesSpec
     behavior_chain: list[BehaviorStepSpec] = Field(min_length=1)
 
 
+class StateMachineAgentSchemaSpec(BaseModel):
+    agent_type: str = Field(min_length=1)
+    attributes: AgentAttributesSpec
+    states: dict[str, StateSpec] = Field(min_length=1)
+    initial_state: str = Field(min_length=1)
+
+    @field_validator("initial_state")
+    @classmethod
+    def _initial_state_exists(cls, value: str) -> str:
+        return value.strip().lower()
+
+    @field_validator("states")
+    @classmethod
+    def _normalize_and_validate_states(cls, value: dict[str, StateSpec]) -> dict[str, StateSpec]:
+        normalized = {name.strip().lower(): spec for name, spec in value.items()}
+        if any(not key for key in normalized):
+            raise ValueError("State names must be non-empty")
+        return normalized
+
+    @model_validator(mode="after")
+    def _validate_state_graph(self) -> "StateMachineAgentSchemaSpec":
+        if self.initial_state not in self.states:
+            raise ValueError("initial_state must reference an existing state")
+
+        state_names = set(self.states.keys())
+        for state_name, spec in self.states.items():
+            for condition, target_state in spec.transitions.items():
+                if not condition.strip():
+                    raise ValueError(f"State '{state_name}' has an empty transition condition")
+                normalized_target = target_state.strip().lower()
+                if normalized_target not in state_names:
+                    raise ValueError(
+                        f"State '{state_name}' transition points to unknown state '{target_state}'"
+                    )
+                spec.transitions[condition] = normalized_target
+        return self
+
+
 def validate_known_behavior_names(
-    spec: AgentSchemaSpec, known_behavior_names: set[str]
+    spec: AgentSchemaSpec | StateMachineAgentSchemaSpec, known_behavior_names: set[str]
 ) -> None:
+    if isinstance(spec, AgentSchemaSpec):
+        behavior_names = [step.name for step in spec.behavior_chain]
+    else:
+        behavior_names = [
+            step.name
+            for state_spec in spec.states.values()
+            for step in state_spec.behaviors
+        ]
+
     unknown = [
-        step.name
-        for step in spec.behavior_chain
-        if step.name.strip().lower() not in known_behavior_names
+        name for name in behavior_names if name.strip().lower() not in known_behavior_names
     ]
     if unknown:
         formatted = ", ".join(sorted(set(unknown)))
         raise ValueError(f"Unknown behavior names: {formatted}")
-

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 
+from sim_framework.contracts.validators import StateMachineAgentSchemaSpec
 from sim_framework.scenarios.ants_foraging import ANT_WORKER_SPEC, build_initial_state
 from sim_framework.scenarios.registry import get_scenario, list_scenarios
 
@@ -16,6 +17,7 @@ def test_registry_contains_ants_foraging() -> None:
 
 
 def test_ants_state_machine_spec_shape() -> None:
+    assert isinstance(ANT_WORKER_SPEC, StateMachineAgentSchemaSpec)
     assert ANT_WORKER_SPEC.initial_state == "searching"
     assert set(ANT_WORKER_SPEC.states.keys()) == {"searching", "carrying"}
 

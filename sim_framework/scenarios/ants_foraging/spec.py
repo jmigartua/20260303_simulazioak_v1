@@ -2,58 +2,52 @@ from __future__ import annotations
 
 import random
 from math import sqrt
-from typing import Any
-
-from pydantic import BaseModel, Field
 
 from sim_framework.contracts.models import AgentState, Colony, FoodSource, SignalField, SimulationState, Vector2
+from sim_framework.contracts.validators import (
+    AgentAttributesSpec,
+    BehaviorStepSpec,
+    StateMachineAgentSchemaSpec,
+    StateSpec,
+    validate_known_behavior_names,
+)
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.physics import WorldBounds, apply_movement
 
-
-class BehaviorNodeSpec(BaseModel):
-    name: str = Field(min_length=1)
-    params: dict[str, Any] = Field(default_factory=dict)
-
-
-class StateSpec(BaseModel):
-    behaviors: list[BehaviorNodeSpec] = Field(min_length=1)
-    transitions: dict[str, str] = Field(default_factory=dict)
-
-
-class AntBehaviorSpec(BaseModel):
-    agent_type: str
-    attributes: dict[str, float]
-    states: dict[str, StateSpec]
-    initial_state: str
-
-
-ANT_WORKER_SPEC = AntBehaviorSpec(
+ANT_WORKER_SPEC = StateMachineAgentSchemaSpec(
     agent_type="ant_worker",
-    attributes={
-        "max_speed": 1.0,
-        "sensor_radius": 4.0,
-        "carry_capacity": 1.0,
-    },
+    attributes=AgentAttributesSpec(max_speed=1.0, sensor_radius=4.0, carry_capacity=1),
     states={
         "searching": StateSpec(
             behaviors=[
-                BehaviorNodeSpec(name="sense_pheromone", params={"follow_weight": 0.7}),
-                BehaviorNodeSpec(name="wander_or_follow", params={"wander_sigma": 0.4}),
-                BehaviorNodeSpec(name="check_food", params={"pickup_radius": 1.0}),
+                BehaviorStepSpec(name="sense_pheromone", params={"follow_weight": 0.7}),
+                BehaviorStepSpec(name="wander_or_follow", params={"wander_sigma": 0.4}),
+                BehaviorStepSpec(name="check_food", params={"pickup_radius": 1.0}),
             ],
             transitions={"has_food": "carrying"},
         ),
         "carrying": StateSpec(
             behaviors=[
-                BehaviorNodeSpec(name="deposit_pheromone", params={"amount": 1.0}),
-                BehaviorNodeSpec(name="move_to_colony", params={"arrival_radius": 1.0}),
-                BehaviorNodeSpec(name="drop_food", params={}),
+                BehaviorStepSpec(name="deposit_pheromone", params={"amount": 1.0}),
+                BehaviorStepSpec(name="move_to_colony", params={"arrival_radius": 1.0}),
+                BehaviorStepSpec(name="drop_food", params={}),
             ],
             transitions={"food_dropped": "searching"},
         ),
     },
     initial_state="searching",
+)
+
+validate_known_behavior_names(
+    ANT_WORKER_SPEC,
+    {
+        "sense_pheromone",
+        "wander_or_follow",
+        "check_food",
+        "deposit_pheromone",
+        "move_to_colony",
+        "drop_food",
+    },
 )
 
 
@@ -133,7 +127,7 @@ def _best_pheromone_direction(position: Vector2, signal_grid: SignalGrid) -> tup
 
 
 def create_ant_behavior_runner(bounds: WorldBounds, signal_grid: SignalGrid):
-    max_speed = ANT_WORKER_SPEC.attributes["max_speed"]
+    max_speed = ANT_WORKER_SPEC.attributes.max_speed
     pickup_radius = ANT_WORKER_SPEC.states["searching"].behaviors[2].params["pickup_radius"]
     drop_radius = ANT_WORKER_SPEC.states["carrying"].behaviors[1].params["arrival_radius"]
     deposit_amount = ANT_WORKER_SPEC.states["carrying"].behaviors[0].params["amount"]

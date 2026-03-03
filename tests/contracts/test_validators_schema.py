@@ -5,6 +5,7 @@ from pydantic import ValidationError
 
 from sim_framework.contracts.validators import (
     AgentSchemaSpec,
+    StateMachineAgentSchemaSpec,
     validate_known_behavior_names,
 )
 
@@ -83,6 +84,56 @@ def test_executable_payload_is_rejected() -> None:
             ],
         )
 
+
+def test_state_machine_schema_validates_and_known_behaviors_pass() -> None:
+    spec = StateMachineAgentSchemaSpec(
+        agent_type="ant_worker",
+        attributes={
+            "max_speed": 1.0,
+            "sensor_radius": 4.0,
+            "carry_capacity": 1,
+        },
+        states={
+            "searching": {
+                "behaviors": [
+                    {"name": "sense_pheromone", "params": {}},
+                    {"name": "check_food", "params": {}},
+                ],
+                "transitions": {"has_food": "carrying"},
+            },
+            "carrying": {
+                "behaviors": [
+                    {"name": "deposit_pheromone", "params": {"amount": 1.0}},
+                    {"name": "drop_food", "params": {}},
+                ],
+                "transitions": {"food_dropped": "searching"},
+            },
+        },
+        initial_state="searching",
+    )
+    validate_known_behavior_names(
+        spec, {"sense_pheromone", "check_food", "deposit_pheromone", "drop_food"}
+    )
+
+
+def test_state_machine_schema_rejects_bad_transitions() -> None:
+    with pytest.raises(ValidationError):
+        StateMachineAgentSchemaSpec(
+            agent_type="ant_worker",
+            attributes={
+                "max_speed": 1.0,
+                "sensor_radius": 4.0,
+                "carry_capacity": 1,
+            },
+            states={
+                "searching": {
+                    "behaviors": [{"name": "sense_pheromone", "params": {}}],
+                    "transitions": {"has_food": "missing_state"},
+                }
+            },
+            initial_state="searching",
+        )
+
     with pytest.raises(ValidationError):
         AgentSchemaSpec(
             agent_type="ant_worker",
@@ -98,4 +149,3 @@ def test_executable_payload_is_rejected() -> None:
                 }
             ],
         )
-
