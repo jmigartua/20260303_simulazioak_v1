@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import inspect
 from pathlib import Path
+from typing import Protocol, get_type_hints
 
 import pytest
 from pydantic import ValidationError
@@ -14,6 +16,7 @@ from sim_framework.contracts.models import (
     PauseCommand,
     PlayCommand,
     ResetCommand,
+    LoadedRun,
     RunManifest,
     SeekCommand,
     SetSpeedCommand,
@@ -38,7 +41,7 @@ class StubPersistence:
         _ = (manifest, snapshots)
         return "run-1"
 
-    def load_run(self, run_id: str):
+    def load_run(self, run_id: str) -> LoadedRun:
         _ = run_id
         raise NotImplementedError
 
@@ -47,7 +50,7 @@ class StubHistory:
     def snapshot(self, state: SimulationState, tick: int) -> None:
         _ = (state, tick)
 
-    def nearest_snapshot_before(self, tick: int):
+    def nearest_snapshot_before(self, tick: int) -> tuple[int, SimulationState] | None:
         _ = tick
         return None
 
@@ -67,10 +70,46 @@ def _state() -> SimulationState:
     )
 
 
+def _assert_method_signature_matches_protocol(
+    protocol: type[Protocol], implementation: type[object], method_name: str
+) -> None:
+    protocol_method = getattr(protocol, method_name)
+    implementation_method = getattr(implementation, method_name)
+    protocol_sig = inspect.signature(protocol_method)
+    implementation_sig = inspect.signature(implementation_method)
+
+    assert tuple(protocol_sig.parameters) == tuple(implementation_sig.parameters)
+    assert [p.kind for p in protocol_sig.parameters.values()] == [
+        p.kind for p in implementation_sig.parameters.values()
+    ]
+
+    protocol_hints = get_type_hints(protocol_method)
+    implementation_hints = get_type_hints(implementation_method)
+    for param_name in protocol_sig.parameters:
+        assert implementation_hints.get(param_name) == protocol_hints.get(param_name)
+    assert implementation_hints.get("return") == protocol_hints.get("return")
+
+
 def test_protocol_runtime_conformance() -> None:
     assert isinstance(StubRenderer(), RendererPort)
     assert isinstance(StubPersistence(), PersistencePort)
     assert isinstance(StubHistory(), HistoryPort)
+
+    _assert_method_signature_matches_protocol(RendererPort, StubRenderer, "render")
+    _assert_method_signature_matches_protocol(
+        RendererPort, StubRenderer, "capture_screenshot"
+    )
+    _assert_method_signature_matches_protocol(
+        PersistencePort, StubPersistence, "save_run"
+    )
+    _assert_method_signature_matches_protocol(
+        PersistencePort, StubPersistence, "load_run"
+    )
+    _assert_method_signature_matches_protocol(HistoryPort, StubHistory, "snapshot")
+    _assert_method_signature_matches_protocol(
+        HistoryPort, StubHistory, "nearest_snapshot_before"
+    )
+    _assert_method_signature_matches_protocol(HistoryPort, StubHistory, "rewind")
 
 
 def test_command_models() -> None:
