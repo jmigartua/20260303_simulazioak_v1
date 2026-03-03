@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sim-framework"
+version = "0.1.0"
+description = "Modular multi-agent simulation framework"
+readme = "08_final_report.md"
+requires-python = ">=3.11"
+authors = [{ name = "Leire Goikoetxea" }]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
