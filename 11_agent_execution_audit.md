@@ -22,9 +22,13 @@
 | 8 — engine + determinism | DONE | 10/10 | 9/10 | 9/10 | 1 issue |
 | 9 — physics + spatial hash | DONE | 10/10 | 9/10 | 8/10 | 1 issue |
 | 10 — ants scenario | DONE | 10/10 | 8/10 | 8/10 | 2 issues |
+| 11 — unify state-machine schema | DONE | N/A (post-checklist) | 9/10 | 9/10 | 0 issues |
+| 12 — gradient sensing API | DONE | N/A (post-checklist) | 9/10 | 9/10 | 0 issues |
+| 13 — speed multiplier batching | DONE | N/A (post-checklist) | 9/10 | 9/10 | 0 issues |
 
-**Test suite:** 55 passed, 0 failed (as of commit 10)
+**Test suite:** 62 passed, 0 failed (as of commit 13)
 **End-of-Commit-10 Acceptance:** ALL 4 CRITERIA MET
+**Post-Checklist Phase:** Commits 11-13 address audit findings I-14, I-15, I-12
 
 ---
 
@@ -34,10 +38,12 @@ This section reflects the current project state after checklist completion:
 
 1. Project runtime is now Python 3.11.11 in `.venv` (policy-compliant environment).
 2. Editable install works in `.venv`: `uv pip install --python .venv/bin/python -e .` succeeds.
-3. Full test suite passes in `.venv`: `55 passed, 0 failed`.
+3. Full test suite passes in `.venv`: `62 passed, 0 failed`.
 4. System Python is still 3.10.9, but it is no longer the project execution environment.
 5. Packaging discovery issue (I-8) is resolved.
-6. Remaining structural concern: schema split (`AgentSchemaSpec` vs `AntBehaviorSpec`, I-14).
+6. ~~Remaining structural concern: schema split (`AgentSchemaSpec` vs `AntBehaviorSpec`, I-14).~~ **RESOLVED** by commit 11 — unified `StateMachineAgentSchemaSpec` in contracts layer.
+7. Gradient sensing moved to framework API (`SignalGrid.sense_gradient()`) by commit 12 — resolves I-15.
+8. Speed multiplier now consumed by engine for step batching by commit 13 — resolves I-12.
 
 ---
 
@@ -621,6 +627,204 @@ The state machine works — ants pick up food, carry to colony, deposit pheromon
 
 ---
 
+## Commit 11: `refactor(contracts): unify state-machine schema across contracts and scenarios`
+
+**Git:** `7da3244`
+**Checklist compliance:** N/A (post-checklist — addresses audit finding I-14)
+
+### What this commit does
+
+Moves the state-machine schema from the scenario layer (`AntBehaviorSpec` in `spec.py`) into the contracts layer (`StateMachineAgentSchemaSpec` in `validators.py`). The ants scenario now imports its schema type from `contracts.validators` instead of defining its own.
+
+### Changes Made
+
+**validators.py (85 → 135 lines, +50 lines):**
+- New `StateSpec` model: `behaviors: list[BehaviorStepSpec]`, `transitions: dict[str, str]`
+- New `StateMachineAgentSchemaSpec` model: `agent_type`, `attributes: AgentAttributesSpec`, `states: dict[str, StateSpec]`, `initial_state: str`
+- `@model_validator(mode="after")` `_validate_state_graph`: verifies all transition targets point to existing states, with normalized comparison (`strip().lower()`)
+- `@field_validator("initial_state")` `_initial_state_exists`: renamed to `_normalize_and_validate_states` — ensures initial_state is non-empty
+- `validate_known_behavior_names` updated to accept `AgentSchemaSpec | StateMachineAgentSchemaSpec` — extracts behaviors from either flat chain or state machine
+- **Original `AgentSchemaSpec` retained** — backwards compatible for flat-chain use cases
+
+**spec.py (179 → 154 lines, -25 lines):**
+- Removed local `BehaviorNodeSpec`, `StateSpec`, `AntBehaviorSpec` classes
+- Now imports `StateMachineAgentSchemaSpec`, `StateSpec`, `BehaviorStepSpec`, `AgentAttributesSpec` from `contracts.validators`
+- `ANT_WORKER_SPEC` is now a `StateMachineAgentSchemaSpec` instance
+- Module-level `validate_known_behavior_names()` call validates all behavior names at import time
+- Attributes accessed via typed model: `ANT_WORKER_SPEC.attributes.max_speed` (was dict access)
+
+**test_validators_schema.py (101 → 152 lines, +51 lines, 5 → 7 tests):**
+- New: `test_state_machine_schema_validates_and_known_behaviors_pass` — full SM schema construction + behavior validation
+- New: `test_state_machine_schema_rejects_bad_transitions` — transition to nonexistent state raises, executable payload via `AgentSchemaSpec` still caught
+
+**test_ants_scenario_loads.py (44 → 47 lines):**
+- Added `assert isinstance(ANT_WORKER_SPEC, StateMachineAgentSchemaSpec)` — verifies the scenario uses the unified contracts schema
+
+### Audit Finding Resolution: I-14
+
+**I-14 was: "Two coexisting schema systems — `AgentSchemaSpec` is dead code, `AntBehaviorSpec` is active."**
+
+**Resolution: CORRECT.** The agent:
+1. Promoted the state-machine pattern into the contracts layer (where it belongs architecturally)
+2. Retained `AgentSchemaSpec` for flat-chain scenarios (backwards compat)
+3. Made `validate_known_behavior_names` polymorphic (accepts both)
+4. The scenario now depends on the canonical contracts layer, not its own ad-hoc types
+
+### Technical Deep Dive
+
+**State graph validation verified independently:**
+- Bad transition target (state "carrying" → target "nonexistent") → `ValueError` raised ✅
+- Missing initial_state (initial_state="unknown" not in states dict) → `ValueError` raised ✅
+- Transition target normalization: `" Carrying "` → `"carrying"` comparison works ✅
+- `validate_known_behavior_names` with `StateMachineAgentSchemaSpec`: extracts all behavior names from all states, rejects unknowns ✅
+
+**Import direction verified:** `spec.py` imports from `contracts.validators` — this is `scenarios → contracts`, correct per the import rule `contracts ← core ← scenarios`.
+
+### What's Notably Good
+
+- **Agent responded directly to audit findings.** I-14 was flagged as MEDIUM severity, and the agent addressed it with a clean refactor.
+- **Backwards compatibility preserved.** `AgentSchemaSpec` still works for simpler use cases.
+- **Module-level validation** — `validate_known_behavior_names()` runs at import time, catching misconfigured behavior names before any simulation starts.
+- **State graph validation** catches broken transitions at schema construction time, not at tick 500 when an ant tries to transition to a nonexistent state.
+
+### Issues Found
+
+None. This commit is a clean architectural improvement that resolves I-14.
+
+---
+
+## Commit 12: `feat(core): add reusable pheromone gradient sensing API`
+
+**Git:** `b516ecc`
+**Checklist compliance:** N/A (post-checklist — addresses audit finding I-15)
+
+### What this commit does
+
+Moves gradient sensing from the scenario layer (`_best_pheromone_direction()` in `spec.py`) into the framework as a reusable API (`SignalGrid.sense_gradient()` in `environment.py`). The ants scenario now calls `signal_grid.sense_gradient()` instead of its own local function.
+
+### Changes Made
+
+**environment.py (81 → 123 lines, +42 lines):**
+- New `sense_gradient(position, radius) → tuple[float, float] | None` method on `SignalGrid`
+- Scans ALL cells within radius (not just 4 cardinal directions like the old scenario code)
+- Returns normalized unit vector pointing toward highest concentration, or `None` if no improvement
+- Tie-breaks by farther cell distance to reduce jitter (an ant at equal-concentration neighbors prefers the farther one, promoting movement)
+- Input validation: `radius <= 0.0` → `ValueError`
+- Uses `ceil(radius)` for cell scan range — ensures all potentially relevant cells are checked
+
+**spec.py (154 → 154 lines, structural change):**
+- Removed `_best_pheromone_direction()` function (4-direction cardinal sampling)
+- Now calls `signal_grid.sense_gradient(agent.position, sensor_radius)` — framework API
+- `sensor_radius` sourced from `ANT_WORKER_SPEC.attributes.sensor_radius` (typed access)
+
+**test_environment_signals.py (84 → 116 lines, 7 → 9 tests):**
+- New: `test_sense_gradient_points_to_higher_concentration` — deposits at east (5.0) and north (2.0), verifies gradient points east (dx > 0) with minimal y component
+- New: `test_sense_gradient_none_when_no_improvement` — deposit only at center, gradient returns None
+- New: `test_sense_gradient_rejects_non_positive_radius` — radius=0.0 raises ValueError
+
+### Audit Finding Resolution: I-15
+
+**I-15 was: "Pheromone gradient logic in scenario, not framework — `_best_pheromone_direction()` is not reusable."**
+
+**Resolution: CORRECT.** The gradient API is now on `SignalGrid`, available to any scenario. The new implementation is also strictly better than the old one:
+
+| Property | Old (scenario-local) | New (framework API) |
+|----------|---------------------|---------------------|
+| Scan directions | 4 cardinal only | ALL cells within radius |
+| Diagonal detection | No | Yes |
+| Tie-breaking | None (first-found wins) | Prefers farther cell (reduces jitter) |
+| Output | Raw direction tuple | Normalized unit vector |
+| Reusability | None (private function) | Public API on SignalGrid |
+| Input validation | None | radius > 0 enforced |
+
+### Technical Deep Dive (8 independent verifications)
+
+1. **Directional accuracy:** Deposit east of center → gradient points east (dx=1.0, dy=0.0) ✅
+2. **Strongest-wins:** East deposit (10) + north deposit (3) → gradient points east ✅
+3. **No-improvement detection:** Deposit at center only → returns None ✅
+4. **Input validation:** radius=0.0 → ValueError raised ✅
+5. **Normalized output:** Diagonal deposit → magnitude = 1.000000 ✅
+6. **Edge clamping:** From (0,0) toward (3,3) → dx=0.7071, dy=0.7071 (correct diagonal) ✅
+7. **Diagonal detection:** NE deposit → dx=0.7071, dy=-0.7071 (old code would miss this) ✅
+8. **Tie-break by distance:** Two equal deposits at different distances → farther cell wins ✅
+
+### What's Notably Good
+
+- **Strictly superior algorithm.** The old 4-direction scan missed diagonals entirely. An ant with pheromone NE of it would get a weaker or no signal. The new full-radius scan handles all directions.
+- **Jitter reduction.** Tie-breaking by distance means ants don't oscillate between equally-strong adjacent cells — they prefer the farther one, promoting smooth movement.
+- **Clean API design.** `sense_gradient(position, radius)` is the natural companion to `sample(position)` and `deposit(position, amount)`. The SignalGrid API is now complete for typical agent sensing needs.
+
+### Issues Found
+
+None. Clean API promotion with a better algorithm.
+
+---
+
+## Commit 13: `feat(engine): apply speed multiplier to deterministic step batching`
+
+**Git:** `d2b7399`
+**Checklist compliance:** N/A (post-checklist — addresses audit finding I-12)
+
+### What this commit does
+
+The engine's `speed_multiplier` property (set via `SetSpeedCommand`) now controls how many deterministic simulation steps execute per `tick()` call. Previously, it was stored but unused — the engine always ran exactly 1 step per tick.
+
+### Changes Made
+
+**engine.py (143 → 161 lines, +18 lines):**
+- Extracted `_run_single_step(state, behavior_runner, history)` helper from `tick()` — one step = advance agents + increment tick + record history + emit snapshot
+- `tick()` now computes `steps_to_run`:
+  - **When paused (step mode):** always 1 step, regardless of multiplier — precise step-by-step debugging
+  - **When running:** `max(1, int(self._speed_multiplier))` — speed multiplier batches multiple deterministic steps
+- Loop: `for _ in range(steps_to_run): _run_single_step()`
+- Each step is fully deterministic — same RNG, sequential execution, each step sees the state from the previous step
+- Sub-1.0 speed values clamp to 1 step (can't run less than 1 step per tick)
+- `_pending_steps` decremented inside the loop — step commands still consumed correctly
+
+**test_engine_determinism.py (74 → 108 lines, 2 → 4 tests):**
+- New: `test_speed_multiplier_accelerates_steps_when_running` — speed=3.0 → tick jumps to 3, 3 snapshot events emitted
+- New: `test_speed_multiplier_does_not_batch_paused_step_command` — paused + speed=4.0 + step=1 → only 1 step (multiplier ignored in step mode)
+
+### Audit Finding Resolution: I-12
+
+**I-12 was: "`speed_multiplier` stored but never consumed — speed control is external."**
+
+**Resolution: CORRECT.** The multiplier now directly controls the engine's step batching:
+- `speed_multiplier=1.0` (default): 1 step per tick (unchanged behavior)
+- `speed_multiplier=3.0`: 3 steps per tick (3× simulation speed)
+- `speed_multiplier=0.5`: 1 step per tick (clamped — can't go below 1)
+
+This is an internal engine optimization, not external clock control. The UI/app layer calls `tick()` at the same rate, but each call advances the simulation further. This is the standard approach for variable-speed simulations.
+
+### Technical Deep Dive (6 independent verifications)
+
+1. **Speed 3× = 3 steps per tick:** tick=0 → tick=3, 3 SnapshotEvents emitted ✅
+2. **Speed does NOT affect paused step commands:** paused + speed=4.0 + StepCommand(steps=1) → tick advances by exactly 1 ✅
+3. **Determinism preserved under speed multiplier:** two engines, seed=99, speed=3.0, 10 ticks → both at tick=30, identical state dumps ✅
+4. **Speed < 1 clamps to 1:** speed=0.5 → tick advances by 1 (not 0) ✅
+5. **Resume from paused with Play + speed=2:** paused → SetSpeed(2.0) → Play → tick advances by 2 ✅
+6. **Default speed (1×) unchanged:** 5 ticks → tick=5 (no regression) ✅
+
+### Design Decision: Paused Step Isolation
+
+The critical design choice: **speed multiplier is ignored in step mode.** This is correct because:
+- Step mode is for debugging — the user expects `StepCommand(steps=1)` to advance exactly 1 tick
+- If speed=4× made `StepCommand(steps=1)` advance 4 ticks, debugging would be impossible
+- The `if self._paused: steps_to_run = 1` guard ensures precise control in step mode
+
+### What's Notably Good
+
+- **Clean extraction of `_run_single_step`.** The tick method was getting complex; this refactor improves readability without changing behavior.
+- **`max(1, int(...))` clamping** — elegant one-liner. Sub-1 speeds don't break the engine (no zero-step ticks). Fractional speeds (2.5) truncate to 2 — consistent and predictable.
+- **Each step emits its own SnapshotEvent** — observers (UI, renderer) see every intermediate state, even when batched. Speed=3× produces 3 snapshots, not 1 merged snapshot.
+- **Pending steps decremented per iteration** — StepCommand integration works correctly inside the batched loop.
+
+### Issues Found
+
+None. Clean feature addition that resolves I-12 with proper determinism preservation.
+
+---
+
 ## Previous Forward-Looking Concerns — Assessment
 
 | Concern | Prediction | Outcome | Accuracy |
@@ -631,6 +835,9 @@ The state machine works — ants pick up food, carry to colony, deposit pheromon
 | Commit 9: Spatial hash coordinate system | Must match SignalGrid coordinates | Both use continuous float coords → integer cell mapping | CORRECT |
 | Commit 10: I-10 flat chain vs state machine | Scenario will surface the divergence | Agent bypassed validators, created new schema | PARTIALLY CORRECT — surfaced as predicted, but solution was bypass not extension |
 | Commit 10: I-11 gradient needed | `sample()` not enough for pheromone following | Agent implemented gradient sampling in scenario | CORRECT — needed extension, got scenario-local solution |
+| Round 3 I-14: schema unification needed | Two schema systems will create tech debt | Commit 11 unified into `StateMachineAgentSchemaSpec` in contracts | CORRECT — agent addressed the finding directly |
+| Round 3 I-15: gradient should be framework API | Scenario-local gradient is not reusable | Commit 12 added `SignalGrid.sense_gradient()` with superior algorithm | CORRECT — promoted to framework with full-radius scan |
+| Round 3 I-12: speed multiplier unused | Property stored but never consumed | Commit 13 wired multiplier into step batching | CORRECT — engine now runs N steps per tick |
 
 ---
 
@@ -644,10 +851,11 @@ The state machine works — ants pick up food, carry to colony, deposit pheromon
 | pytest version (system) | 7.1.2 | >=8.0 (per pyproject.toml dev) | MISMATCH — use `.venv` pytest |
 | pytest version (`.venv`) | 9.0.2 | >=8.0 (per pyproject.toml dev) | OK |
 | Editable install in `.venv` | SUCCEEDS | Should succeed | OK — discovery fixed and Python policy satisfied |
-| Tests passing | 55/55 | All green | OK |
-| Git commits | 11 | 10 of 10 checklist commits + 1 hotfix | COMPLETE |
-| Import rule violations | 0 | 0 | OK — `contracts ← core ← scenarios`, all imports flow correctly |
+| Tests passing | 62/62 | All green | OK |
+| Git commits | 15 | 10 checklist + 1 hotfix + 1 docs + 3 post-checklist | COMPLETE + 3 improvements |
+| Import rule violations | 0 | 0 | OK — `contracts ← core ← scenarios`, 13 imports all flow correctly |
 | End-of-commit-10 acceptance | ALL 4 MET | All 4 criteria | COMPLETE |
+| Post-checklist improvements | 3 commits | Address audit findings I-12, I-14, I-15 | ALL 3 RESOLVED |
 
 ---
 
@@ -665,13 +873,13 @@ The state machine works — ants pick up food, carry to colony, deposit pheromon
 | I-8 | CRITICAL | 2 | `pip install -e .` fails: setuptools autodiscovery finds `MEMORY` + `sim_framework` | **RESOLVED** by commit 2.5 (package find constraint) |
 | I-9 | LOW | 3 | Port stubs lack return type annotations, `runtime_checkable` only checks method names | OPEN |
 | I-10 | MEDIUM | 4-5 | Validator schema uses flat `behavior_chain`, not state machine from `08_final_report.md` | **SUPERSEDED** by I-14 — scenario bypassed validators entirely |
-| I-11 | LOW | 6 | `sample()` reads point value, not gradient — ant pheromone-following will need extension | **RESOLVED** by commit 10 (scenario-local `_best_pheromone_direction()`) |
-| I-12 | LOW | 8 | `speed_multiplier` stored but never consumed by engine — speed control is external | OPEN |
+| I-11 | LOW | 6 | `sample()` reads point value, not gradient — ant pheromone-following will need extension | **RESOLVED** by commit 12 (`SignalGrid.sense_gradient()` framework API; commit 10 provided the interim scenario-local fix) |
+| I-12 | LOW | 8 | `speed_multiplier` stored but never consumed by engine — speed control is external | **RESOLVED** by commit 13 (step batching via multiplier) |
 | I-13 | LOW | 9 | `SpatialHash` built to spec but unused by ants scenario — unit-tested only | OPEN |
-| I-14 | MEDIUM | 10 | Two coexisting schema systems — `AgentSchemaSpec` (validators.py) is dead code, `AntBehaviorSpec` (spec.py) is active | OPEN |
-| I-15 | LOW | 10 | Pheromone gradient logic in scenario, not framework — `_best_pheromone_direction()` is not reusable | OPEN |
+| I-14 | MEDIUM | 10 | Two coexisting schema systems — `AgentSchemaSpec` (validators.py) is dead code, `AntBehaviorSpec` (spec.py) is active | **RESOLVED** by commit 11 (unified `StateMachineAgentSchemaSpec` in contracts) |
+| I-15 | LOW | 10 | Pheromone gradient logic in scenario, not framework — `_best_pheromone_direction()` is not reusable | **RESOLVED** by commit 12 (`SignalGrid.sense_gradient()` framework API) |
 
-**CRITICAL:** 0 | **MEDIUM:** 3 (I-1, I-3, I-14) | **LOW:** 7 | **RESOLVED:** 4 | **MITIGATED:** 1 | **SUPERSEDED:** 1
+**CRITICAL:** 0 | **MEDIUM:** 2 (I-1, I-3) | **LOW:** 5 | **RESOLVED:** 7 | **MITIGATED:** 1 | **SUPERSEDED:** 1
 
 ---
 
@@ -712,6 +920,18 @@ The state machine works — ants pick up food, carry to colony, deposit pheromon
 25. `uv pip install --python .venv/bin/python -e .` → succeeds
 26. `.venv/bin/python -m pytest -q` → `55 passed`
 
+### Round 4 (commits 11-13)
+
+27. `.venv/bin/python -m pytest -v` → `62 passed in 0.60s` (was 55)
+28. `grep -rn "from sim_framework" sim_framework/` → 13 imports total, all flow contracts ← core ← scenarios. Zero rule violations.
+29. `StateMachineAgentSchemaSpec` with bad transition target ("nonexistent") → `ValueError` raised correctly
+30. `StateMachineAgentSchemaSpec` with bad initial_state → `ValueError` raised correctly
+31. `validate_known_behavior_names(ANT_WORKER_SPEC, known_set)` — extracts behaviors from all states, rejects unknowns
+32. `isinstance(ANT_WORKER_SPEC, StateMachineAgentSchemaSpec)` → `True` (scenario uses unified contracts type)
+33. Gradient API — 8 independent verifications: directional accuracy (east deposit → east gradient), strongest-wins, no-improvement detection, input validation (radius=0 → ValueError), normalized output (magnitude=1.0), edge clamping, diagonal detection (NE deposit → NE gradient), tie-break by distance
+34. Speed multiplier — 6 independent verifications: 3× = 3 steps/tick, paused+speed=4+step=1 → exactly 1 step, determinism preserved (2 engines × 10 ticks @ 3× → identical at tick=30), speed<1 clamps to 1, resume from pause with speed=2 → 2 steps, default speed (1×) unchanged
+35. Import direction: `spec.py` imports from `contracts.validators` — scenarios → contracts, valid per import rule
+
 ---
 
 ## Audit Methodology
@@ -726,4 +946,4 @@ Each commit is assessed on:
 
 ---
 
-*All 10 checklist commits completed. Audit complete.*
+*All 10 checklist commits completed. Post-checklist commits 11-13 address audit findings. Audit ongoing.*
