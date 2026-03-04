@@ -90,6 +90,19 @@ Run persistence workflows (save/load snapshots + manifest):
 .venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 25 --save-run-id custom-run --persistence-root /tmp/sim-runs
 ```
 
+Run the M1 visible app shell (browser + canvas + live controls):
+
+```bash
+.venv/bin/python -m sim_framework.app.web --scenario ants_foraging --agents 40 --width 30 --height 30
+# or via console script:
+sim-web --scenario drone_patrol --agents 20 --boundary-mode wrap
+```
+
+M1 controls currently available in the shell:
+- `Play`, `Pause`, `Step`, `Reset`
+- speed updates via `set_speed`
+- live state panel (`tick`, `paused`, `agent_count`, `carrying_agents`, `signal_total`)
+
 Latest baseline snapshot in this repository:
 - `Plans/perf_baseline_2026-03-03.json`
 - `Plans/perf_baseline_2026-03-03.md`
