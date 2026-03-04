@@ -1,8 +1,9 @@
 # TFG Evidence Matrix
 
-**Date:** 2026-03-03  
+**Date:** 2026-03-04  
 **Purpose:** Provide thesis-defense traceability from requirement to architecture decision, implementation artifact, test evidence, and demo evidence.  
 **Companion document:** `06_execution_blueprint.md`
+**Current implementation state:** `v0.1.2` (stable), CI green, 86/86 tests passing
 
 ---
 
@@ -14,7 +15,7 @@ For each requirement:
 2. Implement linked artifacts.
 3. Produce the required test evidence.
 4. Capture the listed demo/thesis evidence.
-5. Mark status (`Not started`, `In progress`, `Done`).
+5. Mark status (`Not started`, `In progress`, `Done`, `Done (implemented scope)`).
 
 ---
 
@@ -22,19 +23,19 @@ For each requirement:
 
 | Req ID | Requirement (Prompt) | Clarified Interpretation | Decisions | Implementation Artifacts | Test Evidence | Demo/Thesis Evidence | Status |
 |---|---|---|---|---|---|---|---|
-| R1 | Strict modularity via contracts | Module coupling only through typed contracts and validated models | D3, D4, D5, D10 | `contracts/models.py`, `contracts/ports.py`, package import policy | Contract conformance suite | Architecture diagram + dependency rule section | Not started |
-| R2 | Per-module testing | Every module has unit tests; boundaries have contract tests | D14 | `tests/core/`, `tests/contracts/`, `tests/scenarios/`, `tests/adapters/` | CI report: unit + contract pass | Testing chapter with matrix of tests by module | Not started |
-| R3 | Configurable agent attributes | UI edits validated attribute parameters | D6, D7, D15 | `contracts/validators.py`, agent schema handling in `core/agents.py` | Schema validation tests | UI screenshots of agent designer + rejected invalid config example | Not started |
-| R3b | Configurable agent methods (user clarification) | Methods = selecting/composing known behavior methods, not code injection | D6, D7 | `contracts/behaviors.py`, curated behavior registry | Behavior chain validity tests | Section explaining "attributes + methods" interpretation | Not started |
-| R4 | Configurable physics | Physics model parameters editable, model code remains curated | D6, D15 | `core/physics.py`, physics config models | Parameter boundary tests + invariant/property tests | Demo showing physics parameter impact | Not started |
-| R5 | Multi-scenario generality | Ant and drone scenarios run on same core and contracts | D5, D15 | `scenarios/ants_foraging/`, `scenarios/drone_storm/`, `scenarios/registry.py` | Scenario contract tests + integration tests | Comparison table and live switch demo | Not started |
-| R6 | Modern, performant UI | Web UI with clean controls, real-time rendering, stable frame pacing | D1, D13 | `adapters/web/static/`, PixiJS scene renderer | Render throughput measurements | UI walkthrough recording | Not started |
-| R7 | Playback and capture controls incl. rewind | Play, pause, step, reset, seek, rewind, screenshot, save/load | D8, D9, D10 | `core/history.py`, `adapters/web/server.py`, persistence adapter | Rewind correctness and screenshot/save tests | Live rewind demo + exported artifact samples | Not started |
-| R8 | Python implementation | Core system in Python 3.11+ | D2 | entire codebase | Environment and test run metadata | Toolchain section in thesis | Not started |
-| R9 | Linux desktop + web-like app | Same backend; browser mode and pywebview desktop shell | D1 | `app/main.py`, pywebview launcher path | Smoke tests for web + desktop launch | Demo on Linux + browser | Not started |
-| R10 | Orchestrator governance | Single composition root wires modules and enforces lifecycle | D5, D15 | `app/main.py` | Startup integration tests | Sequence diagram of startup and wiring | Not started |
-| R11 | Robust runtime behavior | One faulty agent cannot crash full simulation | D11 | `core/engine.py` error isolation path | Fault-injection test around `agent.act()` | Error-report screenshot + log excerpt | Not started |
-| R12 | Determinism and reproducibility | Same seed/scenario/commands must reproduce same state hashes | D12, D14 | RNG + manifest handling in core | Determinism test suite | Reproducibility appendix with run manifests | Not started |
+| R1 | Strict modularity via contracts | Module coupling only through typed contracts and validated models | D3, D4, D5, D10 | `sim_framework/contracts/models.py`, `sim_framework/contracts/ports.py`, `scripts/check_import_flow.py` | `tests/contracts/test_ports_contract_shape.py`, `tests/tooling/test_check_import_flow.py`, CI import-flow step | Import-flow report (`0 violations`) + layered dependency explanation | Done |
+| R2 | Per-module testing | Every implemented module has unit tests; boundaries have contract tests | D14 | `tests/core/`, `tests/contracts/`, `tests/scenarios/`, `tests/app/`, `tests/tooling/`, `tests/integration/` | CI pytest (`86/86`) | Testing chapter matrix by package | Done (implemented scope) |
+| R3 | Configurable agent attributes | Attribute config is validated at model/schema layer; UI editor pending | D6, D7, D15 | `sim_framework/contracts/validators.py`, `sim_framework/scenarios/ants_foraging/spec.py` | `tests/contracts/test_validators_schema.py` | Documented headless configuration flow | In progress |
+| R3b | Configurable agent methods (user clarification) | Methods = selecting/composing known behavior methods, not code injection | D6, D7 | `sim_framework/contracts/behaviors.py`, `sim_framework/contracts/validators.py` | behavior registry + schema tests | Explicit thesis note clarifying "attributes + methods" | Done (implemented scope) |
+| R4 | Configurable physics | Physics is parameterized in core/runtime; UI editing layer pending | D6, D15 | `sim_framework/core/physics.py`, runtime config in scenario/app | `tests/core/test_physics_movement.py` | Parameter-impact benchmark notes | In progress |
+| R5 | Multi-scenario generality | Core supports registry-based scenarios; ants implemented, drone pending | D5, D15 | `sim_framework/scenarios/registry.py`, `sim_framework/scenarios/ants_foraging/` | `tests/scenarios/test_ants_scenario_loads.py`, integration smoke | Scenario extension plan section | In progress |
+| R6 | Modern, performant UI | Web UI/PixiJS not yet implemented in this release line | D1, D13 | N/A (adapter placeholders only) | N/A | Deferred to next scope increment | Not started |
+| R7 | Playback and capture controls incl. rewind | Play/pause/step/reset/seek/rewind implemented headlessly; screenshot/save-load adapters pending | D8, D9, D10 | `sim_framework/core/engine.py`, `sim_framework/core/history.py`, control commands in contracts | determinism + history + command tests | Headless replay/rewind evidence in audit logs | In progress |
+| R8 | Python implementation | Core system implemented in Python 3.11+ | D2 | entire codebase | Python policy gate + CI runtime + release-check | Toolchain section with `.venv` + `uv` workflow | Done |
+| R9 | Linux desktop + web-like app | Browser/desktop shell path remains pending | D1 | `sim_framework/app/cli.py` (headless composition root) | CLI smoke tests | Planned desktop/web adapter roadmap | Not started |
+| R10 | Orchestrator governance | Composition root exists for runtime mode, scenario wiring, and lifecycle execution | D5, D15 | `sim_framework/app/cli.py`, `sim_framework/app/runtime.py` | `tests/app/test_cli_runtime_mode.py`, release wheel smoke (`sim-run`) | Sequence diagram (runtime mode + engine lifecycle) | Done (implemented scope) |
+| R11 | Robust runtime behavior | One faulty agent cannot crash full simulation | D11 | `sim_framework/core/engine.py` error isolation path | `tests/core/test_engine_error_isolation.py` | Error-event evidence in audit/tests | Done |
+| R12 | Determinism and reproducibility | Same seed/scenario/commands reproduce same state trajectories | D12, D14 | deterministic engine + benchmark tooling + manifests in `Plans/` | determinism tests + ON/OFF comparison contract tests | Reproducibility appendix with seed/config outputs | Done |
 
 ---
 
@@ -90,4 +91,3 @@ All must be `Yes` before defense:
 3. Does the demo include rewind and scenario switching?
 4. Is there one reproducibility bundle that runs end-to-end on a clean machine?
 5. Are deviations from locked decisions documented with rationale?
-

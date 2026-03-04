@@ -1,11 +1,25 @@
 # Final Report: Capstone Audit of the Execution Blueprint and Evidence Matrix
 
-**Date:** 2026-03-03
+**Date:** 2026-03-03 (original draft)
+**Synced to implementation state:** 2026-03-04 (`v0.1.2`)
 **Iteration:** 4th (final) in the thinking chain
 **Documents audited:** `06_execution_blueprint.md`, `07_tfg_evidence_matrix.md`
 **Full context:** `00_prompt.md` through `05_audit_report.md`
 **Method:** FirstPrinciples challenge (8 assumptions tested), IterativeDepth (4 lenses: student, advisor, practitioner, convergence)
 **Spirit:** Calm, constructive, perspective-first — the sofa-like state of a dilettante who has been thinking for a while and now needs to say what is true
+
+---
+
+## Implementation Status Addendum (2026-03-04)
+
+This document is a design-era capstone analysis. Since drafting, the project has moved into implemented/released state:
+
+- Stable release published: `v0.1.2` (with GitHub Release entry).
+- Test suite: `86/86` passing.
+- CI/CD active: import-flow guardrail, release-consistency guardrail, package build + wheel smoke, benchmark-smoke workflow.
+- Tooling complete for reproducibility: `scripts/run_perf_snapshot_toggle.py` + artifact contract tests.
+
+Read this report as architectural rationale and convergence history; use `11_agent_execution_audit.md` + `CHANGELOG.md` as the source of current implementation truth.
 
 ---
 
@@ -26,7 +40,7 @@
 
 ## 1. The View From the Sofa
 
-After four iterations — three proposals, two audits, three counter-responses, an execution blueprint, and an evidence matrix — this project has accumulated approximately 2,300 lines of architectural analysis and zero lines of code.
+At the time of drafting this report, after four iterations — three proposals, two audits, three counter-responses, an execution blueprint, and an evidence matrix — the project had accumulated approximately 2,300 lines of architectural analysis and zero lines of code.
 
 That fact is neither good nor bad. It is a *diagnostic*. It tells us that the process has been extraordinarily thorough at design and has not yet touched the ground. The blueprint (06) and evidence matrix (07) are the most mature, most concrete artifacts in the chain. They lock decisions, define testing gates, and provide defense-ready traceability.
 
