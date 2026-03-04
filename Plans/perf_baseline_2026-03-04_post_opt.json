@@ -1,0 +1,87 @@
+{
+  "config": {
+    "agents": [
+      100,
+      300
+    ],
+    "ticks": 50,
+    "repeats": 2,
+    "width": 30,
+    "height": 30,
+    "seed": 42
+  },
+  "runs": [
+    {
+      "agents": 100,
+      "ticks": 50,
+      "elapsed_s": 4.896116757008713,
+      "ticks_per_s": 10.212174766548571,
+      "us_per_agent_tick": 979.2233514017425,
+      "peak_mem_mb": 9.689826965332031,
+      "state_tick": 50,
+      "carrying_agents": 28,
+      "signal_total": 3634.0
+    },
+    {
+      "agents": 100,
+      "ticks": 50,
+      "elapsed_s": 4.984690688026603,
+      "ticks_per_s": 10.030712661891279,
+      "us_per_agent_tick": 996.9381376053207,
+      "peak_mem_mb": 9.688667297363281,
+      "state_tick": 50,
+      "carrying_agents": 38,
+      "signal_total": 3661.0
+    },
+    {
+      "agents": 300,
+      "ticks": 50,
+      "elapsed_s": 36.64601654600119,
+      "ticks_per_s": 1.364404776088985,
+      "us_per_agent_tick": 2443.067769733413,
+      "peak_mem_mb": 28.480575561523438,
+      "state_tick": 50,
+      "carrying_agents": 102,
+      "signal_total": 11212.0
+    },
+    {
+      "agents": 300,
+      "ticks": 50,
+      "elapsed_s": 36.52038490102859,
+      "ticks_per_s": 1.3690983853401764,
+      "us_per_agent_tick": 2434.692326735239,
+      "peak_mem_mb": 28.480148315429688,
+      "state_tick": 50,
+      "carrying_agents": 136,
+      "signal_total": 10819.0
+    }
+  ],
+  "summaries": [
+    {
+      "agents": 100,
+      "ticks": 50,
+      "repeats": 2,
+      "elapsed_s_mean": 4.940403722517658,
+      "elapsed_s_stdev": 0.0626312272590999,
+      "ticks_per_s_mean": 10.121443714219925,
+      "ticks_per_s_stdev": 0.12831308473155445,
+      "us_per_agent_tick_mean": 988.0807445035316,
+      "us_per_agent_tick_stdev": 12.52624545181998,
+      "peak_mem_mb_mean": 9.689247131347656,
+      "peak_mem_mb_stdev": 0.0008200090846279543
+    },
+    {
+      "agents": 300,
+      "ticks": 50,
+      "repeats": 2,
+      "elapsed_s_mean": 36.58320072351489,
+      "elapsed_s_stdev": 0.08883498809174632,
+      "ticks_per_s_mean": 1.3667515807145807,
+      "ticks_per_s_stdev": 0.003318882929757305,
+      "us_per_agent_tick_mean": 2438.880048234326,
+      "us_per_agent_tick_stdev": 5.922332539450291,
+      "peak_mem_mb_mean": 28.480361938476562,
+      "peak_mem_mb_stdev": 0.0003021086101260884
+    }
+  ]
+}

@@ -31,6 +31,8 @@ uv pip install -e .[dev]
 Latest baseline snapshot in this repository:
 - `Plans/perf_baseline_2026-03-03.json`
 - `Plans/perf_baseline_2026-03-03.md`
+- `Plans/perf_baseline_2026-03-04_post_opt.json`
+- `Plans/perf_comparison_2026-03-04.md`
 
 ## Current status
 
