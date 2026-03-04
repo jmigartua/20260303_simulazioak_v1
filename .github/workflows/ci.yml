@@ -26,6 +26,9 @@ jobs:
       - name: Run import-flow guardrail
         run: python scripts/check_import_flow.py
 
+      - name: Run release consistency guardrail
+        run: python scripts/check_release_consistency.py
+
       - name: Run tests
         run: python -m pytest -v
 
