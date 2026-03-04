@@ -125,3 +125,93 @@ def test_cli_writes_json_output_file(tmp_path, capsys) -> None:
     assert out_path.exists()
     persisted = json.loads(out_path.read_text(encoding="utf-8"))
     assert persisted == payload
+
+
+def test_cli_save_run_persists_bundle(tmp_path, capsys) -> None:
+    run_root = tmp_path / "runs"
+    payload = _run_cli(
+        [
+            "--scenario",
+            "ants_foraging",
+            "--ticks",
+            "3",
+            "--ants",
+            "8",
+            "--runtime-mode",
+            "headless",
+            "--persistence-root",
+            str(run_root),
+            "--save-run-id",
+            "run-save",
+        ],
+        capsys,
+    )
+
+    assert payload["persistence"]["saved_run_id"] == "run-save"
+    assert payload["persistence"]["snapshots_saved"] == 4
+    run_file = run_root / "run-save" / "run.json"
+    assert run_file.exists()
+    bundle = json.loads(run_file.read_text(encoding="utf-8"))
+    assert bundle["manifest"]["run_id"] == "run-save"
+    assert len(bundle["snapshots"]) == 4
+
+
+def test_cli_load_run_prints_persistence_summary(tmp_path, capsys) -> None:
+    run_root = tmp_path / "runs"
+    _run_cli(
+        [
+            "--scenario",
+            "ants_foraging",
+            "--ticks",
+            "2",
+            "--ants",
+            "6",
+            "--runtime-mode",
+            "headless",
+            "--persistence-root",
+            str(run_root),
+            "--save-run-id",
+            "run-load",
+        ],
+        capsys,
+    )
+
+    payload = _run_cli(
+        [
+            "--load-run-id",
+            "run-load",
+            "--persistence-root",
+            str(run_root),
+        ],
+        capsys,
+    )
+
+    assert payload["mode"] == "loaded"
+    assert payload["persistence"]["run_id"] == "run-load"
+    assert payload["persistence"]["snapshots"] == 3
+    assert payload["persistence"]["last_tick"] == 2
+
+
+def test_cli_load_missing_run_raises_parser_error(tmp_path, capsys) -> None:
+    with pytest.raises(SystemExit) as exc:
+        main(
+            [
+                "--load-run-id",
+                "missing-run",
+                "--persistence-root",
+                str(tmp_path / "runs"),
+            ]
+        )
+
+    assert exc.value.code == 2
+    err = capsys.readouterr().err
+    assert "Run not found: missing-run" in err
+
+
+def test_cli_rejects_conflicting_persistence_flags(capsys) -> None:
+    with pytest.raises(SystemExit) as exc:
+        main(["--save-run-id", "run-1", "--load-run-id", "run-2"])
+
+    assert exc.value.code == 2
+    err = capsys.readouterr().err
+    assert "not allowed with argument" in err

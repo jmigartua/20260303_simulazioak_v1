@@ -5,8 +5,10 @@ import json
 from pathlib import Path
 from typing import Sequence
 
-from sim_framework.contracts.models import SnapshotEvent
+from sim_framework.adapters.persistence import JsonFilePersistence
+from sim_framework.contracts.models import RunManifest, SnapshotEvent
 from sim_framework.core.environment import SignalGrid
+from sim_framework.core.history import SnapshotHistory
 from sim_framework.core.physics import WorldBounds
 from sim_framework.scenarios.registry import get_scenario, list_scenarios
 
@@ -48,6 +50,25 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Optional path for writing the same JSON summary emitted to stdout.",
     )
+    parser.add_argument(
+        "--persistence-root",
+        type=Path,
+        default=Path("runs"),
+        help="Root directory used by --save-run-id / --load-run-id.",
+    )
+    persistence_group = parser.add_mutually_exclusive_group()
+    persistence_group.add_argument(
+        "--save-run-id",
+        type=str,
+        default=None,
+        help="Persist manifest + snapshots to persistence root under this run id.",
+    )
+    persistence_group.add_argument(
+        "--load-run-id",
+        type=str,
+        default=None,
+        help="Load a previously persisted run id and print a JSON summary.",
+    )
     return parser
 
 
@@ -68,9 +89,39 @@ def _validate_positive(args: argparse.Namespace, parser: argparse.ArgumentParser
         parser.error("--width/--height must be > 0")
 
 
+def _emit_payload(payload: dict, json_out: Path | None) -> None:
+    encoded = json.dumps(payload, indent=2)
+    print(encoded)
+    if json_out is not None:
+        json_out.parent.mkdir(parents=True, exist_ok=True)
+        json_out.write_text(encoded + "\n", encoding="utf-8")
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
+
+    persistence = JsonFilePersistence(args.persistence_root)
+    if args.load_run_id is not None:
+        try:
+            loaded = persistence.load_run(args.load_run_id)
+        except FileNotFoundError as exc:
+            parser.error(str(exc))
+
+        payload = {
+            "mode": "loaded",
+            "persistence": {
+                "root": str(args.persistence_root),
+                "run_id": loaded.manifest.run_id,
+                "scenario_name": loaded.manifest.scenario_name,
+                "seed": loaded.manifest.seed,
+                "snapshots": len(loaded.snapshots),
+                "last_tick": loaded.snapshots[-1].tick if loaded.snapshots else None,
+            },
+        }
+        _emit_payload(payload, args.json_out)
+        return 0
+
     _validate_positive(args, parser)
 
     runtime = RuntimeConfig(
@@ -89,9 +140,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     signal_grid = SignalGrid.from_config(state.signal_fields[0])
     runner = scenario["create_behavior_runner"](bounds=bounds, signal_grid=signal_grid)
     engine = create_engine(seed=state.seed, runtime=runtime)
+    history = SnapshotHistory(snapshot_every=1)
+    snapshots_for_persistence = [state.model_copy(deep=True)]
 
     for _ in range(args.ticks):
-        state = engine.tick(state, runner)
+        state = engine.tick(state, runner, history=history)
+        snapshots_for_persistence.append(state.model_copy(deep=True))
 
     events = engine.drain_published_events()
     snapshot_events = sum(1 for event in events if isinstance(event, SnapshotEvent))
@@ -117,12 +171,19 @@ def main(argv: Sequence[str] | None = None) -> int:
             "signal_total": signal_grid.total_signal(),
         },
     }
-
-    payload = json.dumps(result, indent=2)
-    print(payload)
-    if args.json_out is not None:
-        args.json_out.parent.mkdir(parents=True, exist_ok=True)
-        args.json_out.write_text(payload + "\n", encoding="utf-8")
+    if args.save_run_id is not None:
+        manifest = RunManifest(
+            run_id=args.save_run_id,
+            scenario_name=args.scenario,
+            seed=args.seed,
+        )
+        persisted_run_id = persistence.save_run(manifest, snapshots_for_persistence)
+        result["persistence"] = {
+            "root": str(args.persistence_root),
+            "saved_run_id": persisted_run_id,
+            "snapshots_saved": len(snapshots_for_persistence),
+        }
+    _emit_payload(result, args.json_out)
     return 0
 
 
