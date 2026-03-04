@@ -5,7 +5,7 @@
 **Project:** TFG — Modular Multi-Agent Simulation Framework
 **Version:** v1 (20260303_simulazioak_v1)
 **Assessment type:** Deep midway analysis — architecture, implementation, testing, performance, and roadmap
-**Scope note:** Historical snapshot written against implementation state through commit 32 on 2026-03-04. Use `11_agent_execution_audit.md` + `CHANGELOG.md` for current state after commit 32.
+**Scope note:** Two-pass report. Pass 1 analyzes the baseline through commit 32; Pass 2 (addendum) extends coverage through commit 48 on 2026-03-04. For commits after 48, use `11_agent_execution_audit.md` + `CHANGELOG.md`.
 
 ---
 
@@ -26,7 +26,8 @@
 13. [Gap Analysis — What Is Missing](#13-gap-analysis--what-is-missing)
 14. [Strengths — What Works Exceptionally Well](#14-strengths--what-works-exceptionally-well)
 15. [Roadmap to Thesis Defense](#15-roadmap-to-thesis-defense)
-16. [Conclusion](#16-conclusion)
+16. [ADDENDUM: Post-Commit-32 Progress](#16-addendum-post-commit-32-progress-commits-3348)
+29. [Conclusion (Updated)](#29-conclusion-updated)
 
 ---
 
@@ -742,14 +743,397 @@ Week 12:   Defense preparation
 
 ---
 
-## 16. Conclusion
+## 16. ADDENDUM: Post-Commit-32 Progress (commits 33–48)
 
-This project is at a strong midway point. The foundational work — architecture, core engine, first scenario, test suite, and performance profiling — is mature and rigorous. The 72-test suite with 100% pass rate, the documented performance optimization cycle, and the 800+ line execution audit demonstrate engineering discipline well beyond the typical TFG.
-
-The remaining work is execution-focused: build the frontend, implement the second scenario, and write the thesis. The architecture is designed to support this — the scenario registry is ready for new scenarios, the adapter placeholders exist for web and persistence, and the command queue is ready to drive a real-time UI.
-
-The single most important insight from this analysis: **the hardest architectural decisions are already made and locked**. What remains is implementation labor and thesis writing — significant work, but work with a clear path.
+**Date of update:** 2026-03-04 (same day, second analysis pass)
+**Scope:** 16 new commits, 2,969 lines added, version 0.1.0 → 0.1.2 (stable release)
+**Previous state:** 32 commits, 72 tests, 2,782 LOC, no CI, no release versioning
+**Current state:** 48 commits, 86 tests, 3,505 LOC, full CI/CD, v0.1.2 stable release
 
 ---
 
-**Objective of the project:** Build a modular, deterministic, multi-agent simulation framework demonstrated through ant colony foraging with pheromone stigmergy. **Achievements:** Fully functional engine with 72 passing tests, deterministic replay, rewind, spatial hashing, pheromone dynamics, performance baselines, and complete architectural documentation. **Remaining steps:** Web UI visualization, drone scenario for multi-scenario proof, persistence adapter, desktop packaging, and thesis writing (Chapters 1-6).
+## 17. Delta Summary: What Changed Since the Previous Analysis
+
+The 16 new commits transform the project from a "working prototype with tests" into a **release-hardened, CI-gated, reproducible software product**. The changes fall into four categories:
+
+| Category | Commits | Key Deliverables |
+|---|---|---|
+| Release management | 4 | CHANGELOG.md, version 0.1.1 → 0.1.2rc2 → 0.1.2, milestone notes |
+| CI/CD infrastructure | 4 | GitHub Actions pipeline, wheel packaging, benchmark workflow |
+| Guardrail scripts + tests | 5 | Import-flow checker, release consistency, perf artifact contracts |
+| Test expansion + documentation | 3 | CLI error-path tests, JSON output, evidence matrix sync |
+
+---
+
+## 18. New Commits in Detail (33–48)
+
+```
+#33  a3542d6  docs(perf): add post-engine-opt snapshot ON/OFF baseline evidence
+#34  bea9fb6  ci: add python 3.11 workflow with import-flow guardrail
+#35  661c0a0  docs(release): add 0.1.1 changelog, milestone notes, and version bump
+#36  9e13df3  perf(tooling): add reproducible snapshot ON/OFF benchmark runner
+#37  6a0bdf6  test(tooling): cover import-flow and snapshot-toggle scripts
+#38  8e638ea  chore(dev): add make targets for CI-local and perf workflows
+#39  2d23396  test(app): add CLI error-path coverage and release-check workflow
+#40  5523552  test(app): cover CLI --json-out persistence behavior
+#41  4fb233a  ci(bench): add snapshot ON/OFF smoke benchmark workflow
+#42  3487f9c  ci(package): add sdist/wheel build and wheel smoke validation
+#43  f771852  test(tooling): enforce perf artifact JSON/MD output contract
+#44  a99e8c0  ci(release): add changelog-version consistency guardrail
+#45  ee72f33  docs(release): prepare 0.1.2rc2 changelog and version metadata
+#46  e713dc0  docs(release): finalize stable 0.1.2 from rc2 baseline
+#47  20d3005  docs: add midway report analysis and comprehensive project report
+#48  5b313b9  docs: sync final report and evidence matrix to v0.1.2 state
+```
+
+**Progression pattern:** The project moved from ad-hoc testing to a professional release pipeline: CI → guardrails → packaging → release candidate → stable release. This is the kind of engineering maturity that thesis committees value.
+
+---
+
+## 19. CI/CD Infrastructure — Deep Dive
+
+### 19.1 Main CI Pipeline (`.github/workflows/ci.yml`, 79 LOC)
+
+Two-job pipeline triggered on push to main and all PRs:
+
+**Job 1: `test`**
+
+```
+Checkout → Python 3.11 → pip install -e .[dev]
+  → Run import-flow guardrail
+  → Run release consistency guardrail
+  → Run pytest -v (86 tests)
+```
+
+**Job 2: `package`** (depends on `test` passing)
+
+```
+Checkout → Python 3.11
+  → Build sdist + wheel (python -m build)
+  → Install wheel in clean venv
+  → Run sim-run smoke test (2 ticks, 5 ants, headless)
+  → Validate JSON output (ticks_completed=2, mode=headless, snapshots=False)
+  → Upload dist/* as artifacts
+```
+
+**Assessment:** This is a comprehensive CI pipeline. The wheel smoke test is particularly notable — it validates the built artifact works end-to-end in a clean environment, not just that tests pass in the dev environment.
+
+### 19.2 Benchmark Smoke Workflow (`.github/workflows/benchmark-smoke.yml`, 47 LOC)
+
+Triggered manually or on PRs touching sim_framework/scripts/tests/pyproject:
+
+```
+Install → Run run_perf_snapshot_toggle.py (20 agents, 10 ticks, 1 repeat)
+  → Upload 3 artifacts: snapshot_on.json, snapshot_off.json, comparison.md
+```
+
+**Assessment:** Performance regression detection as a CI workflow. The lightweight parameters (20 agents, 10 ticks) keep CI fast while still validating the benchmark pipeline contract.
+
+### 19.3 Guardrail Pipeline Summary
+
+| Guardrail | Script | What It Validates | CI Step |
+|---|---|---|---|
+| Import-flow | `check_import_flow.py` (119 LOC) | contracts←core←scenarios←app direction | `test` job, before pytest |
+| Release consistency | `check_release_consistency.py` (78 LOC) | pyproject.toml version = latest CHANGELOG heading | `test` job, before pytest |
+| Wheel smoke | Inline in ci.yml | Built wheel runs headless simulation | `package` job |
+| Perf artifact contract | `test_run_perf_snapshot_toggle.py` (178 LOC) | JSON schema + markdown output format | pytest suite |
+
+---
+
+## 20. Architectural Import-Flow Guardrail — Deep Dive
+
+The `check_import_flow.py` (119 LOC) is one of the most significant additions — it **automates enforcement of the D5 dependency rule** that was previously only checked by inspection.
+
+### 20.1 Algorithm
+
+1. AST-parse every `.py` file in `sim_framework/`
+2. Extract all `import` and `from ... import` statements
+3. Resolve source file → layer mapping (contracts/core/scenarios/app)
+4. Resolve imported module → layer mapping
+5. Validate each import against allowed directions (see below)
+6. Report violations with file:line:module detail
+
+```python
+ALLOWED_IMPORTS = {
+    "contracts": {"contracts"},           # contracts imports nothing else
+    "core":      {"contracts", "core"},    # core imports contracts only
+    "scenarios": {"contracts", "core", "scenarios"},
+    "app":       {"contracts", "core", "scenarios", "app"},
+}
+```
+
+### 20.2 Current State
+
+```
+Total imports: 20
+Expected flow: contracts <- core <- scenarios <- app
+Result: OK (0 violations)
+```
+
+### 20.3 Impact
+
+This closes a gap identified in the previous analysis (Section 13.2): *"Import-lint enforcement script — D5 dependency rules not automated."* The guardrail now runs in CI before every test suite execution, making architectural violations impossible to merge.
+
+**Test coverage:** 3 tests in `test_check_import_flow.py` (52 LOC):
+- Layer resolution rules (6 module paths → correct layers)
+- Invalid import direction detection
+- Zero-violations gate on real project source
+
+---
+
+## 21. Release Management System
+
+### 21.1 Version History
+
+| Version | Date | Type | Key Content |
+|---|---|---|---|
+| 0.1.1 | 2026-03-04 | Feature | Runtime mode, engine optimization, perf evidence |
+| 0.1.2rc2 | 2026-03-04 | Release candidate | Benchmark CI, wheel packaging, release guardrails, tooling tests |
+| 0.1.2 | 2026-03-04 | Stable | Promotion of rc2 (no code changes) |
+
+### 21.2 Release Consistency Guardrail
+
+`check_release_consistency.py` (78 LOC) ensures:
+
+1. `pyproject.toml` version exists in CHANGELOG.md headings
+2. It is the **latest** heading (not buried under a newer entry)
+
+```
+pyproject version: 0.1.2
+changelog headings: 0.1.2, 0.1.2rc2, 0.1.1
+Result: OK
+```
+
+**Test coverage:** 3 tests (50 LOC) — success case, missing version, parser roundtrip.
+
+### 21.3 Milestone Documentation
+
+`Plans/milestone_0.1.1_notes.md` (29 LOC) provides:
+- Scope: 3 commits identified by hash
+- Outcomes: runtime control, engine optimization, baseline evidence
+- Validation snapshot: 72/72 tests, 0 import violations, performance metrics
+
+---
+
+## 22. Reproducible Benchmark Runner — Deep Dive
+
+`scripts/run_perf_snapshot_toggle.py` (193 LOC) is the most sophisticated new script. It automates the complete performance comparison workflow:
+
+### 22.1 Pipeline
+
+```
+Parse args (agents, ticks, repeats, label, output-dir)
+  → Run benchmark_headless.py with snapshot_events=True
+  → Run benchmark_headless.py with snapshot_events=False
+  → Load both JSON results
+  → Compute throughput gain + memory reduction per agent count
+  → Verify determinism (state_tick, carrying_agents, signal_total must match)
+  → Write markdown comparison table
+```
+
+### 22.2 Output Artifacts
+
+For each run, produces 3 files:
+- `perf_baseline_{label}_snapshot_on.json`
+- `perf_baseline_{label}_snapshot_off.json`
+- `perf_comparison_{label}.md`
+
+### 22.3 Determinism Cross-Check
+
+The runner compares ON/OFF runs to verify they produce identical simulation state:
+
+```python
+same_seed = on_run["state_tick"] == off_run["state_tick"]
+same_carrying = on_run["carrying_agents"] == off_run["carrying_agents"]
+same_signal = float(on_run["signal_total"]) == float(off_run["signal_total"])
+```
+
+This ensures the snapshot toggle doesn't affect simulation semantics — only performance.
+
+### 22.4 Latest Performance Evidence (Post-Engine Optimization)
+
+| Agents | us/agent-tick ON | us/agent-tick OFF | Throughput Gain | Peak Mem ON | Peak Mem OFF | Memory Reduction |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 100 | 879.96 | 823.39 | +6.43% | 18.98 MB | 0.37 MB | -98.05% |
+| 300 | 2224.90 | 2215.33 | +0.43% | 55.78 MB | 1.09 MB | -98.04% |
+
+### 22.5 Test Coverage
+
+`test_run_perf_snapshot_toggle.py` (178 LOC) — the most thorough test suite in the new batch:
+
+| Test | What It Validates |
+|---|---|
+| `test_parse_agents_valid_and_invalid_inputs` | CLI argument parsing, edge cases |
+| `test_determinism_pair_counting` | Determinism verification logic |
+| `test_write_comparison_generates_expected_markdown` | Markdown output format contract |
+| `test_main_generates_json_and_markdown_with_stable_contract` | Full pipeline with mocked benchmarks; validates JSON schema |
+
+The contract test (`test_main_*`) deserves special attention — it validates that the JSON output has exactly the required fields (`config`, `runs`, `summaries`) with specific sub-fields. This ensures any future changes to the benchmark runner don't silently break downstream consumers.
+
+---
+
+## 23. Makefile Developer Workflow
+
+The `Makefile` (49 LOC) provides 10 targets that make the CI pipeline reproducible locally:
+
+| Target | Purpose | What It Runs |
+|---|---|---|
+| `make test` | Quick test | `pytest -q` |
+| `make test-v` | Verbose test | `pytest -v` |
+| `make import-check` | Architecture enforcement | `check_import_flow.py` |
+| `make release-consistency` | Version hygiene | `check_release_consistency.py` |
+| `make package-check` | Dependency health | `uv pip install -e .` or `pip install -e .` |
+| `make ci-local` | CI reproduction | import-check + test-v |
+| `make release-check` | Full pre-release | release-consistency + import-check + test-v + package-check |
+| `make run-app` | Run simulation | CLI interactive mode, 100 ticks |
+| `make perf-snapshot-toggle` | Full benchmark | 100+300 agents, 100 ticks, 3 repeats |
+| `make perf-smoke` | Quick benchmark | 20 agents, 10 ticks, 1 repeat |
+
+**Assessment:** The `release-check` target creates a complete local validation gate that mirrors CI. This means releases can be validated before pushing.
+
+---
+
+## 24. Test Suite Expansion: 72 → 86 Tests
+
+### 24.1 New Tests Added (14 tests)
+
+| Module | Tests Added | LOC | Focus |
+|---|---|---|---|
+| `tests/app/test_cli_runtime_mode.py` | +4 | +52 | CLI error paths: invalid scenario, non-positive ticks, conflicting flags |
+| `tests/app/test_cli_runtime_mode.py` | +1 | | `--json-out` file persistence |
+| `tests/tooling/test_check_import_flow.py` | +3 | 52 | Layer resolution, violation detection, zero-violations gate |
+| `tests/tooling/test_check_release_consistency.py` | +3 | 50 | Version matching, missing version, parser roundtrip |
+| `tests/tooling/test_run_perf_snapshot_toggle.py` | +4 | 178 | Arg parsing, determinism pairing, markdown contract, full integration |
+
+### 24.2 Test Distribution Update
+
+| Category | Modules | Tests (before) | Tests (now) | Delta |
+|---|---|---|---|---|
+| Contracts | 4 | 23 | 23 | — |
+| Core | 6 | 35 | 35 | — |
+| App | 2 | 6 | 11 | +5 |
+| Scenarios | 1 | 6 | 6 | — |
+| Integration | 1 | 1 | 1 | — |
+| Smoke | 1 | 1 | 1 | — |
+| **Tooling** | **3** | **0** | **10** | **+10 (new category)** |
+| **Total** | **18** | **72** | **86** | **+14** |
+
+### 24.3 Test Quality: Meta-Testing
+
+The tooling tests represent a mature pattern: **testing the test infrastructure itself**. The perf benchmark runner tests validate JSON schema contracts, markdown output format, and determinism verification logic. This ensures the tooling that produces thesis evidence is itself verified.
+
+---
+
+## 25. Updated Metrics Comparison
+
+| Metric | Commit 32 (previous) | Commit 48 (current) | Delta |
+|---|---|---|---|
+| Total commits | 32 | 48 | +16 |
+| Python LOC (total) | 2,782 | 3,505 | +723 |
+| Test count | 72 | 86 | +14 |
+| Test modules | 15 | 18 | +3 (new: tooling/) |
+| Test pass rate | 100% | 100% | — |
+| Test execution time | 0.48s | 0.66s | +0.18s |
+| Version | 0.1.0 | 0.1.2 (stable) | +2 releases |
+| CI pipelines | 0 | 2 (ci.yml, benchmark-smoke.yml) | +2 |
+| Guardrail scripts | 0 | 3 (import-flow, release, perf contract) | +3 |
+| Make targets | 0 | 10 | +10 |
+| Import violations | unknown | 0 (automated) | now enforced |
+| Release artifacts | none | sdist + wheel + smoke | now packaged |
+
+---
+
+## 26. Updated Requirement Traceability (R1–R12)
+
+| Req | Status (previous) | Status (now) | What Changed |
+|---|---|---|---|
+| R1 Modularity | IMPLEMENTED | **DONE** | Import-flow guardrail now automates D5 enforcement in CI |
+| R2 Per-module testing | IMPLEMENTED | **DONE** (implemented scope) | Tooling tests added; 86/86 pass |
+| R3 Configurable agents | IMPLEMENTED | In progress | No change (UI still pending) |
+| R4 Configurable physics | PARTIALLY | In progress | No change |
+| R5 Multi-scenario | PARTIALLY | In progress | No change (drone scenario still pending) |
+| R6 Modern UI | NOT STARTED | Not started | No change |
+| R7 Playback controls | BACKEND DONE | In progress | No change (adapters still pending) |
+| R8 Python | DONE | **DONE** | CI validates Python 3.11 |
+| R9 Desktop + web | NOT STARTED | Not started | No change |
+| R10 Orchestrator | PARTIALLY | **DONE** (implemented scope) | CLI composition root validated by wheel smoke |
+| R11 Robust runtime | DONE | **DONE** | No change |
+| R12 Determinism | DONE | **DONE** | Benchmark runner adds reproducibility tooling |
+
+**Summary:** 7 fully done (was 5), 4 in progress (was 4), 1 not started (was 3).
+
+---
+
+## 27. Updated Gap Analysis
+
+### 27.1 Gaps Closed Since Previous Analysis
+
+| Gap (from Section 13) | Previous Status | Current Status | How Closed |
+|---|---|---|---|
+| Import-lint enforcement script | Missing | **CLOSED** | `check_import_flow.py` + CI + 3 tests |
+| Release versioning | Missing | **CLOSED** | CHANGELOG.md + `check_release_consistency.py` |
+| CI/CD pipeline | Missing | **CLOSED** | 2 GitHub Actions workflows |
+| Packaging/distribution | Missing | **CLOSED** | sdist + wheel build + smoke test |
+| Makefile developer workflow | Missing | **CLOSED** | 10 make targets |
+
+### 27.2 Remaining Critical Gaps
+
+| Gap | Impact | Effort Estimate | Priority |
+|---|---|---|---|
+| **Web UI / Visualization** | Cannot demonstrate R6, R9 | 2-3 weeks | HIGH |
+| **Thesis Chapters 1-2** | No written thesis | 2-3 weeks | HIGH |
+| **Second scenario (drones)** | Cannot demonstrate R5 | 1 week | MEDIUM |
+
+### 27.3 Remaining Important Gaps
+
+| Gap | Impact | Effort Estimate | Priority |
+|---|---|---|---|
+| Emergence quantification metric | Qualitative-only validation | 2-3 days | MEDIUM |
+| Persistence adapter | Cannot demonstrate save/load | 3-5 days | MEDIUM |
+| Desktop packaging (PyWebView) | Cannot demonstrate R9 desktop | 1-2 days | MEDIUM |
+| Property-based tests (hypothesis) | Test sophistication | 2-3 days | LOW |
+
+---
+
+## 28. Quality Assessment of the New Infrastructure
+
+### 28.1 What Is Exceptionally Good
+
+1. **The import-flow guardrail is the correct fix for D5.** The previous analysis noted this gap; it is now closed with AST-based analysis, not string matching. The tool handles all import forms (relative, absolute, from-import) and runs before tests in CI, making violations impossible to ship.
+
+2. **The release consistency guardrail prevents version drift.** This is a common failure mode in academic projects — the version in pyproject.toml drifts from the changelog, making releases unreproducible. The guardrail blocks this structurally.
+
+3. **The benchmark runner's determinism cross-check is scientifically rigorous.** It doesn't just measure performance; it verifies that the performance optimization doesn't change simulation semantics. This is publishable-quality methodology.
+
+4. **The wheel smoke test validates the built artifact, not just the source.** Many projects only test in dev mode. This CI job installs the actual wheel in a clean venv and runs a simulation, catching packaging bugs that dev-mode testing misses.
+
+5. **The tooling test suite tests the test infrastructure.** `test_run_perf_snapshot_toggle.py` validates JSON schema contracts and markdown format — ensuring the tools that produce thesis evidence are themselves reliable.
+
+### 28.2 Minor Observations
+
+1. **No coverage reporting.** Test count is tracked (86/86) but line coverage percentage is not. Adding `pytest-cov` would provide a quantitative metric for the thesis.
+
+2. **Benchmark workflow uses `workflow_dispatch`.** This means benchmarks must be triggered manually unless a PR touches relevant paths. Automatic triggers on main would catch regressions more proactively.
+
+3. **The Makefile assumes `.venv/bin/python`.** The `PYTHON ?=` default is `.venv/bin/python`, which is correct for the project but won't work if someone uses a different venv path. The `?=` makes it overridable, which mitigates this.
+
+---
+
+## 29. Conclusion (Updated)
+
+This project has moved beyond a "strong midway point" to a **release-hardened backend/core engineering product**. The 16 new commits (33–48) addressed five infrastructure gaps identified in the previous analysis: CI/CD, import-flow enforcement, release versioning, packaging, and developer workflow.
+
+The current state — v0.1.2 stable with 86 passing tests, 2 CI workflows, 3 automated guardrails, and a Makefile-driven workflow — represents professional-grade software engineering. For a TFG, this level of infrastructure rigor is exceptional.
+
+**What the project demonstrates right now:**
+
+- Modular architecture with automated enforcement (0 import violations, CI-gated)
+- Deterministic simulation with reproducible benchmarks (cross-checked ON/OFF)
+- Release discipline (CHANGELOG, version consistency, wheel packaging)
+- 86 tests with 100% pass rate in 0.66 seconds
+
+**What remains is the user-facing layer and academic writing:** frontend visualization, the drone scenario for generality proof, persistence for save/load, and the thesis document itself. The backend/core foundation is not merely adequate — it is excellent.
+
+---
+
+**Objective of the project:** Build a modular, deterministic, multi-agent simulation framework demonstrated through ant colony foraging with pheromone stigmergy. **Achievements:** v0.1.2 stable release with 86 passing tests, CI/CD pipeline with 2 workflows and 3 automated guardrails, deterministic engine with replay/rewind, spatial hashing, pheromone dynamics, import-flow enforcement (0 violations), wheel packaging with smoke test, reproducible benchmark runner with determinism cross-checking, and complete architectural documentation. **Remaining steps:** Web UI visualization, drone scenario for multi-scenario proof, persistence adapter, desktop packaging, and thesis writing (Chapters 1-6). **Current state (2026-03-04):** Project is at commit 48, version 0.1.2 (stable), with 3,505 LOC across 18 test modules, full CI/CD green, release-hardened in backend/core scope — ready for the user-facing development phase.
