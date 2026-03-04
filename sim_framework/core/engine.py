@@ -25,7 +25,7 @@ BehaviorRunner = Callable[[AgentState, SimulationState, random.Random], AgentSta
 
 
 class SimulationEngine:
-    def __init__(self, seed: int = 42) -> None:
+    def __init__(self, seed: int = 42, *, emit_snapshot_events: bool = True) -> None:
         self._rng = random.Random(seed)
         self._command_queue: deque[ControlCommand] = deque()
         self._published_events: list[SimulationEvent] = []
@@ -34,6 +34,7 @@ class SimulationEngine:
         self._pending_steps = 0
         self._speed_multiplier = 1.0
         self._seek_target: int | None = None
+        self._emit_snapshot_events = emit_snapshot_events
 
     @property
     def is_paused(self) -> bool:
@@ -42,6 +43,10 @@ class SimulationEngine:
     @property
     def speed_multiplier(self) -> float:
         return self._speed_multiplier
+
+    @property
+    def emit_snapshot_events(self) -> bool:
+        return self._emit_snapshot_events
 
     def enqueue_command(self, command: ControlCommand) -> None:
         self._command_queue.append(command)
@@ -120,12 +125,13 @@ class SimulationEngine:
         if history is not None:
             history.snapshot(next_state, next_state.tick)
 
-        self._emit(
-            SnapshotEvent(
-                tick=next_state.tick,
-                state=next_state.model_copy(deep=True),
+        if self._emit_snapshot_events:
+            self._emit(
+                SnapshotEvent(
+                    tick=next_state.tick,
+                    state=next_state.model_copy(deep=True),
+                )
             )
-        )
         return next_state
 
     def tick(

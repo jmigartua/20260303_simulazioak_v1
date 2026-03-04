@@ -59,11 +59,22 @@ def _parse_agents(raw: str) -> list[int]:
     return parsed
 
 
-def _single_run(agents: int, ticks: int, width: int, height: int, seed: int) -> BenchmarkRun:
+def _single_run(
+    agents: int,
+    ticks: int,
+    width: int,
+    height: int,
+    seed: int,
+    *,
+    emit_snapshot_events: bool,
+) -> BenchmarkRun:
     state = build_initial_state(num_ants=agents, width=width, height=height, seed=seed)
     bounds = WorldBounds(width=float(width), height=float(height))
     signal_grid = SignalGrid.from_config(state.signal_fields[0])
-    engine = SimulationEngine(seed=seed)
+    engine = SimulationEngine(
+        seed=seed,
+        emit_snapshot_events=emit_snapshot_events,
+    )
     runner = create_ant_behavior_runner(bounds=bounds, signal_grid=signal_grid)
 
     tracemalloc.start()
@@ -134,6 +145,7 @@ def _run_benchmark(
     width: int,
     height: int,
     seed: int,
+    emit_snapshot_events: bool,
 ) -> tuple[list[BenchmarkRun], list[BenchmarkSummary]]:
     all_runs: list[BenchmarkRun] = []
     summaries: list[BenchmarkSummary] = []
@@ -148,6 +160,7 @@ def _run_benchmark(
                 width=width,
                 height=height,
                 seed=run_seed,
+                emit_snapshot_events=emit_snapshot_events,
             )
             case_runs.append(run)
             all_runs.append(run)
@@ -203,6 +216,11 @@ def main() -> None:
         default=30,
         help="Number of profiling rows to print.",
     )
+    parser.add_argument(
+        "--no-snapshot-events",
+        action="store_true",
+        help="Disable engine SnapshotEvent emission during benchmark runs.",
+    )
     args = parser.parse_args()
 
     if args.ticks <= 0:
@@ -224,6 +242,7 @@ def main() -> None:
             width=args.width,
             height=args.height,
             seed=args.seed,
+            emit_snapshot_events=not args.no_snapshot_events,
         )
         _write_profile(
             profiler,
@@ -239,6 +258,7 @@ def main() -> None:
             width=args.width,
             height=args.height,
             seed=args.seed,
+            emit_snapshot_events=not args.no_snapshot_events,
         )
 
     if args.json_out is not None:
@@ -251,6 +271,7 @@ def main() -> None:
                 "width": args.width,
                 "height": args.height,
                 "seed": args.seed,
+                "emit_snapshot_events": not args.no_snapshot_events,
             },
             "runs": [asdict(r) for r in all_runs],
             "summaries": [asdict(s) for s in summaries],

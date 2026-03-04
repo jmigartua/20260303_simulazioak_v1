@@ -105,3 +105,16 @@ def test_speed_multiplier_does_not_batch_paused_step_command() -> None:
     engine.enqueue_command(StepCommand(steps=1))
     state = engine.tick(state, _runner)
     assert state.tick == 1
+
+
+def test_can_disable_snapshot_event_emission_for_headless_mode() -> None:
+    engine = SimulationEngine(seed=7, emit_snapshot_events=False)
+    state = _state(num_agents=1)
+
+    state = engine.tick(state, _runner)
+    assert state.tick == 1
+    assert engine.emit_snapshot_events is False
+
+    events = engine.drain_published_events()
+    snapshot_events = [event for event in events if event.kind == "snapshot"]
+    assert not snapshot_events
