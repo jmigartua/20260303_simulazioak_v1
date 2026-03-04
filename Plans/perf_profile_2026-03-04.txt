@@ -1,0 +1,28 @@
+         1327214 function calls (1191184 primitive calls) in 1.881 seconds
+
+   Ordered by: cumulative time
+   List reduced from 88 to 20 due to restriction <20>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.001    0.001    1.881    1.881 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/scripts/benchmark_headless.py:129(_run_benchmark)
+        1    0.000    0.000    1.880    1.880 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/scripts/benchmark_headless.py:62(_single_run)
+       20    0.000    0.000    1.871    0.094 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/sim_framework/core/engine.py:131(tick)
+       20    0.000    0.000    1.870    0.094 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/sim_framework/core/engine.py:105(_run_single_step)
+       20    0.007    0.000    1.083    0.054 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/sim_framework/core/engine.py:81(_advance_agents)
+     2000    0.035    0.000    1.076    0.001 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/sim_framework/scenarios/ants_foraging/spec.py:141(run)
+     4040    0.021    0.000    0.876    0.000 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/.venv/lib/python3.11/site-packages/pydantic/main.py:384(model_copy)
+ 12400/40    0.096    0.000    0.780    0.020 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/.venv/lib/python3.11/site-packages/pydantic/main.py:974(__deepcopy__)
+111360/80    0.324    0.000    0.775    0.010 /Users/User/.local/share/uv/python/cpython-3.11.11-macos-x86_64-none/lib/python3.11/copy.py:128(deepcopy)
+ 12400/40    0.141    0.000    0.774    0.019 /Users/User/.local/share/uv/python/cpython-3.11.11-macos-x86_64-none/lib/python3.11/copy.py:227(_deepcopy_dict)
+      120    0.006    0.000    0.767    0.006 /Users/User/.local/share/uv/python/cpython-3.11.11-macos-x86_64-none/lib/python3.11/copy.py:201(_deepcopy_list)
+     2000    0.281    0.000    0.708    0.000 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/sim_framework/scenarios/ants_foraging/spec.py:119(_neighbor_avoidance)
+     2000    0.368    0.000    0.406    0.000 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/sim_framework/core/physics.py:81(query_radius)
+      542    0.065    0.000    0.173    0.000 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/sim_framework/core/environment.py:49(sense_gradient)
+    56032    0.024    0.000    0.099    0.000 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/sim_framework/core/environment.py:9(_clamp)
+     2000    0.016    0.000    0.078    0.000 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/sim_framework/core/physics.py:30(apply_movement)
+   148800    0.075    0.000    0.075    0.000 {built-in method builtins.id}
+    24400    0.042    0.000    0.066    0.000 /Users/User/.local/share/uv/python/cpython-3.11.11-macos-x86_64-none/lib/python3.11/copy.py:66(copy)
+     4000    0.025    0.000    0.061    0.000 /Users/User/Desktop/20250801_TFG_dena/20250801_2025_2026_ikasturteko_gralak/01_leire_goikoetxea_inurriak/20260303_simulazioak_v1/.venv/lib/python3.11/site-packages/pydantic/main.py:955(__copy__)
+    24880    0.031    0.000    0.047    0.000 /Users/User/.local/share/uv/python/cpython-3.11.11-macos-x86_64-none/lib/python3.11/copy.py:243(_keep_alive)
+
+

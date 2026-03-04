@@ -2,10 +2,13 @@
 from __future__ import annotations
 
 import argparse
+import cProfile
 import json
+import pstats
 import statistics
 import tracemalloc
 from dataclasses import asdict, dataclass
+from io import StringIO
 from pathlib import Path
 from time import perf_counter
 
@@ -123,6 +126,54 @@ def _print_summary(summary: BenchmarkSummary) -> None:
     )
 
 
+def _run_benchmark(
+    *,
+    agents: list[int],
+    ticks: int,
+    repeats: int,
+    width: int,
+    height: int,
+    seed: int,
+) -> tuple[list[BenchmarkRun], list[BenchmarkSummary]]:
+    all_runs: list[BenchmarkRun] = []
+    summaries: list[BenchmarkSummary] = []
+
+    for agent_count in agents:
+        case_runs: list[BenchmarkRun] = []
+        for repeat in range(repeats):
+            run_seed = seed + repeat
+            run = _single_run(
+                agents=agent_count,
+                ticks=ticks,
+                width=width,
+                height=height,
+                seed=run_seed,
+            )
+            case_runs.append(run)
+            all_runs.append(run)
+        summary = _summarize(case_runs)
+        summaries.append(summary)
+        _print_summary(summary)
+
+    return all_runs, summaries
+
+
+def _write_profile(
+    profile: cProfile.Profile,
+    profile_out: Path,
+    *,
+    sort_key: str,
+    top_n: int,
+) -> None:
+    stream = StringIO()
+    stats = pstats.Stats(profile, stream=stream).sort_stats(sort_key)
+    stats.print_stats(top_n)
+
+    profile_out.parent.mkdir(parents=True, exist_ok=True)
+    profile_out.write_text(stream.getvalue(), encoding="utf-8")
+    print(f"Wrote profile report to: {profile_out}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Headless performance benchmark for ants_foraging scenario."
@@ -134,6 +185,24 @@ def main() -> None:
     parser.add_argument("--height", type=int, default=30)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--json-out", type=Path, default=None)
+    parser.add_argument(
+        "--profile-out",
+        type=Path,
+        default=None,
+        help="Write cProfile text report to this path.",
+    )
+    parser.add_argument(
+        "--profile-sort",
+        type=str,
+        default="cumtime",
+        choices=["cumtime", "tottime", "calls", "ncalls"],
+    )
+    parser.add_argument(
+        "--profile-top",
+        type=int,
+        default=30,
+        help="Number of profiling rows to print.",
+    )
     args = parser.parse_args()
 
     if args.ticks <= 0:
@@ -142,26 +211,35 @@ def main() -> None:
         raise ValueError("--repeats must be > 0")
     if args.width <= 0 or args.height <= 0:
         raise ValueError("--width/--height must be > 0")
+    if args.profile_top <= 0:
+        raise ValueError("--profile-top must be > 0")
 
-    all_runs: list[BenchmarkRun] = []
-    summaries: list[BenchmarkSummary] = []
-
-    for agent_count in args.agents:
-        case_runs: list[BenchmarkRun] = []
-        for repeat in range(args.repeats):
-            run_seed = args.seed + repeat
-            run = _single_run(
-                agents=agent_count,
-                ticks=args.ticks,
-                width=args.width,
-                height=args.height,
-                seed=run_seed,
-            )
-            case_runs.append(run)
-            all_runs.append(run)
-        summary = _summarize(case_runs)
-        summaries.append(summary)
-        _print_summary(summary)
+    if args.profile_out is not None:
+        profiler = cProfile.Profile()
+        all_runs, summaries = profiler.runcall(
+            _run_benchmark,
+            agents=args.agents,
+            ticks=args.ticks,
+            repeats=args.repeats,
+            width=args.width,
+            height=args.height,
+            seed=args.seed,
+        )
+        _write_profile(
+            profiler,
+            args.profile_out,
+            sort_key=args.profile_sort,
+            top_n=args.profile_top,
+        )
+    else:
+        all_runs, summaries = _run_benchmark(
+            agents=args.agents,
+            ticks=args.ticks,
+            repeats=args.repeats,
+            width=args.width,
+            height=args.height,
+            seed=args.seed,
+        )
 
     if args.json_out is not None:
         args.json_out.parent.mkdir(parents=True, exist_ok=True)
