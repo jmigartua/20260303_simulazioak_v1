@@ -124,6 +124,7 @@ _SHELL_HTML = """<!doctype html>
     </section>
     <aside class="panel">
       <h3 style="margin: 6px 0 10px 0;">M1 Live State</h3>
+      <div class="stat">Renderer: <strong id="renderer">-</strong></div>
       <div class="stat">Scenario: <strong id="scenario">-</strong></div>
       <div class="stat">Tick: <strong id="tick">0</strong></div>
       <div class="stat">Paused: <strong id="paused">true</strong></div>
@@ -147,14 +148,43 @@ _SHELL_HTML = """<!doctype html>
       </div>
     </aside>
   </div>
+<script src="https://cdn.jsdelivr.net/npm/pixi.js@7.4.2/dist/pixi.min.js"></script>
 <script>
 const canvas = document.getElementById("sim-canvas");
-const ctx = canvas.getContext("2d");
 const scenarioSelect = document.getElementById("scenario-select");
 const seekTickInput = document.getElementById("seek-tick");
 const showSignalToggle = document.getElementById("show-signal");
+const rendererLabel = document.getElementById("renderer");
 let latest = null;
 let meta = null;
+let pixiApp = null;
+let pixiLayers = null;
+let fallbackCtx = null;
+
+function initRenderer() {
+  if (window.PIXI) {
+    pixiApp = new PIXI.Application({
+      view: canvas,
+      width: canvas.width,
+      height: canvas.height,
+      antialias: true,
+      backgroundColor: 0xeef7f7,
+    });
+    pixiLayers = {
+      signal: new PIXI.Container(),
+      terrain: new PIXI.Container(),
+      agents: new PIXI.Container(),
+    };
+    pixiApp.stage.addChild(pixiLayers.signal);
+    pixiApp.stage.addChild(pixiLayers.terrain);
+    pixiApp.stage.addChild(pixiLayers.agents);
+    rendererLabel.textContent = "PixiJS";
+    return;
+  }
+
+  fallbackCtx = canvas.getContext("2d");
+  rendererLabel.textContent = "Canvas fallback";
+}
 
 async function postJson(url, payload) {
   const res = await fetch(url, {
@@ -200,16 +230,64 @@ function drawSignalOverlay(state, sx, sy) {
       const value = row[x];
       if (value <= 0) continue;
       const alpha = Math.min(0.45, (value / maxSignal) * 0.45);
-      ctx.fillStyle = `rgba(180, 83, 9, ${alpha.toFixed(3)})`;
-      ctx.fillRect(x * sx, y * sy, Math.ceil(sx), Math.ceil(sy));
+      if (pixiApp) {
+        const cell = new PIXI.Graphics();
+        cell.beginFill(0xb45309, alpha);
+        cell.drawRect(x * sx, y * sy, Math.ceil(sx), Math.ceil(sy));
+        cell.endFill();
+        pixiLayers.signal.addChild(cell);
+      } else if (fallbackCtx) {
+        fallbackCtx.fillStyle = `rgba(180, 83, 9, ${alpha.toFixed(3)})`;
+        fallbackCtx.fillRect(x * sx, y * sy, Math.ceil(sx), Math.ceil(sy));
+      }
     }
   }
 }
 
-function drawState(state) {
+function drawStatePixi(state) {
+  if (!state || !pixiApp) return;
+  pixiLayers.signal.removeChildren();
+  pixiLayers.terrain.removeChildren();
+  pixiLayers.agents.removeChildren();
+
   const width = canvas.width;
   const height = canvas.height;
-  ctx.clearRect(0, 0, width, height);
+  const worldW = state.world.width;
+  const worldH = state.world.height;
+  const sx = width / worldW;
+  const sy = height / worldH;
+
+  drawSignalOverlay(state, sx, sy);
+
+  const colony = new PIXI.Graphics();
+  colony.beginFill(0x1f2937, 1.0);
+  colony.drawCircle(state.colony.x * sx, state.colony.y * sy, 7);
+  colony.endFill();
+  pixiLayers.terrain.addChild(colony);
+
+  for (const food of state.food_sources) {
+    const sprite = new PIXI.Graphics();
+    sprite.beginFill(0x16a34a, 1.0);
+    sprite.drawRect(food.x * sx - 4, food.y * sy - 4, 8, 8);
+    sprite.endFill();
+    pixiLayers.terrain.addChild(sprite);
+  }
+
+  for (const agent of state.agents) {
+    const dot = new PIXI.Graphics();
+    const color = agent.carrying > 0 ? 0xdc2626 : 0x0f766e;
+    dot.beginFill(color, 1.0);
+    dot.drawCircle(agent.x * sx, agent.y * sy, 4);
+    dot.endFill();
+    pixiLayers.agents.addChild(dot);
+  }
+}
+
+function drawStateCanvasFallback(state) {
+  if (!fallbackCtx) return;
+  const width = canvas.width;
+  const height = canvas.height;
+  fallbackCtx.clearRect(0, 0, width, height);
   if (!state) return;
 
   const worldW = state.world.width;
@@ -219,23 +297,31 @@ function drawState(state) {
 
   drawSignalOverlay(state, sx, sy);
 
-  ctx.fillStyle = "#1f2937";
-  ctx.beginPath();
-  ctx.arc(state.colony.x * sx, state.colony.y * sy, 7, 0, Math.PI * 2);
-  ctx.fill();
+  fallbackCtx.fillStyle = "#1f2937";
+  fallbackCtx.beginPath();
+  fallbackCtx.arc(state.colony.x * sx, state.colony.y * sy, 7, 0, Math.PI * 2);
+  fallbackCtx.fill();
 
-  ctx.fillStyle = "#16a34a";
+  fallbackCtx.fillStyle = "#16a34a";
   for (const food of state.food_sources) {
-    ctx.beginPath();
-    ctx.rect(food.x * sx - 4, food.y * sy - 4, 8, 8);
-    ctx.fill();
+    fallbackCtx.beginPath();
+    fallbackCtx.rect(food.x * sx - 4, food.y * sy - 4, 8, 8);
+    fallbackCtx.fill();
   }
 
   for (const agent of state.agents) {
-    ctx.fillStyle = agent.carrying > 0 ? "#dc2626" : "#0f766e";
-    ctx.beginPath();
-    ctx.arc(agent.x * sx, agent.y * sy, 4, 0, Math.PI * 2);
-    ctx.fill();
+    fallbackCtx.fillStyle = agent.carrying > 0 ? "#dc2626" : "#0f766e";
+    fallbackCtx.beginPath();
+    fallbackCtx.arc(agent.x * sx, agent.y * sy, 4, 0, Math.PI * 2);
+    fallbackCtx.fill();
+  }
+}
+
+function drawState(state) {
+  if (pixiApp) {
+    drawStatePixi(state);
+  } else {
+    drawStateCanvasFallback(state);
   }
 }
 
@@ -300,6 +386,7 @@ document.getElementById("switch-scenario").onclick = () => {
 };
 showSignalToggle.onchange = () => render();
 
+initRenderer();
 loadMeta().then(refresh);
 setInterval(refresh, 120);
 </script>

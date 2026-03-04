@@ -105,6 +105,7 @@ M1 controls currently available in the shell:
 - speed updates via `set_speed`
 - signal overlay toggle for pheromone/radio field heat tint
 - live state panel (`tick`, `paused`, `agent_count`, `carrying_agents`, `signal_total`)
+- renderer backend: PixiJS shell (CDN) with automatic canvas fallback
 
 Latest baseline snapshot in this repository:
 - `Plans/perf_baseline_2026-03-03.json`
