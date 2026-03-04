@@ -1,0 +1,71 @@
+{
+  "config": {
+    "scenario": "drone_patrol",
+    "agents": [
+      20,
+      40
+    ],
+    "ticks": 20,
+    "repeats": 1,
+    "width": 30,
+    "height": 30,
+    "seed": 42,
+    "emit_snapshot_events": true
+  },
+  "runs": [
+    {
+      "scenario": "drone_patrol",
+      "agents": 20,
+      "ticks": 20,
+      "elapsed_s": 0.04724508000072092,
+      "ticks_per_s": 423.3245027777457,
+      "us_per_agent_tick": 118.1127000018023,
+      "peak_mem_mb": 0.8614959716796875,
+      "state_tick": 20,
+      "carrying_agents": 0,
+      "signal_total": 60.0
+    },
+    {
+      "scenario": "drone_patrol",
+      "agents": 40,
+      "ticks": 20,
+      "elapsed_s": 0.08857916301349178,
+      "ticks_per_s": 225.7867349339679,
+      "us_per_agent_tick": 110.72395376686472,
+      "peak_mem_mb": 1.6597747802734375,
+      "state_tick": 20,
+      "carrying_agents": 0,
+      "signal_total": 120.0
+    }
+  ],
+  "summaries": [
+    {
+      "scenario": "drone_patrol",
+      "agents": 20,
+      "ticks": 20,
+      "repeats": 1,
+      "elapsed_s_mean": 0.04724508000072092,
+      "elapsed_s_stdev": 0.0,
+      "ticks_per_s_mean": 423.3245027777457,
+      "ticks_per_s_stdev": 0.0,
+      "us_per_agent_tick_mean": 118.1127000018023,
+      "us_per_agent_tick_stdev": 0.0,
+      "peak_mem_mb_mean": 0.8614959716796875,
+      "peak_mem_mb_stdev": 0.0
+    },
+    {
+      "scenario": "drone_patrol",
+      "agents": 40,
+      "ticks": 20,
+      "repeats": 1,
+      "elapsed_s_mean": 0.08857916301349178,
+      "elapsed_s_stdev": 0.0,
+      "ticks_per_s_mean": 225.7867349339679,
+      "ticks_per_s_stdev": 0.0,
+      "us_per_agent_tick_mean": 110.72395376686472,
+      "us_per_agent_tick_stdev": 0.0,
+      "peak_mem_mb_mean": 1.6597747802734375,
+      "peak_mem_mb_stdev": 0.0
+    }
+  ]
+}

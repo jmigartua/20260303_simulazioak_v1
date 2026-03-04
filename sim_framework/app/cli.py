@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import inspect
 import json
 from pathlib import Path
 from typing import Sequence
@@ -97,6 +98,32 @@ def _emit_payload(payload: dict, json_out: Path | None) -> None:
         json_out.write_text(encoded + "\n", encoding="utf-8")
 
 
+def _build_state_for_scenario(
+    build_fn,
+    *,
+    scenario_name: str,
+    agents: int,
+    width: int,
+    height: int,
+    seed: int,
+):
+    signature = inspect.signature(build_fn)
+    kwargs = {"width": width, "height": height, "seed": seed}
+
+    if "num_ants" in signature.parameters:
+        kwargs["num_ants"] = agents
+    elif "num_drones" in signature.parameters:
+        kwargs["num_drones"] = agents
+    elif "num_agents" in signature.parameters:
+        kwargs["num_agents"] = agents
+    else:
+        raise ValueError(
+            f"Scenario '{scenario_name}' does not expose a supported agent-count parameter "
+            "(expected one of: num_ants, num_drones, num_agents)."
+        )
+    return build_fn(**kwargs)
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
@@ -130,12 +157,17 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
 
     scenario = get_scenario(args.scenario)
-    state = scenario["build_initial_state"](
-        num_ants=args.ants,
-        width=args.width,
-        height=args.height,
-        seed=args.seed,
-    )
+    try:
+        state = _build_state_for_scenario(
+            scenario["build_initial_state"],
+            scenario_name=args.scenario,
+            agents=args.ants,
+            width=args.width,
+            height=args.height,
+            seed=args.seed,
+        )
+    except ValueError as exc:
+        parser.error(str(exc))
     bounds = WorldBounds(width=float(args.width), height=float(args.height))
     signal_grid = SignalGrid.from_config(state.signal_fields[0])
     runner = scenario["create_behavior_runner"](bounds=bounds, signal_grid=signal_grid)

@@ -3,8 +3,8 @@
 **Date:** 2026-03-04  
 **Purpose:** Provide thesis-defense traceability from requirement to architecture decision, implementation artifact, test evidence, and demo evidence.  
 **Companion document:** `06_execution_blueprint.md`
-**Current implementation state:** `v0.1.2` (stable), CI green, 86/86 tests passing
-**Scope note:** Synced to audited range through commit 44 (2026-03-04). Re-validate matrix rows after newer commits.
+**Current implementation state:** `v0.1.2` (stable), CI green, 101/101 tests passing
+**Scope note:** Synced to main through commit 56 (2026-03-04). Re-validate matrix rows after newer commits.
 
 ---
 
@@ -25,11 +25,11 @@ For each requirement:
 | Req ID | Requirement (Prompt) | Clarified Interpretation | Decisions | Implementation Artifacts | Test Evidence | Demo/Thesis Evidence | Status |
 |---|---|---|---|---|---|---|---|
 | R1 | Strict modularity via contracts | Module coupling only through typed contracts and validated models | D3, D4, D5, D10 | `sim_framework/contracts/models.py`, `sim_framework/contracts/ports.py`, `scripts/check_import_flow.py` | `tests/contracts/test_ports_contract_shape.py`, `tests/tooling/test_check_import_flow.py`, CI import-flow step | Import-flow report (`0 violations`) + layered dependency explanation | Done |
-| R2 | Per-module testing | Every implemented module has unit tests; boundaries have contract tests | D14 | `tests/core/`, `tests/contracts/`, `tests/scenarios/`, `tests/app/`, `tests/tooling/`, `tests/integration/` | CI pytest (`86/86`) | Testing chapter matrix by package | Done (implemented scope) |
+| R2 | Per-module testing | Every implemented module has unit tests; boundaries have contract tests | D14 | `tests/core/`, `tests/contracts/`, `tests/scenarios/`, `tests/app/`, `tests/tooling/`, `tests/integration/`, `tests/adapters/` | CI pytest (`101/101`) | Testing chapter matrix by package | Done (implemented scope) |
 | R3 | Configurable agent attributes | Attribute config is validated at model/schema layer; UI editor pending | D6, D7, D15 | `sim_framework/contracts/validators.py`, `sim_framework/scenarios/ants_foraging/spec.py` | `tests/contracts/test_validators_schema.py` | Documented headless configuration flow | In progress |
 | R3b | Configurable agent methods (user clarification) | Methods = selecting/composing known behavior methods, not code injection | D6, D7 | `sim_framework/contracts/behaviors.py`, `sim_framework/contracts/validators.py` | behavior registry + schema tests | Explicit thesis note clarifying "attributes + methods" | Done (implemented scope) |
 | R4 | Configurable physics | Physics is parameterized in core/runtime; UI editing layer pending | D6, D15 | `sim_framework/core/physics.py`, runtime config in scenario/app | `tests/core/test_physics_movement.py` | Parameter-impact benchmark notes | In progress |
-| R5 | Multi-scenario generality | Core supports registry-based scenarios; ants implemented, drone pending | D5, D15 | `sim_framework/scenarios/registry.py`, `sim_framework/scenarios/ants_foraging/` | `tests/scenarios/test_ants_scenario_loads.py`, integration smoke | Scenario extension plan section | In progress |
+| R5 | Multi-scenario generality | Core supports registry-based scenarios; ants + drone patrol implemented in backend scope | D5, D15 | `sim_framework/scenarios/registry.py`, `sim_framework/scenarios/ants_foraging/`, `sim_framework/scenarios/drone_patrol/`, `Plans/r5_drone_patrol_reproducibility_2026-03-04.md` | `tests/scenarios/test_ants_scenario_loads.py`, `tests/scenarios/test_drone_scenario_loads.py`, `tests/integration/test_headless_ants_100ticks.py`, `tests/integration/test_headless_drone_100ticks.py`, `tests/tooling/test_benchmark_headless.py` | Drone reproducibility bundle + scenario-aware benchmark artifacts (`Plans/perf_*_drone_patrol_*`) | Done (implemented scope) |
 | R6 | Modern, performant UI | Web UI/PixiJS not yet implemented in this release line | D1, D13 | N/A (adapter placeholders only) | N/A | Deferred to next scope increment | Not started |
 | R7 | Playback and capture controls incl. rewind | Play/pause/step/reset/seek/rewind implemented headlessly; screenshot/save-load adapters pending | D8, D9, D10 | `sim_framework/core/engine.py`, `sim_framework/core/history.py`, control commands in contracts | determinism + history + command tests | Headless replay/rewind evidence in audit logs | In progress |
 | R8 | Python implementation | Core system implemented in Python 3.11+ | D2 | entire codebase | Python policy gate + CI runtime + release-check | Toolchain section with `.venv` + `uv` workflow | Done |

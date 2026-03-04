@@ -77,6 +77,27 @@ def test_cli_explicit_override_can_enable_snapshot_events_in_headless_mode(capsy
     assert payload["events"]["snapshot"] == 5
 
 
+def test_cli_drone_patrol_runs_headless(capsys) -> None:
+    payload = _run_cli(
+        [
+            "--scenario",
+            "drone_patrol",
+            "--ticks",
+            "5",
+            "--ants",
+            "10",
+            "--runtime-mode",
+            "headless",
+        ],
+        capsys,
+    )
+
+    assert payload["scenario"] == "drone_patrol"
+    assert payload["runtime"]["mode"] == "headless"
+    assert payload["run"]["ticks_completed"] == 5
+    assert payload["run"]["ants"] == 10
+
+
 def test_cli_rejects_invalid_scenario(capsys) -> None:
     with pytest.raises(SystemExit) as exc:
         main(["--scenario", "unknown_scenario"])
@@ -153,6 +174,34 @@ def test_cli_save_run_persists_bundle(tmp_path, capsys) -> None:
     assert run_file.exists()
     bundle = json.loads(run_file.read_text(encoding="utf-8"))
     assert bundle["manifest"]["run_id"] == "run-save"
+    assert len(bundle["snapshots"]) == 4
+
+
+def test_cli_save_run_persists_drone_bundle(tmp_path, capsys) -> None:
+    run_root = tmp_path / "runs"
+    payload = _run_cli(
+        [
+            "--scenario",
+            "drone_patrol",
+            "--ticks",
+            "3",
+            "--ants",
+            "6",
+            "--runtime-mode",
+            "headless",
+            "--persistence-root",
+            str(run_root),
+            "--save-run-id",
+            "drone-save",
+        ],
+        capsys,
+    )
+
+    assert payload["scenario"] == "drone_patrol"
+    assert payload["persistence"]["saved_run_id"] == "drone-save"
+    run_file = run_root / "drone-save" / "run.json"
+    bundle = json.loads(run_file.read_text(encoding="utf-8"))
+    assert bundle["manifest"]["scenario_name"] == "drone_patrol"
     assert len(bundle["snapshots"]) == 4
 
 
