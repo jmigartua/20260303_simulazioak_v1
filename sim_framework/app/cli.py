@@ -8,6 +8,7 @@ from typing import Sequence
 
 from sim_framework.adapters.persistence import JsonFilePersistence
 from sim_framework.contracts.models import RunManifest, SnapshotEvent
+from sim_framework.contracts.validators import StateMachineAgentSchemaSpec
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.history import SnapshotHistory
 from sim_framework.core.physics import BoundaryMode, WorldBounds
@@ -57,6 +58,12 @@ def _build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=None,
         help="Optional path for writing the same JSON summary emitted to stdout.",
+    )
+    parser.add_argument(
+        "--agent-spec-json",
+        type=Path,
+        default=None,
+        help="Optional path to a StateMachineAgentSchemaSpec JSON override for the scenario.",
     )
     parser.add_argument(
         "--persistence-root",
@@ -113,6 +120,7 @@ def _build_state_for_scenario(
     width: int,
     height: int,
     seed: int,
+    agent_spec: StateMachineAgentSchemaSpec | None,
 ):
     signature = inspect.signature(build_fn)
     kwargs = {"width": width, "height": height, "seed": seed}
@@ -128,6 +136,8 @@ def _build_state_for_scenario(
             f"Scenario '{scenario_name}' does not expose a supported agent-count parameter "
             "(expected one of: num_ants, num_drones, num_agents)."
         )
+    if "agent_spec" in signature.parameters:
+        kwargs["agent_spec"] = agent_spec
     return build_fn(**kwargs)
 
 
@@ -137,12 +147,42 @@ def _create_runner_for_scenario(
     bounds: WorldBounds,
     signal_grid: SignalGrid,
     boundary_mode: BoundaryMode,
+    agent_spec: StateMachineAgentSchemaSpec | None,
 ):
     signature = inspect.signature(runner_factory)
     kwargs = {"bounds": bounds, "signal_grid": signal_grid}
     if "boundary_mode" in signature.parameters:
         kwargs["boundary_mode"] = boundary_mode
+    if "agent_spec" in signature.parameters:
+        kwargs["agent_spec"] = agent_spec
     return runner_factory(**kwargs)
+
+
+def _load_agent_spec(
+    *,
+    path: Path,
+    parser: argparse.ArgumentParser,
+    scenario: dict,
+) -> StateMachineAgentSchemaSpec:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError as exc:
+        parser.error(str(exc))
+    except json.JSONDecodeError as exc:
+        parser.error(f"Invalid JSON in --agent-spec-json: {exc}")
+
+    try:
+        spec = StateMachineAgentSchemaSpec.model_validate(payload)
+    except Exception as exc:
+        parser.error(f"Invalid agent spec payload: {exc}")
+
+    validator = scenario.get("validate_agent_spec")
+    if validator is None:
+        return spec
+    try:
+        return validator(spec)
+    except Exception as exc:
+        parser.error(f"Scenario agent spec rejected: {exc}")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -178,6 +218,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
 
     scenario = get_scenario(args.scenario)
+    agent_spec: StateMachineAgentSchemaSpec | None = None
+    if args.agent_spec_json is not None:
+        agent_spec = _load_agent_spec(
+            path=args.agent_spec_json,
+            parser=parser,
+            scenario=scenario,
+        )
+
     try:
         state = _build_state_for_scenario(
             scenario["build_initial_state"],
@@ -186,6 +234,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             width=args.width,
             height=args.height,
             seed=args.seed,
+            agent_spec=agent_spec,
         )
     except ValueError as exc:
         parser.error(str(exc))
@@ -196,6 +245,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         bounds=bounds,
         signal_grid=signal_grid,
         boundary_mode=args.boundary_mode,
+        agent_spec=agent_spec,
     )
     engine = create_engine(seed=state.seed, runtime=runtime)
     history = SnapshotHistory(snapshot_every=1)
@@ -222,6 +272,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         },
         "physics": {
             "boundary_mode": args.boundary_mode,
+        },
+        "scenario_config": {
+            "agent_spec_source": (
+                str(args.agent_spec_json) if args.agent_spec_json is not None else "builtin"
+            )
         },
         "events": {
             "published": len(events),

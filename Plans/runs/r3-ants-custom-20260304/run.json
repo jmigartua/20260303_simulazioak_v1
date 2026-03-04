@@ -1,0 +1,3957 @@
+{
+  "manifest": {
+    "run_id": "r3-ants-custom-20260304",
+    "scenario_name": "ants_foraging",
+    "seed": 42
+  },
+  "snapshots": [
+    {
+      "tick": 0,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 15.111541438766308,
+            "y": 14.620008604178134
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.820023454695296,
+            "y": 14.778568590519058
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 15.18917697133121,
+            "y": 15.141359589938329
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 15.313743654163876,
+            "y": 14.669551066103534
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 14.937537455748217,
+            "y": 14.623837775550456
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 14.774910379842883,
+            "y": 15.004284230482689
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.621228775747092,
+            "y": 14.75907012054932
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.119907550223619,
+            "y": 15.035953184482572
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 14.776352497632557,
+            "y": 15.071412547100728
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.24754436534226,
+            "y": 14.60519900774245
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 1,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 13.391406178884118,
+            "y": 15.15022996145265
+          },
+          "velocity": {
+            "x": -1.7201352598821902,
+            "y": 0.5302213572745162
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.769457400249784,
+            "y": 12.97927898788756
+          },
+          "velocity": {
+            "x": -0.050566054445510926,
+            "y": -1.799289602631498
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 15.297518217304104,
+            "y": 16.938096124442218
+          },
+          "velocity": {
+            "x": 0.10834124597289342,
+            "y": 1.796736534503888
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 15.478610422046664,
+            "y": 16.461984872091325
+          },
+          "velocity": {
+            "x": 0.16486676788278784,
+            "y": 1.7924338059877922
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 13.467895257687907,
+            "y": 15.663141296991839
+          },
+          "velocity": {
+            "x": -1.4696421980603107,
+            "y": 1.0393035214413826
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 13.452308194358082,
+            "y": 13.783332364539223
+          },
+          "velocity": {
+            "x": -1.3226021854848,
+            "y": -1.220951865943466
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 15.848573801587953,
+            "y": 16.075741752940516
+          },
+          "velocity": {
+            "x": 1.227345025840861,
+            "y": 1.3166716323911962
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.92491440399386,
+            "y": 16.64591093715279
+          },
+          "velocity": {
+            "x": 0.8050068537702417,
+            "y": 1.6099577526702173
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 16.271571562101933,
+            "y": 14.069254900197148
+          },
+          "velocity": {
+            "x": 1.4952190644693768,
+            "y": -1.0021576469035804
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 14.180275049318444,
+            "y": 16.05465966849667
+          },
+          "velocity": {
+            "x": -1.0672693160238171,
+            "y": 1.449460660754218
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 2,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 15.105933881882287,
+            "y": 14.602147161456312
+          },
+          "velocity": {
+            "x": 1.7145277029981678,
+            "y": -0.5480827999963394
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.769457400249784,
+            "y": 14.77927898788756
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.8
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 14.805822946320767,
+            "y": 15.206554683848715
+          },
+          "velocity": {
+            "x": -0.49169527098333776,
+            "y": -1.7315414405935026
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 14.703939285409996,
+            "y": 14.837212694196204
+          },
+          "velocity": {
+            "x": -0.7746711366366685,
+            "y": -1.6247721778951203
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.206094838659594,
+            "y": 15.19552797734637
+          },
+          "velocity": {
+            "x": 1.738199580971686,
+            "y": -0.46761331964546876
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 15.2420522010479,
+            "y": 13.97520834145629
+          },
+          "velocity": {
+            "x": 1.7897440066898176,
+            "y": 0.1918759769170651
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.972004375782522,
+            "y": 14.503601160708659
+          },
+          "velocity": {
+            "x": -0.8765694258054325,
+            "y": -1.572140592231857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.229898970213968,
+            "y": 14.985503292383667
+          },
+          "velocity": {
+            "x": -0.6950154337798917,
+            "y": -1.6604076447691238
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 14.998779355966146,
+            "y": 15.342047106332934
+          },
+          "velocity": {
+            "x": -1.2727922061357857,
+            "y": 1.2727922061357857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.618142951298516,
+            "y": 14.971822701795112
+          },
+          "velocity": {
+            "x": 1.4378679019800717,
+            "y": -1.082836966701556
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 3,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 16.316724515823854,
+            "y": 15.9340578344218
+          },
+          "velocity": {
+            "x": 1.210790633941567,
+            "y": 1.3319106729654875
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.50094273552753,
+            "y": 12.999419478030365
+          },
+          "velocity": {
+            "x": -0.26851466472225427,
+            "y": -1.7798595098571952
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 13.012188522037013,
+            "y": 15.357801343396254
+          },
+          "velocity": {
+            "x": -1.7936344242837532,
+            "y": 0.15124665954753877
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 14.45369752035377,
+            "y": 16.619733117367154
+          },
+          "velocity": {
+            "x": -0.2502417650562247,
+            "y": 1.7825204231709508
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.12593726833611,
+            "y": 16.99374230381578
+          },
+          "velocity": {
+            "x": -0.08015757032348367,
+            "y": 1.7982143264694106
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 15.47367324548387,
+            "y": 15.760243828995511
+          },
+          "velocity": {
+            "x": 0.23162104443597042,
+            "y": 1.7850354875392227
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.11711991552398,
+            "y": 16.08763795308706
+          },
+          "velocity": {
+            "x": -0.8548844602585409,
+            "y": 1.584036792378404
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 16.846044849385805,
+            "y": 14.192993041827949
+          },
+          "velocity": {
+            "x": 1.616145879171838,
+            "y": -0.7925102505557184
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 13.26680991732126,
+            "y": 15.83223264630746
+          },
+          "velocity": {
+            "x": -1.7319694386448865,
+            "y": 0.4901855399745256
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 13.851358322766368,
+            "y": 15.316020430408361
+          },
+          "velocity": {
+            "x": -1.7667846285321478,
+            "y": 0.3441977286132496
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 4,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 15.4224894064186,
+            "y": 14.371897929320221
+          },
+          "velocity": {
+            "x": -0.8942351094052532,
+            "y": -1.562159905101579
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.50094273552753,
+            "y": 14.799419478030366
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.8
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 14.741180234132122,
+            "y": 14.857214028828231
+          },
+          "velocity": {
+            "x": 1.7289917120951086,
+            "y": -0.5005873145680234
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 15.600273593558088,
+            "y": 15.232158503749794
+          },
+          "velocity": {
+            "x": 1.1465760732043166,
+            "y": -1.387574613617361
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.640397587130579,
+            "y": 15.268827644945407
+          },
+          "velocity": {
+            "x": 0.5144603187944704,
+            "y": -1.724914658870372
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 14.857564206591201,
+            "y": 14.068969264593045
+          },
+          "velocity": {
+            "x": -0.6161090388926683,
+            "y": -1.6912745644024663
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 15.510883594428476,
+            "y": 14.948593262406925
+          },
+          "velocity": {
+            "x": 1.3937636789044954,
+            "y": -1.139044690680136
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.236075905585956,
+            "y": 14.997977513727873
+          },
+          "velocity": {
+            "x": -1.6099689437998488,
+            "y": 0.8049844718999244
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 14.942740761006284,
+            "y": 15.175531947978914
+          },
+          "velocity": {
+            "x": 1.6759308436850253,
+            "y": -0.6567006983285455
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.591747993781716,
+            "y": 14.85662540102397
+          },
+          "velocity": {
+            "x": 1.7403896710153492,
+            "y": -0.45939502938439025
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 5,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 14.119009636723735,
+            "y": 15.613244170300641
+          },
+          "velocity": {
+            "x": -1.3034797696948663,
+            "y": 1.24134624098042
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 12.701471511168169,
+            "y": 14.755792505838617
+          },
+          "velocity": {
+            "x": -1.7994712243593616,
+            "y": -0.04362697219174912
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 13.13433332709135,
+            "y": 14.046015522090514
+          },
+          "velocity": {
+            "x": -1.6068469070407727,
+            "y": -0.8111985067377171
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 13.925051511733805,
+            "y": 14.573651877687215
+          },
+          "velocity": {
+            "x": -1.6752220818242816,
+            "y": -0.6585066260625786
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 13.841949036040413,
+            "y": 15.19410944715075
+          },
+          "velocity": {
+            "x": -1.7984485510901664,
+            "y": -0.07471819779465702
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 14.890021677686356,
+            "y": 15.868676605404353
+          },
+          "velocity": {
+            "x": 0.03245747109515416,
+            "y": 1.7997073408113076
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.217081368060295,
+            "y": 16.200022764634173
+          },
+          "velocity": {
+            "x": -1.2938022263681803,
+            "y": 1.2514295022272488
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 13.454486949059111,
+            "y": 15.254766902102057
+          },
+          "velocity": {
+            "x": -1.7815889565268452,
+            "y": 0.2567893883741839
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 13.423285693589454,
+            "y": 16.140548164475465
+          },
+          "velocity": {
+            "x": -1.5194550674168308,
+            "y": 0.9650162164965496
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 13.847116362856807,
+            "y": 14.413612452707229
+          },
+          "velocity": {
+            "x": -1.744631630924909,
+            "y": -0.44301294831674204
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 6,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 15.80986893343228,
+            "y": 14.995996376676167
+          },
+          "velocity": {
+            "x": 1.6908592967085458,
+            "y": -0.6172477936244742
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.49764465250947,
+            "y": 14.873104254287442
+          },
+          "velocity": {
+            "x": 1.7961731413413016,
+            "y": 0.11731174844882633
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 14.901988868642894,
+            "y": 14.385712278657481
+          },
+          "velocity": {
+            "x": 1.7676555415515443,
+            "y": 0.33969675656696724
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 15.596019082633367,
+            "y": 15.242880819830349
+          },
+          "velocity": {
+            "x": 1.6709675708995617,
+            "y": 0.6692289421431342
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.610692113366724,
+            "y": 14.860121533581635
+          },
+          "velocity": {
+            "x": 1.7687430773263115,
+            "y": -0.3339879135691147
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 15.489992021413096,
+            "y": 14.171609845772188
+          },
+          "velocity": {
+            "x": 0.5999703437267401,
+            "y": -1.6970667596321656
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 15.852298923507778,
+            "y": 15.447650817817735
+          },
+          "velocity": {
+            "x": 1.635217555447483,
+            "y": -0.7523719468164385
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.241402993483808,
+            "y": 15.038131147487091
+          },
+          "velocity": {
+            "x": 1.7869160444246963,
+            "y": -0.21663575461496676
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 15.119648718171344,
+            "y": 15.53859094935849
+          },
+          "velocity": {
+            "x": 1.6963630245818893,
+            "y": -0.6019572151169752
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.609620030319814,
+            "y": 14.779099555324347
+          },
+          "velocity": {
+            "x": 1.7625036674630055,
+            "y": 0.36548710261711764
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 7,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 14.01540031390305,
+            "y": 15.137001247247573
+          },
+          "velocity": {
+            "x": -1.7944686195292303,
+            "y": 0.14100487057140643
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 16.29761754118474,
+            "y": 14.882983527236629
+          },
+          "velocity": {
+            "x": 1.79997288867527,
+            "y": 0.009879272949187444
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 14.358968901551727,
+            "y": 16.10185018551121
+          },
+          "velocity": {
+            "x": -0.5430199670911678,
+            "y": 1.7161379068537315
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 13.826478663397092,
+            "y": 15.572618146636255
+          },
+          "velocity": {
+            "x": -1.7695404192362758,
+            "y": 0.32973732680590606
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 14.26985698450205,
+            "y": 16.061021678140897
+          },
+          "velocity": {
+            "x": -1.3408351288646732,
+            "y": 1.2009001445592618
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 14.288624893550239,
+            "y": 15.512026581004388
+          },
+          "velocity": {
+            "x": -1.201367127862858,
+            "y": 1.3404167352321994
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.120414732391257,
+            "y": 14.95716417318745
+          },
+          "velocity": {
+            "x": -1.7318841911165204,
+            "y": -0.4904866446302848
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 13.442394289173166,
+            "y": 15.097861222110716
+          },
+          "velocity": {
+            "x": -1.7990087043106424,
+            "y": 0.05973007462362407
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 13.710585883222441,
+            "y": 14.418527590808734
+          },
+          "velocity": {
+            "x": -1.409062834948904,
+            "y": -1.1200633585497553
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 13.852219304351642,
+            "y": 14.38981471312452
+          },
+          "velocity": {
+            "x": -1.7574007259681717,
+            "y": -0.3892848421998266
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 8,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 15.71642641511379,
+            "y": 15.725652419844543
+          },
+          "velocity": {
+            "x": 1.7010261012107402,
+            "y": 0.5886511725969706
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.504892057798873,
+            "y": 15.044647812775874
+          },
+          "velocity": {
+            "x": -1.7927254833858657,
+            "y": 0.1616642855392457
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 15.970235341859928,
+            "y": 15.299465951907049
+          },
+          "velocity": {
+            "x": 1.6112664403082018,
+            "y": -0.802384233604161
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 15.098161346317404,
+            "y": 14.298717383640724
+          },
+          "velocity": {
+            "x": 1.2716826829203132,
+            "y": -1.2739007629955303
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.14288549104375,
+            "y": 14.486912016533557
+          },
+          "velocity": {
+            "x": 0.8730285065416984,
+            "y": -1.574109661607339
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 15.962730937911937,
+            "y": 14.850687823459037
+          },
+          "velocity": {
+            "x": 1.6741060443616984,
+            "y": -0.6613387575453509
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 15.88227822578266,
+            "y": 14.588603417470507
+          },
+          "velocity": {
+            "x": 1.7618634933914024,
+            "y": -0.3685607557169433
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.241704451475869,
+            "y": 15.048032115815069
+          },
+          "velocity": {
+            "x": 1.7993101623027024,
+            "y": -0.04982910629564686
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 15.355298775963035,
+            "y": 15.149909502297437
+          },
+          "velocity": {
+            "x": 1.644712892740594,
+            "y": 0.7313819114887014
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.477856092482934,
+            "y": 15.162669830901569
+          },
+          "velocity": {
+            "x": 1.625636788131292,
+            "y": 0.772855117777049
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 9,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 14.163543377370422,
+            "y": 14.815402854566466
+          },
+          "velocity": {
+            "x": -1.5528830377433689,
+            "y": -0.9102495652780765
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 16.302466157897094,
+            "y": 15.138068124571967
+          },
+          "velocity": {
+            "x": 1.7975741000982186,
+            "y": 0.09342031179609313
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 14.19973843194365,
+            "y": 14.974903643594896
+          },
+          "velocity": {
+            "x": -1.7704969099162775,
+            "y": -0.32456230831215294
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 14.183467799838338,
+            "y": 15.84898694601675
+          },
+          "velocity": {
+            "x": -0.9146935464790658,
+            "y": 1.5502695623760243
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 13.677355990413501,
+            "y": 15.532006884372096
+          },
+          "velocity": {
+            "x": -1.465529500630249,
+            "y": 1.045094867838539
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 14.191711589892476,
+            "y": 15.172387169029903
+          },
+          "velocity": {
+            "x": -1.771019348019461,
+            "y": 0.32169934557086705
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.10294412329658,
+            "y": 14.860577959900606
+          },
+          "velocity": {
+            "x": -1.7793341024860785,
+            "y": 0.27197454243009833
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 13.501956453241506,
+            "y": 14.58621299252162
+          },
+          "velocity": {
+            "x": -1.7397479982343624,
+            "y": -0.46181912329344904
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 13.581920709987806,
+            "y": 15.458341399347582
+          },
+          "velocity": {
+            "x": -1.7733780659752303,
+            "y": 0.3084318970501456
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 13.679606921055795,
+            "y": 15.242041850288787
+          },
+          "velocity": {
+            "x": -1.7982491714271398,
+            "y": 0.07937201938721893
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 10,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 15.953458728334331,
+            "y": 14.62513189939005
+          },
+          "velocity": {
+            "x": 1.7899153509639092,
+            "y": -0.19027095517641637
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.512495097759878,
+            "y": 14.94832196816491
+          },
+          "velocity": {
+            "x": -1.7899710601372159,
+            "y": -0.18974615640705803
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 15.989730313101246,
+            "y": 15.164453281921887
+          },
+          "velocity": {
+            "x": 1.7899918811575954,
+            "y": 0.18954963832699015
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 15.759975915532284,
+            "y": 14.980297035202124
+          },
+          "velocity": {
+            "x": 1.5765081156939464,
+            "y": -0.8686899108146262
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.461125257423637,
+            "y": 15.290828108211914
+          },
+          "velocity": {
+            "x": 1.7837692670101357,
+            "y": -0.2411787761601832
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 15.982102709963026,
+            "y": 15.358127948538659
+          },
+          "velocity": {
+            "x": 1.7903911200705502,
+            "y": 0.18574077950875548
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 15.899844421728025,
+            "y": 14.966168288515446
+          },
+          "velocity": {
+            "x": 1.7969002984314435,
+            "y": 0.10559032861483891
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.289844773670596,
+            "y": 14.794672469814564
+          },
+          "velocity": {
+            "x": 1.78788832042909,
+            "y": 0.2084594772929447
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 15.374083008107686,
+            "y": 15.626133822292333
+          },
+          "velocity": {
+            "x": 1.7921622981198801,
+            "y": 0.1677924229447508
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.327938941377733,
+            "y": 14.51885338883396
+          },
+          "velocity": {
+            "x": 1.6483320203219376,
+            "y": -0.723188461454827
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 11,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 14.162187666037893,
+            "y": 14.80218551098662
+          },
+          "velocity": {
+            "x": -1.7912710622964385,
+            "y": 0.17705361159657035
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 16.223533184481393,
+            "y": 15.507203588714717
+          },
+          "velocity": {
+            "x": 1.7110380867215147,
+            "y": 0.558881620549807
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 14.197024872106562,
+            "y": 15.002566896366917
+          },
+          "velocity": {
+            "x": -1.7927054409946848,
+            "y": -0.16188638555497037
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 13.966880261496726,
+            "y": 14.822791557586898
+          },
+          "velocity": {
+            "x": -1.7930956540355565,
+            "y": -0.15750547761522596
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 13.66647676065937,
+            "y": 15.152131413724439
+          },
+          "velocity": {
+            "x": -1.7946484967642682,
+            "y": -0.1386966944874747
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 14.18509984832027,
+            "y": 15.254297725348364
+          },
+          "velocity": {
+            "x": -1.797002861642756,
+            "y": -0.10383022319029499
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.142556034267152,
+            "y": 14.576376647641549
+          },
+          "velocity": {
+            "x": -1.757288387460873,
+            "y": -0.389791640873897
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 13.520104796565857,
+            "y": 15.123337060906021
+          },
+          "velocity": {
+            "x": -1.76973997710474,
+            "y": 0.3286645910914562
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 13.827059481790808,
+            "y": 14.705960898857779
+          },
+          "velocity": {
+            "x": -1.5470235263168777,
+            "y": -0.9201729234345537
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 13.624094169991896,
+            "y": 15.09929545745162
+          },
+          "velocity": {
+            "x": -1.7038447713858365,
+            "y": 0.5804420686176593
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 12,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 15.959652594661799,
+            "y": 14.897683313930221
+          },
+          "velocity": {
+            "x": 1.7974649286239064,
+            "y": 0.09549780294360091
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.560742066902908,
+            "y": 14.817909965284114
+          },
+          "velocity": {
+            "x": -1.6627911175784866,
+            "y": -0.6892936234306017
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 15.97841585191818,
+            "y": 15.26072610508472
+          },
+          "velocity": {
+            "x": 1.7813909798116183,
+            "y": 0.25815920871780296
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 15.687357352811528,
+            "y": 14.29368043668604
+          },
+          "velocity": {
+            "x": 1.7204770913148009,
+            "y": -0.5291111209008579
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.39788854188322,
+            "y": 15.644283060921984
+          },
+          "velocity": {
+            "x": 1.7314117812238492,
+            "y": 0.49215164719754545
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 15.982796282363331,
+            "y": 15.345333603049758
+          },
+          "velocity": {
+            "x": 1.7976964340430608,
+            "y": 0.09103587770139335
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 15.932917306878238,
+            "y": 14.762404907683974
+          },
+          "velocity": {
+            "x": 1.790361272611086,
+            "y": 0.1860282600424246
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.309908964467231,
+            "y": 15.314651045138403
+          },
+          "velocity": {
+            "x": 1.7898041679013748,
+            "y": 0.19131398423238213
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 15.626533428786963,
+            "y": 14.749475426111074
+          },
+          "velocity": {
+            "x": 1.7994739469961554,
+            "y": 0.043514527253296
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.334205709669819,
+            "y": 14.537585103389667
+          },
+          "velocity": {
+            "x": 1.7101115396779227,
+            "y": -0.5617103540619522
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 13,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 14.285052246000154,
+            "y": 15.557769423663109
+          },
+          "velocity": {
+            "x": -1.6746003486616452,
+            "y": 0.6600861097328866
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 15.497735132064056,
+            "y": 16.354804234855028
+          },
+          "velocity": {
+            "x": 0.9369930651611489,
+            "y": 1.5368942695709147
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 14.49886440549281,
+            "y": 14.235578546252043
+          },
+          "velocity": {
+            "x": -1.4795514464253696,
+            "y": -1.0251475588326766
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 14.117365853284369,
+            "y": 15.17409323271553
+          },
+          "velocity": {
+            "x": -1.5699914995271593,
+            "y": 0.8804127960294886
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 13.869084298366868,
+            "y": 14.694147499538031
+          },
+          "velocity": {
+            "x": -1.5288042435163505,
+            "y": -0.9501355613839526
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 14.182903461066303,
+            "y": 15.32569100028369
+          },
+          "velocity": {
+            "x": -1.7998928212970278,
+            "y": -0.019642602766067423
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.139240497617143,
+            "y": 14.611661735636499
+          },
+          "velocity": {
+            "x": -1.7936768092610957,
+            "y": -0.15074317204747462
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 13.568393602598158,
+            "y": 14.85954199845395
+          },
+          "velocity": {
+            "x": -1.7415153618690735,
+            "y": -0.4551090466844514
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 13.828999916519138,
+            "y": 14.84367347425485
+          },
+          "velocity": {
+            "x": -1.797533512267825,
+            "y": 0.0941980481437751
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 13.662473244115162,
+            "y": 15.204901043264137
+          },
+          "velocity": {
+            "x": -1.6717324655546568,
+            "y": 0.6673159398744702
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 14,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 16.01861328550621,
+            "y": 15.073242724391871
+          },
+          "velocity": {
+            "x": 1.7335610395060566,
+            "y": -0.4845266992712373
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 16.110558050544338,
+            "y": 14.66233619362491
+          },
+          "velocity": {
+            "x": 0.6128229184802815,
+            "y": -1.6924680412301174
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 15.985748374423425,
+            "y": 15.250061696894353
+          },
+          "velocity": {
+            "x": 1.4868839689306141,
+            "y": 1.0144831506423087
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 15.852143380668776,
+            "y": 14.693940204523432
+          },
+          "velocity": {
+            "x": 1.7347775273844077,
+            "y": -0.48015302819209726
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.667783133645262,
+            "y": 14.62571870466226
+          },
+          "velocity": {
+            "x": 1.7986988352783935,
+            "y": -0.06842879487577108
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 15.982053227460423,
+            "y": 15.270372666216373
+          },
+          "velocity": {
+            "x": 1.79914976639412,
+            "y": -0.05531833406731739
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 15.927346808313285,
+            "y": 14.818243006928538
+          },
+          "velocity": {
+            "x": 1.7881063106961412,
+            "y": 0.20658127129203874
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.363554628182596,
+            "y": 14.991439277510901
+          },
+          "velocity": {
+            "x": 1.7951610255844386,
+            "y": 0.13189727905695006
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 15.562163126078316,
+            "y": 15.329621299674951
+          },
+          "velocity": {
+            "x": 1.733163209559179,
+            "y": 0.4859478254201022
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.461346258322438,
+            "y": 15.268586824697925
+          },
+          "velocity": {
+            "x": 1.7988730142072753,
+            "y": 0.06368578143378842
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 15,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 14.264106279280925,
+            "y": 14.671116916831112
+          },
+          "velocity": {
+            "x": -1.7545070062252834,
+            "y": -0.4021258075607598
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.327760795825846,
+            "y": 14.910598048464125
+          },
+          "velocity": {
+            "x": -1.782797254718492,
+            "y": 0.24826185483921598
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 14.491936901317988,
+            "y": 14.24580710625582
+          },
+          "velocity": {
+            "x": -1.4938114731054357,
+            "y": -1.0042545906385332
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 14.054098411449996,
+            "y": 14.610069538214937
+          },
+          "velocity": {
+            "x": -1.7980449692187817,
+            "y": -0.08387066630849507
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 13.879655184060077,
+            "y": 14.83211259001811
+          },
+          "velocity": {
+            "x": -1.7881279495851847,
+            "y": 0.20639388535585015
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 14.187666277611493,
+            "y": 15.41241306262477
+          },
+          "velocity": {
+            "x": -1.7943869498489298,
+            "y": 0.14204039640839697
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.188310087804776,
+            "y": 15.282733356368666
+          },
+          "velocity": {
+            "x": -1.739036720508508,
+            "y": 0.46449034944012874
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 13.575569457012627,
+            "y": 14.783812141335755
+          },
+          "velocity": {
+            "x": -1.7879851711699701,
+            "y": -0.20762713617514555
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 13.763319068732834,
+            "y": 15.394119806268831
+          },
+          "velocity": {
+            "x": -1.798844057345483,
+            "y": 0.06449850659388065
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 13.705077882174454,
+            "y": 14.8742248197551
+          },
+          "velocity": {
+            "x": -1.7562683761479834,
+            "y": -0.39436200494282636
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 16,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 16.05184127392353,
+            "y": 14.880887241067445
+          },
+          "velocity": {
+            "x": 1.787734994642602,
+            "y": 0.20977032423633205
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 16.098674542337186,
+            "y": 15.232878209841095
+          },
+          "velocity": {
+            "x": 1.7709137465113414,
+            "y": 0.3222801613769691
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 15.99458263811133,
+            "y": 15.236794386545933
+          },
+          "velocity": {
+            "x": 1.5026457367933415,
+            "y": 0.9909872802901137
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 15.851924649474679,
+            "y": 14.698504926324066
+          },
+          "velocity": {
+            "x": 1.7978262380246839,
+            "y": 0.08843538810913
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.570125692362696,
+            "y": 14.21380080737194
+          },
+          "velocity": {
+            "x": 1.6904705083026192,
+            "y": -0.6183117826461689
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 15.981741343493272,
+            "y": 15.266486170033703
+          },
+          "velocity": {
+            "x": 1.7940750658817803,
+            "y": -0.1459268925910679
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 15.966100093249592,
+            "y": 15.000842071401353
+          },
+          "velocity": {
+            "x": 1.7777900054448155,
+            "y": -0.2818912849673142
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.345562626877442,
+            "y": 14.456513839122161
+          },
+          "velocity": {
+            "x": 1.769993169864816,
+            "y": -0.32729830221359374
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 15.552733438057214,
+            "y": 15.199193628305396
+          },
+          "velocity": {
+            "x": 1.7894143693243796,
+            "y": -0.19492617796343506
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.470767258572229,
+            "y": 15.223997640420219
+          },
+          "velocity": {
+            "x": 1.7656893763977757,
+            "y": 0.34977282066511944
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 17,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 14.272657354779534,
+            "y": 14.607931966600333
+          },
+          "velocity": {
+            "x": -1.7791839191439944,
+            "y": -0.2729552744671119
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.330197175912627,
+            "y": 14.897486193770263
+          },
+          "velocity": {
+            "x": -1.7684773664245586,
+            "y": -0.33539201607083297
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 14.488723001931048,
+            "y": 14.25069765897658
+          },
+          "velocity": {
+            "x": -1.5058596361802827,
+            "y": -0.9860967275693526
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 14.054414852571846,
+            "y": 14.603855414765189
+          },
+          "velocity": {
+            "x": -1.7975097969028335,
+            "y": -0.094649511558878
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 14.112067382148547,
+            "y": 15.26929403994876
+          },
+          "velocity": {
+            "x": -1.4580583102141487,
+            "y": 1.0554932325768187
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 14.18460285267138,
+            "y": 15.367941799776036
+          },
+          "velocity": {
+            "x": -1.797138490821892,
+            "y": 0.10145562974233191
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.263335098078382,
+            "y": 14.417240005589733
+          },
+          "velocity": {
+            "x": -1.7027649951712098,
+            "y": -0.5836020658116196
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 13.779819073422267,
+            "y": 15.344459290607535
+          },
+          "velocity": {
+            "x": -1.5657435534551742,
+            "y": 0.8879454514853738
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 13.817278139380731,
+            "y": 15.676891133318478
+          },
+          "velocity": {
+            "x": -1.735455298676482,
+            "y": 0.4776975050130818
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 13.683164716174574,
+            "y": 15.013101574991204
+          },
+          "velocity": {
+            "x": -1.787602542397655,
+            "y": -0.21089606542901496
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 18,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 15.998032461518065,
+            "y": 15.120845937015458
+          },
+          "velocity": {
+            "x": 1.7253751067385297,
+            "y": 0.512913970415126
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 16.087158541404616,
+            "y": 15.288749225717478
+          },
+          "velocity": {
+            "x": 1.7569613654919887,
+            "y": 0.3912630319472143
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 15.9971230393623,
+            "y": 15.23290401564375
+          },
+          "velocity": {
+            "x": 1.5084000374312525,
+            "y": 0.98220635666717
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 15.807240448860059,
+            "y": 14.194462658360207
+          },
+          "velocity": {
+            "x": 1.7528255962882133,
+            "y": -0.40939275640498174
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.516920487062203,
+            "y": 14.14395508940343
+          },
+          "velocity": {
+            "x": 1.4048531049136561,
+            "y": -1.1253389505453284
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 15.978235798061277,
+            "y": 15.21667760304738
+          },
+          "velocity": {
+            "x": 1.7936329453898965,
+            "y": -0.15126419672865524
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 15.985009674033883,
+            "y": 14.942441542629034
+          },
+          "velocity": {
+            "x": 1.7216745759555012,
+            "y": 0.5252015370393018
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.552766002834165,
+            "y": 15.033558686734015
+          },
+          "velocity": {
+            "x": 1.7729469294118987,
+            "y": -0.3109006038735209
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 15.59834977271996,
+            "y": 15.416537840820899
+          },
+          "velocity": {
+            "x": 1.7810716333392296,
+            "y": -0.2603532924975784
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.474559024424746,
+            "y": 14.837299321396761
+          },
+          "velocity": {
+            "x": 1.791394308250173,
+            "y": -0.17580225359444218
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 19,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 14.396029372167972,
+            "y": 14.300123022925229
+          },
+          "velocity": {
+            "x": -1.6020030893500934,
+            "y": -0.8207229140902286
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 14.292587511397013,
+            "y": 15.149053777482935
+          },
+          "velocity": {
+            "x": -1.7945710300076034,
+            "y": -0.13969544823454175
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 14.199826554039028,
+            "y": 15.331521173606314
+          },
+          "velocity": {
+            "x": -1.797296485323272,
+            "y": 0.09861715796256336
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 14.354285749942886,
+            "y": 15.256970372635498
+          },
+          "velocity": {
+            "x": -1.4529546989171735,
+            "y": 1.0625077142752921
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 14.10735369857943,
+            "y": 15.263384171036726
+          },
+          "velocity": {
+            "x": -1.4095667884827714,
+            "y": 1.1194290816332966
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 14.241839835355679,
+            "y": 14.742410736505246
+          },
+          "velocity": {
+            "x": -1.7363959627055994,
+            "y": -0.47426686654213424
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 14.26766462939273,
+            "y": 14.403251411370608
+          },
+          "velocity": {
+            "x": -1.717345044641152,
+            "y": -0.5391901312584262
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 13.753961827486084,
+            "y": 15.099160049145972
+          },
+          "velocity": {
+            "x": -1.7988041753480823,
+            "y": 0.06560136241195749
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 13.823556353843854,
+            "y": 15.116357361252247
+          },
+          "velocity": {
+            "x": -1.7747934188761054,
+            "y": -0.3001804795686516
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 13.677892189760211,
+            "y": 14.727808293378391
+          },
+          "velocity": {
+            "x": -1.7966668346645354,
+            "y": -0.10949102801836921
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 20,
+      "agents": [
+        {
+          "id": "ant-0",
+          "position": {
+            "x": 15.99770660213665,
+            "y": 15.121481684534066
+          },
+          "velocity": {
+            "x": 1.6016772299686788,
+            "y": 0.821358661608837
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-1",
+          "position": {
+            "x": 15.949965132811892,
+            "y": 14.44684339587842
+          },
+          "velocity": {
+            "x": 1.6573776214148788,
+            "y": -0.7022103816045155
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-2",
+          "position": {
+            "x": 15.999663944233939,
+            "y": 15.355715570816672
+          },
+          "velocity": {
+            "x": 1.799837390194911,
+            "y": 0.02419439721035762
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-3",
+          "position": {
+            "x": 16.146796765368425,
+            "y": 15.092945192927909
+          },
+          "velocity": {
+            "x": 1.792511015425538,
+            "y": -0.1640251797075905
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-4",
+          "position": {
+            "x": 15.876492498425023,
+            "y": 14.93149878889268
+          },
+          "velocity": {
+            "x": 1.769138799845592,
+            "y": -0.3318853821440451
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-5",
+          "position": {
+            "x": 16.04089592341225,
+            "y": 14.684125300703577
+          },
+          "velocity": {
+            "x": 1.7990560880565702,
+            "y": -0.058285435801668284
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-6",
+          "position": {
+            "x": 15.936176269972263,
+            "y": 15.078580150023566
+          },
+          "velocity": {
+            "x": 1.668511640579533,
+            "y": 0.6753287386529576
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-7",
+          "position": {
+            "x": 15.553739739986819,
+            "y": 15.07088522510593
+          },
+          "velocity": {
+            "x": 1.7997779125007354,
+            "y": -0.028274824040041897
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        },
+        {
+          "id": "ant-8",
+          "position": {
+            "x": 15.606930541995208,
+            "y": 15.36044034926144
+          },
+          "velocity": {
+            "x": 1.783374188151355,
+            "y": 0.24408298800919323
+          },
+          "energy": 1.0,
+          "carrying": 1,
+          "state_label": "carrying"
+        },
+        {
+          "id": "ant-9",
+          "position": {
+            "x": 15.404016343402228,
+            "y": 14.217420787444292
+          },
+          "velocity": {
+            "x": 1.7261241536420173,
+            "y": -0.5103875059340989
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "searching"
+        }
+      ],
+      "food_sources": [
+        {
+          "id": "food-near",
+          "position": {
+            "x": 15.8,
+            "y": 15.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "amount": 500.0
+        },
+        {
+          "id": "food-far-2",
+          "position": {
+            "x": 28.0,
+            "y": 28.0
+          },
+          "amount": 500.0
+        }
+      ],
+      "colony": {
+        "id": "colony-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "pheromone",
+          "width": 30,
+          "height": 30,
+          "decay": 0.98,
+          "diffusion": 0.2
+        }
+      ],
+      "seed": 42
+    }
+  ]
+}

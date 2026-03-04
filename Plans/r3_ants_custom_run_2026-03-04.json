@@ -1,0 +1,36 @@
+{
+  "scenario": "ants_foraging",
+  "runtime": {
+    "mode": "headless",
+    "emit_snapshot_events": false
+  },
+  "run": {
+    "ticks_requested": 20,
+    "ticks_completed": 20,
+    "ants": 10,
+    "seed": 42,
+    "world": {
+      "width": 30,
+      "height": 30
+    }
+  },
+  "physics": {
+    "boundary_mode": "clamp"
+  },
+  "scenario_config": {
+    "agent_spec_source": "Plans/r3_agent_spec_ants_custom_2026-03-04.json"
+  },
+  "events": {
+    "published": 0,
+    "snapshot": 0
+  },
+  "metrics": {
+    "carrying_agents": 1,
+    "signal_total": 231.0
+  },
+  "persistence": {
+    "root": "Plans/runs",
+    "saved_run_id": "r3-ants-custom-20260304",
+    "snapshots_saved": 21
+  }
+}

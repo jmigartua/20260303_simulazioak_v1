@@ -1,0 +1,3432 @@
+{
+  "manifest": {
+    "run_id": "r3-drone-custom-20260304",
+    "scenario_name": "drone_patrol",
+    "seed": 42
+  },
+  "snapshots": [
+    {
+      "tick": 0,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 3.5,
+            "y": 15.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 6.0,
+            "y": 15.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 8.5,
+            "y": 15.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 11.0,
+            "y": 15.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 13.5,
+            "y": 15.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 16.0,
+            "y": 15.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 18.5,
+            "y": 15.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 21.0,
+            "y": 15.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 23.5,
+            "y": 15.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 26.0,
+            "y": 15.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 1,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 3.270751784029739,
+            "y": 13.013182128257737
+          },
+          "velocity": {
+            "x": -0.22924821597026104,
+            "y": -1.9868178717422622
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 7.721853056428631,
+            "y": 13.982541375746719
+          },
+          "velocity": {
+            "x": 1.7218530564286312,
+            "y": -1.017458624253282
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 10.164100588675687,
+            "y": 16.109400392450457
+          },
+          "velocity": {
+            "x": 1.6641005886756872,
+            "y": 1.1094003924504583
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 9.861580042339384,
+            "y": 16.64438438328756
+          },
+          "velocity": {
+            "x": -1.1384199576606167,
+            "y": 1.6443843832875573
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 12.174852235593942,
+            "y": 13.502006875019239
+          },
+          "velocity": {
+            "x": -1.3251477644060579,
+            "y": -1.4979931249807612
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 17.35656020546613,
+            "y": 13.530393110745024
+          },
+          "velocity": {
+            "x": 1.3565602054661317,
+            "y": -1.4696068892549758
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 19.68003317868462,
+            "y": 16.614782244515794
+          },
+          "velocity": {
+            "x": 1.18003317868462,
+            "y": 1.614782244515796
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 19.349385477500338,
+            "y": 16.12936783118398
+          },
+          "velocity": {
+            "x": -1.6506145224996636,
+            "y": 1.1293678311839803
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 21.78853603283882,
+            "y": 13.965161322181611
+          },
+          "velocity": {
+            "x": -1.7114639671611813,
+            "y": -1.0348386778183887
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 26.304114368507882,
+            "y": 13.023256604698766
+          },
+          "velocity": {
+            "x": 0.3041143685078822,
+            "y": -1.9767433953012343
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 2,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 3.041503568059478,
+            "y": 11.026364256515475
+          },
+          "velocity": {
+            "x": -0.22924821597026107,
+            "y": -1.9868178717422622
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 9.443706112857262,
+            "y": 12.965082751493437
+          },
+          "velocity": {
+            "x": 1.721853056428631,
+            "y": -1.0174586242532822
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 11.828201177351374,
+            "y": 17.218800784900914
+          },
+          "velocity": {
+            "x": 1.6641005886756872,
+            "y": 1.1094003924504583
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 8.723160084678767,
+            "y": 18.288768766575117
+          },
+          "velocity": {
+            "x": -1.1384199576606167,
+            "y": 1.644384383287557
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 10.849704471187884,
+            "y": 12.004013750038478
+          },
+          "velocity": {
+            "x": -1.3251477644060579,
+            "y": -1.4979931249807612
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 18.713120410932262,
+            "y": 12.060786221490048
+          },
+          "velocity": {
+            "x": 1.3565602054661314,
+            "y": -1.4696068892549758
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 20.86006635736924,
+            "y": 18.22956448903159
+          },
+          "velocity": {
+            "x": 1.1800331786846199,
+            "y": 1.614782244515796
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 17.698770955000676,
+            "y": 17.25873566236796
+          },
+          "velocity": {
+            "x": -1.6506145224996636,
+            "y": 1.12936783118398
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 20.07707206567764,
+            "y": 12.930322644363223
+          },
+          "velocity": {
+            "x": -1.7114639671611813,
+            "y": -1.0348386778183887
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 26.608228737015764,
+            "y": 11.046513209397531
+          },
+          "velocity": {
+            "x": 0.3041143685078822,
+            "y": -1.9767433953012343
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 3,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.8122553520892173,
+            "y": 9.039546384773212
+          },
+          "velocity": {
+            "x": -0.2292482159702611,
+            "y": -1.9868178717422622
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 11.165559169285892,
+            "y": 11.947624127240156
+          },
+          "velocity": {
+            "x": 1.721853056428631,
+            "y": -1.0174586242532822
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 13.492301766027062,
+            "y": 18.32820117735137
+          },
+          "velocity": {
+            "x": 1.6641005886756872,
+            "y": 1.1094003924504585
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 7.584740127018151,
+            "y": 19.933153149862676
+          },
+          "velocity": {
+            "x": -1.1384199576606169,
+            "y": 1.644384383287557
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 9.524556706781826,
+            "y": 10.506020625057717
+          },
+          "velocity": {
+            "x": -1.3251477644060579,
+            "y": -1.4979931249807612
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 20.069680616398394,
+            "y": 10.591179332235072
+          },
+          "velocity": {
+            "x": 1.3565602054661317,
+            "y": -1.4696068892549756
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 22.040099536053862,
+            "y": 19.844346733547383
+          },
+          "velocity": {
+            "x": 1.1800331786846197,
+            "y": 1.614782244515796
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 16.048156432501013,
+            "y": 18.38810349355194
+          },
+          "velocity": {
+            "x": -1.6506145224996636,
+            "y": 1.12936783118398
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 18.36560809851646,
+            "y": 11.895483966544834
+          },
+          "velocity": {
+            "x": -1.7114639671611813,
+            "y": -1.0348386778183887
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 26.912343105523647,
+            "y": 9.069769814096297
+          },
+          "velocity": {
+            "x": 0.3041143685078822,
+            "y": -1.9767433953012343
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 4,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.583007136118956,
+            "y": 7.052728513030949
+          },
+          "velocity": {
+            "x": -0.22924821597026118,
+            "y": -1.9868178717422622
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 12.887412225714524,
+            "y": 10.930165502986874
+          },
+          "velocity": {
+            "x": 1.7218530564286312,
+            "y": -1.0174586242532822
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 15.156402354702749,
+            "y": 19.437601569801828
+          },
+          "velocity": {
+            "x": 1.6641005886756872,
+            "y": 1.1094003924504585
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 6.446320169357534,
+            "y": 21.57753753315023
+          },
+          "velocity": {
+            "x": -1.1384199576606169,
+            "y": 1.6443843832875567
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 8.199408942375769,
+            "y": 9.008027500076956
+          },
+          "velocity": {
+            "x": -1.325147764406058,
+            "y": -1.4979931249807612
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 21.426240821864525,
+            "y": 9.121572442980096
+          },
+          "velocity": {
+            "x": 1.3565602054661317,
+            "y": -1.4696068892549756
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 23.220132714738483,
+            "y": 21.45912897806318
+          },
+          "velocity": {
+            "x": 1.1800331786846194,
+            "y": 1.6147822445157964
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 14.39754191000135,
+            "y": 19.517471324735922
+          },
+          "velocity": {
+            "x": -1.6506145224996638,
+            "y": 1.12936783118398
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 16.65414413135528,
+            "y": 10.860645288726445
+          },
+          "velocity": {
+            "x": -1.7114639671611815,
+            "y": -1.0348386778183885
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 27.21645747403153,
+            "y": 7.093026418795063
+          },
+          "velocity": {
+            "x": 0.3041143685078822,
+            "y": -1.9767433953012343
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 5,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.353758920148695,
+            "y": 5.065910641288687
+          },
+          "velocity": {
+            "x": -0.2292482159702611,
+            "y": -1.9868178717422622
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 14.609265282143156,
+            "y": 9.912706878733593
+          },
+          "velocity": {
+            "x": 1.7218530564286312,
+            "y": -1.0174586242532822
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 16.820502943378436,
+            "y": 20.54700196225229
+          },
+          "velocity": {
+            "x": 1.6641005886756872,
+            "y": 1.1094003924504587
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 5.307900211696918,
+            "y": 23.22192191643779
+          },
+          "velocity": {
+            "x": -1.1384199576606169,
+            "y": 1.644384383287557
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 6.874261177969711,
+            "y": 7.510034375096195
+          },
+          "velocity": {
+            "x": -1.325147764406058,
+            "y": -1.4979931249807612
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 22.782801027330656,
+            "y": 7.65196555372512
+          },
+          "velocity": {
+            "x": 1.3565602054661317,
+            "y": -1.4696068892549756
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 24.400165893423104,
+            "y": 23.073911222578978
+          },
+          "velocity": {
+            "x": 1.1800331786846192,
+            "y": 1.6147822445157964
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 12.746927387501685,
+            "y": 20.646839155919903
+          },
+          "velocity": {
+            "x": -1.6506145224996638,
+            "y": 1.12936783118398
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 14.9426801641941,
+            "y": 9.825806610908057
+          },
+          "velocity": {
+            "x": -1.7114639671611813,
+            "y": -1.0348386778183882
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 27.52057184253941,
+            "y": 5.116283023493828
+          },
+          "velocity": {
+            "x": 0.3041143685078822,
+            "y": -1.9767433953012343
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 6,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.1245107041784337,
+            "y": 3.079092769546424
+          },
+          "velocity": {
+            "x": -0.2292482159702613,
+            "y": -1.9868178717422624
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 16.331118338571788,
+            "y": 8.895248254480311
+          },
+          "velocity": {
+            "x": 1.721853056428631,
+            "y": -1.0174586242532822
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 18.484603532054123,
+            "y": 21.656402354702745
+          },
+          "velocity": {
+            "x": 1.6641005886756872,
+            "y": 1.1094003924504585
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 4.1694802540363005,
+            "y": 24.866306299725345
+          },
+          "velocity": {
+            "x": -1.138419957660617,
+            "y": 1.6443843832875567
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 5.549113413563653,
+            "y": 6.012041250115434
+          },
+          "velocity": {
+            "x": -1.3251477644060579,
+            "y": -1.4979931249807612
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 24.139361232796787,
+            "y": 6.182358664470144
+          },
+          "velocity": {
+            "x": 1.356560205466132,
+            "y": -1.4696068892549756
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 25.580199072107725,
+            "y": 24.688693467094776
+          },
+          "velocity": {
+            "x": 1.1800331786846192,
+            "y": 1.6147822445157964
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 11.096312865002021,
+            "y": 21.776206987103883
+          },
+          "velocity": {
+            "x": -1.650614522499664,
+            "y": 1.12936783118398
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 13.231216197032918,
+            "y": 8.790967933089668
+          },
+          "velocity": {
+            "x": -1.7114639671611815,
+            "y": -1.0348386778183885
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 27.824686211047293,
+            "y": 3.139539628192594
+          },
+          "velocity": {
+            "x": 0.3041143685078822,
+            "y": -1.9767433953012346
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 7,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 4.122773805868632,
+            "y": 2.995758644342712
+          },
+          "velocity": {
+            "x": 1.9982631016901982,
+            "y": -0.08333412520371199
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 17.373612146261465,
+            "y": 10.602060095583097
+          },
+          "velocity": {
+            "x": 1.0424938076896766,
+            "y": 1.7068118411027853
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 16.618040030601474,
+            "y": 22.374692473697035
+          },
+          "velocity": {
+            "x": -1.8665635014526485,
+            "y": 0.7182901189942882
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 3.9805751228521897,
+            "y": 22.875247573466293
+          },
+          "velocity": {
+            "x": -0.18890513118411092,
+            "y": -1.991058726259051
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 7.517923713976038,
+            "y": 5.660208902270481
+          },
+          "velocity": {
+            "x": 1.9688103004123854,
+            "y": -0.3518323478449525
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 24.48784812866775,
+            "y": 8.151763875036577
+          },
+          "velocity": {
+            "x": 0.34848689587096165,
+            "y": 1.9694052105664341
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 23.599631989458103,
+            "y": 24.9668193938344
+          },
+          "velocity": {
+            "x": -1.9805670826496198,
+            "y": 0.2781259267396216
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 10.26055794298379,
+            "y": 19.95920018735813
+          },
+          "velocity": {
+            "x": -0.8357549220182326,
+            "y": -1.8170067997457517
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 15.048321926972982,
+            "y": 7.955428127802698
+          },
+          "velocity": {
+            "x": 1.8171057299400641,
+            "y": -0.8355398052869698
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 27.838789685187564,
+            "y": 5.139489900578679
+          },
+          "velocity": {
+            "x": 0.014103474140270389,
+            "y": 1.999950272386085
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 8,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 6.12103690755883,
+            "y": 2.912424519139
+          },
+          "velocity": {
+            "x": 1.9982631016901984,
+            "y": -0.08333412520371199
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 18.416105953951142,
+            "y": 12.308871936685883
+          },
+          "velocity": {
+            "x": 1.0424938076896766,
+            "y": 1.7068118411027853
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 14.751476529148825,
+            "y": 23.092982592691325
+          },
+          "velocity": {
+            "x": -1.8665635014526487,
+            "y": 0.7182901189942881
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 3.791669991668079,
+            "y": 20.88418884720724
+          },
+          "velocity": {
+            "x": -0.18890513118411095,
+            "y": -1.9910587262590507
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 9.486734014388423,
+            "y": 5.308376554425529
+          },
+          "velocity": {
+            "x": 1.9688103004123858,
+            "y": -0.3518323478449525
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 24.836335024538712,
+            "y": 10.121169085603011
+          },
+          "velocity": {
+            "x": 0.34848689587096165,
+            "y": 1.9694052105664344
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 21.619064906808482,
+            "y": 25.244945320574022
+          },
+          "velocity": {
+            "x": -1.98056708264962,
+            "y": 0.27812592673962155
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 9.424803020965557,
+            "y": 18.14219338761238
+          },
+          "velocity": {
+            "x": -0.8357549220182326,
+            "y": -1.8170067997457517
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 16.865427656913045,
+            "y": 7.119888322515728
+          },
+          "velocity": {
+            "x": 1.8171057299400641,
+            "y": -0.8355398052869697
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 27.852893159327834,
+            "y": 7.139440172964765
+          },
+          "velocity": {
+            "x": 0.014103474140270373,
+            "y": 1.999950272386085
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 9,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 8.119300009249029,
+            "y": 2.829090393935288
+          },
+          "velocity": {
+            "x": 1.9982631016901984,
+            "y": -0.08333412520371199
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 19.45859976164082,
+            "y": 14.015683777788668
+          },
+          "velocity": {
+            "x": 1.0424938076896766,
+            "y": 1.7068118411027855
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 12.884913027696175,
+            "y": 23.811272711685614
+          },
+          "velocity": {
+            "x": -1.8665635014526487,
+            "y": 0.718290118994288
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 3.602764860483968,
+            "y": 18.89313012094819
+          },
+          "velocity": {
+            "x": -0.188905131184111,
+            "y": -1.991058726259051
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 11.45554431480081,
+            "y": 4.956544206580576
+          },
+          "velocity": {
+            "x": 1.9688103004123858,
+            "y": -0.3518323478449525
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 25.184821920409675,
+            "y": 12.090574296169445
+          },
+          "velocity": {
+            "x": 0.34848689587096143,
+            "y": 1.9694052105664341
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 19.63849782415886,
+            "y": 25.523071247313645
+          },
+          "velocity": {
+            "x": -1.98056708264962,
+            "y": 0.2781259267396214
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 8.589048098947325,
+            "y": 16.32518658786663
+          },
+          "velocity": {
+            "x": -0.8357549220182328,
+            "y": -1.8170067997457517
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 18.68253338685311,
+            "y": 6.284348517228759
+          },
+          "velocity": {
+            "x": 1.8171057299400641,
+            "y": -0.8355398052869698
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 27.866996633468105,
+            "y": 9.13939044535085
+          },
+          "velocity": {
+            "x": 0.014103474140270352,
+            "y": 1.9999502723860847
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 10,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 10.117563110939228,
+            "y": 2.7457562687315757
+          },
+          "velocity": {
+            "x": 1.9982631016901984,
+            "y": -0.08333412520371197
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 20.501093569330497,
+            "y": 15.722495618891454
+          },
+          "velocity": {
+            "x": 1.0424938076896766,
+            "y": 1.7068118411027853
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 11.018349526243526,
+            "y": 24.5295628306799
+          },
+          "velocity": {
+            "x": -1.8665635014526487,
+            "y": 0.7182901189942877
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 3.413859729299857,
+            "y": 16.902071394689138
+          },
+          "velocity": {
+            "x": -0.18890513118411104,
+            "y": -1.991058726259051
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 13.424354615213195,
+            "y": 4.604711858735623
+          },
+          "velocity": {
+            "x": 1.9688103004123856,
+            "y": -0.35183234784495243
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 25.533308816280638,
+            "y": 14.059979506735878
+          },
+          "velocity": {
+            "x": 0.3484868958709613,
+            "y": 1.9694052105664344
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 17.65793074150924,
+            "y": 25.801197174053264
+          },
+          "velocity": {
+            "x": -1.9805670826496198,
+            "y": 0.2781259267396212
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 7.753293176929092,
+            "y": 14.508179788120877
+          },
+          "velocity": {
+            "x": -0.8357549220182326,
+            "y": -1.8170067997457515
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 20.499639116793173,
+            "y": 5.44880871194179
+          },
+          "velocity": {
+            "x": 1.817105729940064,
+            "y": -0.8355398052869697
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 27.881100107608376,
+            "y": 11.139340717736935
+          },
+          "velocity": {
+            "x": 0.014103474140270328,
+            "y": 1.999950272386085
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 11,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 12.115826212629427,
+            "y": 2.6624221435278637
+          },
+          "velocity": {
+            "x": 1.9982631016901984,
+            "y": -0.08333412520371196
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 21.543587377020174,
+            "y": 17.429307459994238
+          },
+          "velocity": {
+            "x": 1.0424938076896764,
+            "y": 1.7068118411027853
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 9.151786024790876,
+            "y": 25.24785294967419
+          },
+          "velocity": {
+            "x": -1.8665635014526485,
+            "y": 0.7182901189942881
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 3.2249545981157457,
+            "y": 14.911012668430088
+          },
+          "velocity": {
+            "x": -0.188905131184111,
+            "y": -1.9910587262590507
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 15.393164915625581,
+            "y": 4.25287951089067
+          },
+          "velocity": {
+            "x": 1.9688103004123858,
+            "y": -0.3518323478449524
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 25.8817957121516,
+            "y": 16.029384717302314
+          },
+          "velocity": {
+            "x": 0.34848689587096116,
+            "y": 1.9694052105664344
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 15.67736365885962,
+            "y": 26.079323100792887
+          },
+          "velocity": {
+            "x": -1.9805670826496198,
+            "y": 0.2781259267396215
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 6.917538254910859,
+            "y": 12.691172988375126
+          },
+          "velocity": {
+            "x": -0.8357549220182328,
+            "y": -1.8170067997457517
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 22.316744846733236,
+            "y": 4.61326890665482
+          },
+          "velocity": {
+            "x": 1.8171057299400641,
+            "y": -0.8355398052869698
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 27.895203581748646,
+            "y": 13.13929099012302
+          },
+          "velocity": {
+            "x": 0.014103474140270298,
+            "y": 1.9999502723860847
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 12,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 14.114089314319626,
+            "y": 2.5790880183241516
+          },
+          "velocity": {
+            "x": 1.9982631016901984,
+            "y": -0.08333412520371195
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 22.58608118470985,
+            "y": 19.136119301097022
+          },
+          "velocity": {
+            "x": 1.0424938076896761,
+            "y": 1.7068118411027855
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 7.285222523338228,
+            "y": 25.966143068668476
+          },
+          "velocity": {
+            "x": -1.8665635014526485,
+            "y": 0.7182901189942877
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 3.036049466931635,
+            "y": 12.919953942171038
+          },
+          "velocity": {
+            "x": -0.18890513118411092,
+            "y": -1.9910587262590507
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 17.361975216037965,
+            "y": 3.901047163045718
+          },
+          "velocity": {
+            "x": 1.9688103004123856,
+            "y": -0.35183234784495226
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 26.230282608022563,
+            "y": 17.99878992786875
+          },
+          "velocity": {
+            "x": 0.34848689587096093,
+            "y": 1.9694052105664346
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 13.696796576210001,
+            "y": 26.35744902753251
+          },
+          "velocity": {
+            "x": -1.98056708264962,
+            "y": 0.2781259267396213
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 6.081783332892626,
+            "y": 10.874166188629374
+          },
+          "velocity": {
+            "x": -0.8357549220182326,
+            "y": -1.8170067997457515
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 24.1338505766733,
+            "y": 3.7777291013678505
+          },
+          "velocity": {
+            "x": 1.817105729940064,
+            "y": -0.8355398052869699
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 27.909307055888917,
+            "y": 15.139241262509106
+          },
+          "velocity": {
+            "x": 0.014103474140270262,
+            "y": 1.9999502723860847
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 13,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 15.072855477959266,
+            "y": 4.334299527931963
+          },
+          "velocity": {
+            "x": 0.9587661636396386,
+            "y": 1.7552115096078107
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 20.749127271628133,
+            "y": 19.927068301484383
+          },
+          "velocity": {
+            "x": -1.8369539130817172,
+            "y": 0.7909490003873617
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 6.854514082001279,
+            "y": 24.01307106831593
+          },
+          "velocity": {
+            "x": -0.4307084413369491,
+            "y": -1.9530720003525464
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 4.868411960318554,
+            "y": 12.118425594057962
+          },
+          "velocity": {
+            "x": 1.8323624933869183,
+            "y": -0.801528348113076
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 18.169645434996948,
+            "y": 5.730710743436045
+          },
+          "velocity": {
+            "x": 0.8076702189589808,
+            "y": 1.8296635803903276
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 24.38157270399877,
+            "y": 18.761857218980317
+          },
+          "velocity": {
+            "x": -1.8487099040237907,
+            "y": 0.7630672911115687
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 12.831020367391403,
+            "y": 24.554553701607098
+          },
+          "velocity": {
+            "x": -0.8657762088185987,
+            "y": -1.802895325925411
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 7.935603204710003,
+            "y": 10.123598481586896
+          },
+          "velocity": {
+            "x": 1.853819871817377,
+            "y": -0.7505677070424782
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 24.449083136951803,
+            "y": 5.752729970466459
+          },
+          "velocity": {
+            "x": 0.31523256027850416,
+            "y": 1.9750008690986085
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 26.11786335167625,
+            "y": 16.02847095985215
+          },
+          "velocity": {
+            "x": -1.791443704212666,
+            "y": 0.8892296973430441
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 14,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 16.031621641598903,
+            "y": 6.089511037539774
+          },
+          "velocity": {
+            "x": 0.9587661636396386,
+            "y": 1.7552115096078107
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 18.912173358546415,
+            "y": 20.718017301871743
+          },
+          "velocity": {
+            "x": -1.8369539130817174,
+            "y": 0.7909490003873619
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 6.423805640664329,
+            "y": 22.059999067963385
+          },
+          "velocity": {
+            "x": -0.43070844133694897,
+            "y": -1.9530720003525461
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 6.700774453705471,
+            "y": 11.316897245944887
+          },
+          "velocity": {
+            "x": 1.832362493386918,
+            "y": -0.8015283481130759
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 18.977315653955927,
+            "y": 7.560374323826373
+          },
+          "velocity": {
+            "x": 0.8076702189589806,
+            "y": 1.8296635803903274
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 22.532862799974982,
+            "y": 19.524924510091886
+          },
+          "velocity": {
+            "x": -1.8487099040237902,
+            "y": 0.7630672911115687
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 11.965244158572805,
+            "y": 22.751658375681686
+          },
+          "velocity": {
+            "x": -0.865776208818599,
+            "y": -1.802895325925411
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 9.789423076527381,
+            "y": 9.373030774544418
+          },
+          "velocity": {
+            "x": 1.853819871817377,
+            "y": -0.750567707042478
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 24.764315697230305,
+            "y": 7.7277308395650675
+          },
+          "velocity": {
+            "x": 0.3152325602785043,
+            "y": 1.9750008690986085
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 24.32641964746358,
+            "y": 16.917700657195194
+          },
+          "velocity": {
+            "x": -1.791443704212666,
+            "y": 0.8892296973430441
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 15,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 16.99038780523854,
+            "y": 7.844722547147585
+          },
+          "velocity": {
+            "x": 0.9587661636396387,
+            "y": 1.7552115096078107
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 17.075219445464697,
+            "y": 21.508966302259104
+          },
+          "velocity": {
+            "x": -1.836953913081717,
+            "y": 0.7909490003873619
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 5.99309719932738,
+            "y": 20.10692706761084
+          },
+          "velocity": {
+            "x": -0.43070844133694897,
+            "y": -1.9530720003525461
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 8.53313694709239,
+            "y": 10.515368897831811
+          },
+          "velocity": {
+            "x": 1.832362493386918,
+            "y": -0.801528348113076
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 19.78498587291491,
+            "y": 9.390037904216701
+          },
+          "velocity": {
+            "x": 0.8076702189589808,
+            "y": 1.8296635803903274
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 20.684152895951193,
+            "y": 20.287991801203454
+          },
+          "velocity": {
+            "x": -1.8487099040237904,
+            "y": 0.7630672911115687
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 11.099467949754207,
+            "y": 20.948763049756273
+          },
+          "velocity": {
+            "x": -0.8657762088185988,
+            "y": -1.8028953259254108
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 11.643242948344758,
+            "y": 8.62246306750194
+          },
+          "velocity": {
+            "x": 1.8538198718173773,
+            "y": -0.7505677070424782
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 25.07954825750881,
+            "y": 9.702731708663677
+          },
+          "velocity": {
+            "x": 0.3152325602785045,
+            "y": 1.9750008690986087
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 22.534975943250917,
+            "y": 17.80693035453824
+          },
+          "velocity": {
+            "x": -1.7914437042126659,
+            "y": 0.8892296973430441
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 16,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 17.94915396887818,
+            "y": 9.599934056755396
+          },
+          "velocity": {
+            "x": 0.9587661636396386,
+            "y": 1.7552115096078105
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 15.23826553238298,
+            "y": 22.299915302646465
+          },
+          "velocity": {
+            "x": -1.8369539130817167,
+            "y": 0.790949000387362
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 5.562388757990431,
+            "y": 18.153855067258295
+          },
+          "velocity": {
+            "x": -0.4307084413369489,
+            "y": -1.9530720003525461
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 10.365499440479308,
+            "y": 9.713840549718736
+          },
+          "velocity": {
+            "x": 1.8323624933869183,
+            "y": -0.801528348113076
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 20.59265609187389,
+            "y": 11.219701484607029
+          },
+          "velocity": {
+            "x": 0.8076702189589806,
+            "y": 1.8296635803903274
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 18.8354429919274,
+            "y": 21.051059092315022
+          },
+          "velocity": {
+            "x": -1.8487099040237907,
+            "y": 0.7630672911115688
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 10.233691740935608,
+            "y": 19.14586772383086
+          },
+          "velocity": {
+            "x": -0.8657762088185991,
+            "y": -1.8028953259254108
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 13.497062820162135,
+            "y": 7.871895360459462
+          },
+          "velocity": {
+            "x": 1.853819871817377,
+            "y": -0.750567707042478
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 25.394780817787314,
+            "y": 11.677732577762285
+          },
+          "velocity": {
+            "x": 0.31523256027850427,
+            "y": 1.9750008690986083
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 20.743532239038252,
+            "y": 18.696160051881282
+          },
+          "velocity": {
+            "x": -1.791443704212666,
+            "y": 0.8892296973430441
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 17,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 18.907920132517816,
+            "y": 11.355145566363207
+          },
+          "velocity": {
+            "x": 0.9587661636396387,
+            "y": 1.7552115096078105
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 13.401311619301264,
+            "y": 23.090864303033825
+          },
+          "velocity": {
+            "x": -1.836953913081717,
+            "y": 0.7909490003873623
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 5.1316803166534815,
+            "y": 16.20078306690575
+          },
+          "velocity": {
+            "x": -0.43070844133694886,
+            "y": -1.9530720003525464
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 12.197861933866227,
+            "y": 8.91231220160566
+          },
+          "velocity": {
+            "x": 1.832362493386918,
+            "y": -0.801528348113076
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 21.40032631083287,
+            "y": 13.049365064997357
+          },
+          "velocity": {
+            "x": 0.8076702189589805,
+            "y": 1.8296635803903274
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 16.98673308790361,
+            "y": 21.81412638342659
+          },
+          "velocity": {
+            "x": -1.8487099040237904,
+            "y": 0.7630672911115688
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 9.36791553211701,
+            "y": 17.34297239790545
+          },
+          "velocity": {
+            "x": -0.8657762088185991,
+            "y": -1.8028953259254108
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 15.350882691979512,
+            "y": 7.121327653416984
+          },
+          "velocity": {
+            "x": 1.8538198718173773,
+            "y": -0.7505677070424782
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 25.71001337806582,
+            "y": 13.652733446860893
+          },
+          "velocity": {
+            "x": 0.3152325602785045,
+            "y": 1.9750008690986085
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 18.952088534825588,
+            "y": 19.585389749224326
+          },
+          "velocity": {
+            "x": -1.7914437042126659,
+            "y": 0.889229697343044
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 18,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 19.866686296157454,
+            "y": 13.110357075971018
+          },
+          "velocity": {
+            "x": 0.9587661636396391,
+            "y": 1.7552115096078107
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 11.564357706219548,
+            "y": 23.88181330342119
+          },
+          "velocity": {
+            "x": -1.836953913081717,
+            "y": 0.7909490003873625
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 4.700971875316533,
+            "y": 14.247711066553203
+          },
+          "velocity": {
+            "x": -0.43070844133694874,
+            "y": -1.9530720003525464
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 14.030224427253145,
+            "y": 8.110783853492585
+          },
+          "velocity": {
+            "x": 1.8323624933869178,
+            "y": -0.8015283481130762
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 22.20799652979185,
+            "y": 14.879028645387685
+          },
+          "velocity": {
+            "x": 0.8076702189589806,
+            "y": 1.8296635803903274
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 15.138023183879818,
+            "y": 22.577193674538158
+          },
+          "velocity": {
+            "x": -1.8487099040237902,
+            "y": 0.7630672911115689
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 8.50213932329841,
+            "y": 15.540077071980038
+          },
+          "velocity": {
+            "x": -0.8657762088185994,
+            "y": -1.802895325925411
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 17.20470256379689,
+            "y": 6.3707599463745055
+          },
+          "velocity": {
+            "x": 1.8538198718173773,
+            "y": -0.7505677070424782
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 26.025245938344323,
+            "y": 15.6277343159595
+          },
+          "velocity": {
+            "x": 0.3152325602785042,
+            "y": 1.9750008690986085
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 17.160644830612924,
+            "y": 20.47461944656737
+          },
+          "velocity": {
+            "x": -1.791443704212666,
+            "y": 0.889229697343044
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 19,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 18.33027493502677,
+            "y": 14.39076331204946
+          },
+          "velocity": {
+            "x": -1.5364113611306838,
+            "y": 1.2804062360784407
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 10.763348210719327,
+            "y": 22.049223936400175
+          },
+          "velocity": {
+            "x": -0.8010094955002214,
+            "y": -1.832589367021014
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 6.471275807445331,
+            "y": 13.317106968190576
+          },
+          "velocity": {
+            "x": 1.770303932128798,
+            "y": -0.9306040983626263
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 15.179761208574751,
+            "y": 9.747416123854123
+          },
+          "velocity": {
+            "x": 1.1495367813216055,
+            "y": 1.6366322703615381
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 20.530569897563776,
+            "y": 15.968175051290945
+          },
+          "velocity": {
+            "x": -1.677426632228072,
+            "y": 1.0891464059032598
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 14.061740167956149,
+            "y": 20.891484663577415
+          },
+          "velocity": {
+            "x": -1.0762830159236694,
+            "y": -1.6857090109607444
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 10.144883357971757,
+            "y": 14.39929136180256
+          },
+          "velocity": {
+            "x": 1.6427440346733466,
+            "y": -1.1407857101774785
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 18.097850603860703,
+            "y": 8.160253332372388
+          },
+          "velocity": {
+            "x": 0.8931480400638145,
+            "y": 1.7894933859978825
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 24.247164990670427,
+            "y": 16.543391535403057
+          },
+          "velocity": {
+            "x": -1.7780809476738948,
+            "y": 0.9156572194435556
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 15.891912445577635,
+            "y": 18.928554074352252
+          },
+          "velocity": {
+            "x": -1.2687323850352892,
+            "y": -1.5460653722151165
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 20,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 16.793863573896086,
+            "y": 15.671169548127901
+          },
+          "velocity": {
+            "x": -1.536411361130684,
+            "y": 1.2804062360784407
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 9.962338715219106,
+            "y": 20.21663456937916
+          },
+          "velocity": {
+            "x": -0.8010094955002214,
+            "y": -1.8325893670210138
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 8.24157973957413,
+            "y": 12.38650286982795
+          },
+          "velocity": {
+            "x": 1.7703039321287979,
+            "y": -0.930604098362626
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 16.329297989896357,
+            "y": 11.384048394215661
+          },
+          "velocity": {
+            "x": 1.1495367813216055,
+            "y": 1.6366322703615381
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 18.853143265335703,
+            "y": 17.057321457194206
+          },
+          "velocity": {
+            "x": -1.677426632228072,
+            "y": 1.0891464059032598
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 12.98545715203248,
+            "y": 19.20577565261667
+          },
+          "velocity": {
+            "x": -1.0762830159236692,
+            "y": -1.6857090109607447
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 11.787627392645105,
+            "y": 13.25850565162508
+          },
+          "velocity": {
+            "x": 1.6427440346733466,
+            "y": -1.1407857101774788
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 18.990998643924517,
+            "y": 9.949746718370271
+          },
+          "velocity": {
+            "x": 0.8931480400638147,
+            "y": 1.7894933859978825
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 22.46908404299653,
+            "y": 17.459048754846613
+          },
+          "velocity": {
+            "x": -1.778080947673895,
+            "y": 0.9156572194435557
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 14.623180060542346,
+            "y": 17.382488702137135
+          },
+          "velocity": {
+            "x": -1.2687323850352892,
+            "y": -1.5460653722151165
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 15.0,
+          "y": 15.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 30,
+          "height": 30,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    }
+  ]
+}

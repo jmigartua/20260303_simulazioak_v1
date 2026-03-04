@@ -1,0 +1,11 @@
+{
+  "mode": "loaded",
+  "persistence": {
+    "root": "Plans/runs",
+    "run_id": "r3-drone-custom-20260304",
+    "scenario_name": "drone_patrol",
+    "seed": 42,
+    "snapshots": 21,
+    "last_tick": 20
+  }
+}

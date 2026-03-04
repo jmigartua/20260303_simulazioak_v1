@@ -34,13 +34,58 @@ validate_known_behavior_names(
     {"select_waypoint", "move_to_waypoint", "broadcast_beacon"},
 )
 
+DRONE_KNOWN_BEHAVIOR_NAMES = {
+    "select_waypoint",
+    "move_to_waypoint",
+    "broadcast_beacon",
+}
+DRONE_REQUIRED_STATES = {"patrolling"}
+DRONE_REQUIRED_BEHAVIORS = {"select_waypoint", "move_to_waypoint", "broadcast_beacon"}
+
+
+def validate_drone_agent_spec(spec: StateMachineAgentSchemaSpec) -> StateMachineAgentSchemaSpec:
+    validate_known_behavior_names(spec, DRONE_KNOWN_BEHAVIOR_NAMES)
+    missing_states = DRONE_REQUIRED_STATES - set(spec.states.keys())
+    if missing_states:
+        raise ValueError(
+            f"Drone spec missing required states: {', '.join(sorted(missing_states))}"
+        )
+    present = {step.name for step in spec.states["patrolling"].behaviors}
+    missing_behaviors = DRONE_REQUIRED_BEHAVIORS - present
+    if missing_behaviors:
+        raise ValueError(
+            "Drone spec state 'patrolling' missing required behaviors: "
+            + ", ".join(sorted(missing_behaviors))
+        )
+    return spec
+
+
+def _effective_drone_spec(
+    agent_spec: StateMachineAgentSchemaSpec | None,
+) -> StateMachineAgentSchemaSpec:
+    return validate_drone_agent_spec(agent_spec or DRONE_SCOUT_SPEC)
+
+
+def _behavior_params(
+    spec: StateMachineAgentSchemaSpec,
+    *,
+    state_name: str,
+    behavior_name: str,
+) -> dict[str, object]:
+    for step in spec.states[state_name].behaviors:
+        if step.name == behavior_name:
+            return step.params
+    raise ValueError(f"Behavior '{behavior_name}' not found in state '{state_name}'")
+
 
 def build_initial_state(
     num_drones: int = 12,
     width: int = 40,
     height: int = 40,
     seed: int = 42,
+    agent_spec: StateMachineAgentSchemaSpec | None = None,
 ) -> SimulationState:
+    spec = _effective_drone_spec(agent_spec)
     center = Vector2(x=width / 2.0, y=height / 2.0)
     agents: list[AgentState] = []
 
@@ -55,7 +100,7 @@ def build_initial_state(
                 velocity=Vector2(x=0.0, y=0.0),
                 energy=1.0,
                 carrying=0,
-                state_label=DRONE_SCOUT_SPEC.initial_state,
+                state_label=spec.initial_state,
             )
         )
 
@@ -89,16 +134,26 @@ def create_drone_behavior_runner(
     signal_grid: SignalGrid,
     *,
     boundary_mode: BoundaryMode = "clamp",
+    agent_spec: StateMachineAgentSchemaSpec | None = None,
 ):
     if boundary_mode not in {"clamp", "wrap"}:
         raise ValueError("boundary_mode must be 'clamp' or 'wrap'")
+    spec = _effective_drone_spec(agent_spec)
 
-    max_speed = DRONE_SCOUT_SPEC.attributes.max_speed
+    max_speed = spec.attributes.max_speed
     segment_ticks = int(
-        DRONE_SCOUT_SPEC.states["patrolling"].behaviors[0].params["segment_ticks"]
+        _behavior_params(
+            spec,
+            state_name="patrolling",
+            behavior_name="select_waypoint",
+        )["segment_ticks"]
     )
     beacon_amount = float(
-        DRONE_SCOUT_SPEC.states["patrolling"].behaviors[2].params["amount"]
+        _behavior_params(
+            spec,
+            state_name="patrolling",
+            behavior_name="broadcast_beacon",
+        )["amount"]
     )
     margin = 2.0
     waypoints = (

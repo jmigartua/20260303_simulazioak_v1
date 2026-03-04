@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import random
 
+import pytest
+
 from sim_framework.contracts.validators import StateMachineAgentSchemaSpec
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.physics import WorldBounds
@@ -9,6 +11,7 @@ from sim_framework.scenarios.drone_patrol import (
     DRONE_SCOUT_SPEC,
     build_drone_initial_state,
     create_drone_behavior_runner,
+    validate_drone_agent_spec,
 )
 from sim_framework.scenarios.registry import get_scenario, list_scenarios
 
@@ -76,3 +79,18 @@ def test_drone_runner_respects_configured_boundary_mode(monkeypatch) -> None:
 
     _ = runner(state.agents[0], state, rng)
     assert seen_mode["mode"] == "wrap"
+
+
+def test_drone_spec_override_applies_speed() -> None:
+    spec = DRONE_SCOUT_SPEC.model_copy(deep=True)
+    spec.attributes.max_speed = 3.0
+    validate_drone_agent_spec(spec)
+
+    state = build_drone_initial_state(num_drones=1, width=20, height=20, seed=8, agent_spec=spec)
+    signal_grid = SignalGrid.from_config(state.signal_fields[0])
+    bounds = WorldBounds(width=20.0, height=20.0)
+    runner = create_drone_behavior_runner(bounds=bounds, signal_grid=signal_grid, agent_spec=spec)
+    rng = random.Random(state.seed)
+    updated = runner(state.agents[0], state, rng)
+    speed = (updated.velocity.x**2 + updated.velocity.y**2) ** 0.5
+    assert pytest.approx(speed, rel=1e-6) == 3.0

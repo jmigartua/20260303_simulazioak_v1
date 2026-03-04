@@ -50,13 +50,67 @@ validate_known_behavior_names(
     },
 )
 
+ANT_KNOWN_BEHAVIOR_NAMES = {
+    "sense_pheromone",
+    "wander_or_follow",
+    "check_food",
+    "deposit_pheromone",
+    "move_to_colony",
+    "drop_food",
+}
+ANT_REQUIRED_STATES = {"searching", "carrying"}
+ANT_REQUIRED_BEHAVIORS_BY_STATE = {
+    "searching": {"sense_pheromone", "wander_or_follow", "check_food"},
+    "carrying": {"deposit_pheromone", "move_to_colony", "drop_food"},
+}
+
+
+def validate_ant_agent_spec(spec: StateMachineAgentSchemaSpec) -> StateMachineAgentSchemaSpec:
+    validate_known_behavior_names(spec, ANT_KNOWN_BEHAVIOR_NAMES)
+    missing_states = ANT_REQUIRED_STATES - set(spec.states.keys())
+    if missing_states:
+        raise ValueError(
+            f"Ant spec missing required states: {', '.join(sorted(missing_states))}"
+        )
+
+    for state_name, required_names in ANT_REQUIRED_BEHAVIORS_BY_STATE.items():
+        state_spec = spec.states[state_name]
+        present_names = {step.name for step in state_spec.behaviors}
+        missing = required_names - present_names
+        if missing:
+            raise ValueError(
+                f"Ant spec state '{state_name}' missing required behaviors: "
+                f"{', '.join(sorted(missing))}"
+            )
+    return spec
+
+
+def _effective_ant_spec(
+    agent_spec: StateMachineAgentSchemaSpec | None,
+) -> StateMachineAgentSchemaSpec:
+    return validate_ant_agent_spec(agent_spec or ANT_WORKER_SPEC)
+
+
+def _behavior_params(
+    spec: StateMachineAgentSchemaSpec,
+    *,
+    state_name: str,
+    behavior_name: str,
+) -> dict[str, object]:
+    for step in spec.states[state_name].behaviors:
+        if step.name == behavior_name:
+            return step.params
+    raise ValueError(f"Behavior '{behavior_name}' not found in state '{state_name}'")
+
 
 def build_initial_state(
     num_ants: int = 20,
     width: int = 30,
     height: int = 30,
     seed: int = 42,
+    agent_spec: StateMachineAgentSchemaSpec | None = None,
 ) -> SimulationState:
+    spec = _effective_ant_spec(agent_spec)
     rng = random.Random(seed)
     colony_pos = Vector2(x=width / 2.0, y=height / 2.0)
 
@@ -71,7 +125,7 @@ def build_initial_state(
                 velocity=Vector2(x=0.0, y=0.0),
                 energy=1.0,
                 carrying=0,
-                state_label=ANT_WORKER_SPEC.initial_state,
+                state_label=spec.initial_state,
             )
         )
 
@@ -110,15 +164,29 @@ def create_ant_behavior_runner(
     signal_grid: SignalGrid,
     *,
     boundary_mode: BoundaryMode = "clamp",
+    agent_spec: StateMachineAgentSchemaSpec | None = None,
 ):
     if boundary_mode not in {"clamp", "wrap"}:
         raise ValueError("boundary_mode must be 'clamp' or 'wrap'")
+    spec = _effective_ant_spec(agent_spec)
 
-    max_speed = ANT_WORKER_SPEC.attributes.max_speed
-    sensor_radius = ANT_WORKER_SPEC.attributes.sensor_radius
-    pickup_radius = ANT_WORKER_SPEC.states["searching"].behaviors[2].params["pickup_radius"]
-    drop_radius = ANT_WORKER_SPEC.states["carrying"].behaviors[1].params["arrival_radius"]
-    deposit_amount = ANT_WORKER_SPEC.states["carrying"].behaviors[0].params["amount"]
+    max_speed = spec.attributes.max_speed
+    sensor_radius = spec.attributes.sensor_radius
+    pickup_radius = _behavior_params(
+        spec,
+        state_name="searching",
+        behavior_name="check_food",
+    )["pickup_radius"]
+    drop_radius = _behavior_params(
+        spec,
+        state_name="carrying",
+        behavior_name="move_to_colony",
+    )["arrival_radius"]
+    deposit_amount = _behavior_params(
+        spec,
+        state_name="carrying",
+        behavior_name="deposit_pheromone",
+    )["amount"]
     neighbor_radius = 1.5
     avoid_weight = 0.35
     spatial_hash = SpatialHash(cell_size=neighbor_radius)

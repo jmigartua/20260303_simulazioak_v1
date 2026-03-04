@@ -1,0 +1,32 @@
+{
+  "agent_type": "drone_scout",
+  "attributes": {
+    "max_speed": 2.0,
+    "sensor_radius": 6.0,
+    "carry_capacity": 0
+  },
+  "states": {
+    "patrolling": {
+      "behaviors": [
+        {
+          "name": "select_waypoint",
+          "params": {
+            "segment_ticks": 6
+          }
+        },
+        {
+          "name": "move_to_waypoint",
+          "params": {}
+        },
+        {
+          "name": "broadcast_beacon",
+          "params": {
+            "amount": 0.25
+          }
+        }
+      ],
+      "transitions": {}
+    }
+  },
+  "initial_state": "patrolling"
+}

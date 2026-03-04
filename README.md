@@ -71,6 +71,12 @@ You can explicitly override snapshot behavior in either mode:
 .venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 100 --runtime-mode headless --emit-snapshot-events
 ```
 
+Agent attributes/method parameters can be overridden in headless mode via JSON spec:
+
+```bash
+.venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 100 --agent-spec-json Plans/r3_agent_spec_ants_custom_2026-03-04.json
+```
+
 Run persistence workflows (save/load snapshots + manifest):
 
 ```bash

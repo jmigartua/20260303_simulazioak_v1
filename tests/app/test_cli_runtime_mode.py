@@ -5,6 +5,7 @@ import json
 import pytest
 
 from sim_framework.app.cli import main
+from sim_framework.scenarios.ants_foraging import ANT_WORKER_SPEC
 
 
 def _run_cli(args: list[str], capsys) -> dict:
@@ -126,6 +127,82 @@ def test_cli_rejects_invalid_scenario(capsys) -> None:
     assert exc.value.code == 2
     err = capsys.readouterr().err
     assert "invalid choice" in err
+
+
+def test_cli_applies_custom_agent_spec_from_json(tmp_path, capsys) -> None:
+    spec_path = tmp_path / "ant_spec.json"
+    custom = ANT_WORKER_SPEC.model_copy(deep=True)
+    custom.initial_state = "carrying"
+    spec_path.write_text(custom.model_dump_json(indent=2), encoding="utf-8")
+
+    run_root = tmp_path / "runs"
+    payload = _run_cli(
+        [
+            "--scenario",
+            "ants_foraging",
+            "--ticks",
+            "1",
+            "--ants",
+            "5",
+            "--runtime-mode",
+            "headless",
+            "--agent-spec-json",
+            str(spec_path),
+            "--persistence-root",
+            str(run_root),
+            "--save-run-id",
+            "custom-ant-spec",
+        ],
+        capsys,
+    )
+
+    assert payload["scenario_config"]["agent_spec_source"] == str(spec_path)
+    run_file = run_root / "custom-ant-spec" / "run.json"
+    bundle = json.loads(run_file.read_text(encoding="utf-8"))
+    assert bundle["snapshots"][0]["agents"][0]["state_label"] == "carrying"
+
+
+def test_cli_rejects_invalid_custom_agent_spec(capsys, tmp_path) -> None:
+    spec_path = tmp_path / "invalid_spec.json"
+    spec_path.write_text(
+        json.dumps(
+            {
+                "agent_type": "ant_worker",
+                "attributes": {"max_speed": 1.0, "sensor_radius": 4.0, "carry_capacity": 1},
+                "states": {
+                    "searching": {
+                        "behaviors": [{"name": "unknown_behavior", "params": {}}],
+                        "transitions": {"has_food": "carrying"},
+                    },
+                    "carrying": {
+                        "behaviors": [
+                            {"name": "deposit_pheromone", "params": {"amount": 1.0}},
+                            {"name": "move_to_colony", "params": {"arrival_radius": 1.0}},
+                            {"name": "drop_food", "params": {}},
+                        ],
+                        "transitions": {"food_dropped": "searching"},
+                    },
+                },
+                "initial_state": "searching",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(SystemExit) as exc:
+        main(
+            [
+                "--scenario",
+                "ants_foraging",
+                "--ticks",
+                "1",
+                "--agent-spec-json",
+                str(spec_path),
+            ]
+        )
+    assert exc.value.code == 2
+    err = capsys.readouterr().err
+    assert "Scenario agent spec rejected" in err
 
 
 def test_cli_rejects_non_positive_ticks(capsys) -> None:
