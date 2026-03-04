@@ -17,6 +17,7 @@ All notable changes to this project are documented in this file.
 - R5 drone reproducibility bundle in `Plans/` with adapter-backed save/load artifacts and scenario-aware ON/OFF benchmark outputs.
 - R4 physics reproducibility bundle in `Plans/` demonstrating boundary mode impact (`clamp` vs `wrap`) with deterministic artifacts.
 - R3 headless configuration path via `--agent-spec-json` with scenario-level schema validation and reproducibility artifacts.
+- R6/R9 roadmap artifact in `Plans/r6_r9_ui_desktop_roadmap_2026-03-04.md` defining milestones for web UI, desktop packaging, and CI hardening.
 
 #### Changed
 - Public CLI now supports persistence flows:
