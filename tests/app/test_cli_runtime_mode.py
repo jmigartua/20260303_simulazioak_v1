@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
 from sim_framework.app.cli import main
 
 
@@ -73,3 +75,30 @@ def test_cli_explicit_override_can_enable_snapshot_events_in_headless_mode(capsy
     assert payload["runtime"]["mode"] == "headless"
     assert payload["runtime"]["emit_snapshot_events"] is True
     assert payload["events"]["snapshot"] == 5
+
+
+def test_cli_rejects_invalid_scenario(capsys) -> None:
+    with pytest.raises(SystemExit) as exc:
+        main(["--scenario", "unknown_scenario"])
+
+    assert exc.value.code == 2
+    err = capsys.readouterr().err
+    assert "invalid choice" in err
+
+
+def test_cli_rejects_non_positive_ticks(capsys) -> None:
+    with pytest.raises(SystemExit) as exc:
+        main(["--ticks", "0"])
+
+    assert exc.value.code == 2
+    err = capsys.readouterr().err
+    assert "--ticks must be > 0" in err
+
+
+def test_cli_rejects_conflicting_snapshot_flags(capsys) -> None:
+    with pytest.raises(SystemExit) as exc:
+        main(["--emit-snapshot-events", "--no-snapshot-events"])
+
+    assert exc.value.code == 2
+    err = capsys.readouterr().err
+    assert "not allowed with argument" in err

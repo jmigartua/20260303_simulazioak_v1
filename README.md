@@ -26,6 +26,7 @@ uv pip install -e .[dev]
 
 ```bash
 make ci-local
+make release-check
 make perf-snapshot-toggle
 ```
 
