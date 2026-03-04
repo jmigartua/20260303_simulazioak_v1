@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from math import floor
+from math import ceil, floor
 from typing import Literal
 
 from sim_framework.contracts.models import AgentState, Vector2
@@ -83,16 +83,22 @@ class SpatialHash:
             raise ValueError("radius must be >= 0")
 
         center_cell = self.cell_for(center)
-        cell_radius = int(radius / self.cell_size) + 1
+        # ceil(radius / cell_size) is the minimal safe search ring.
+        # The previous `int(...)+1` over-scanned when radius was an exact multiple.
+        cell_radius = ceil(radius / self.cell_size)
         radius_sq = radius * radius
 
         result: list[AgentState] = []
+        cells = self.cells
+        cx, cy = center_cell
+        center_x = center.x
+        center_y = center.y
         for dx in range(-cell_radius, cell_radius + 1):
             for dy in range(-cell_radius, cell_radius + 1):
-                cell = (center_cell[0] + dx, center_cell[1] + dy)
-                for agent in self.cells.get(cell, []):
-                    px = agent.position.x - center.x
-                    py = agent.position.y - center.y
+                cell = (cx + dx, cy + dy)
+                for agent in cells.get(cell, []):
+                    px = agent.position.x - center_x
+                    py = agent.position.y - center_y
                     if (px * px + py * py) <= radius_sq:
                         result.append(agent)
         return result

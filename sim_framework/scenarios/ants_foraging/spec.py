@@ -124,12 +124,16 @@ def create_ant_behavior_runner(bounds: WorldBounds, signal_grid: SignalGrid):
 
         ax = 0.0
         ay = 0.0
+        agent_pos = agent.position
+        agent_x = agent_pos.x
+        agent_y = agent_pos.y
         nearby = spatial_hash.query_radius(agent.position, neighbor_radius)
         for other in nearby:
-            if other.id == agent.id:
+            if other is agent:
                 continue
-            dx = agent.position.x - other.position.x
-            dy = agent.position.y - other.position.y
+            other_pos = other.position
+            dx = agent_x - other_pos.x
+            dy = agent_y - other_pos.y
             dist_sq = dx * dx + dy * dy
             if dist_sq == 0.0:
                 continue
