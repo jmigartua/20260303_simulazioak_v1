@@ -1,0 +1,47 @@
+name: Benchmark Smoke
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "sim_framework/**"
+      - "scripts/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - ".github/workflows/benchmark-smoke.yml"
+
+jobs:
+  benchmark-smoke:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .[dev]
+
+      - name: Run snapshot ON/OFF smoke benchmark
+        run: |
+          python scripts/run_perf_snapshot_toggle.py \
+            --agents 20 \
+            --ticks 10 \
+            --repeats 1 \
+            --label ci_smoke \
+            --output-dir Plans
+
+      - name: Upload benchmark artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-smoke-artifacts
+          path: |
+            Plans/perf_baseline_ci_smoke_snapshot_on.json
+            Plans/perf_baseline_ci_smoke_snapshot_off.json
+            Plans/perf_comparison_ci_smoke.md

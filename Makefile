@@ -1,6 +1,6 @@
 PYTHON ?= .venv/bin/python
 
-.PHONY: help test test-v import-check package-check ci-local release-check run-app perf-snapshot-toggle
+.PHONY: help test test-v import-check package-check ci-local release-check run-app perf-snapshot-toggle perf-smoke
 
 help:
 	@echo "Available targets:"
@@ -12,6 +12,7 @@ help:
 	@echo "  release-check        Run import-check + test-v + package-check"
 	@echo "  run-app              Run app CLI in interactive mode"
 	@echo "  perf-snapshot-toggle Run reproducible ON/OFF perf comparison"
+	@echo "  perf-smoke           Run lightweight ON/OFF benchmark smoke"
 
 test:
 	$(PYTHON) -m pytest -q
@@ -39,3 +40,6 @@ run-app:
 
 perf-snapshot-toggle:
 	$(PYTHON) scripts/run_perf_snapshot_toggle.py --agents 100,300 --ticks 100 --repeats 3
+
+perf-smoke:
+	$(PYTHON) scripts/run_perf_snapshot_toggle.py --agents 20 --ticks 10 --repeats 1 --label local_smoke --output-dir Plans
