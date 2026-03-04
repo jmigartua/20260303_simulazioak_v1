@@ -6,7 +6,7 @@ Modular multi-agent simulation framework for deterministic, headless experiments
 
 - Contracts layer (`sim_framework/contracts`) with core domain models, ports, behavior protocol, and schema validators.
 - Core runtime layer (`sim_framework/core`) with signal grid, history buffer, deterministic engine, and physics/spatial hash.
-- Scenario layer (`sim_framework/scenarios`) with `ants_foraging` state-machine behavior.
+- Scenario layer (`sim_framework/scenarios`) with `ants_foraging` and `drone_patrol` state-machine behaviors.
 
 ## Local setup
 
@@ -54,6 +54,7 @@ Reproducible ON/OFF snapshot comparison (runs both modes + writes comparison mar
 ```bash
 .venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 100 --runtime-mode interactive
 .venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 100 --runtime-mode headless
+.venv/bin/python -m sim_framework.app.cli --scenario drone_patrol --ticks 100 --runtime-mode headless
 ```
 
 You can explicitly override snapshot behavior in either mode:

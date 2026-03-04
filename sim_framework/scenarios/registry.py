@@ -6,12 +6,20 @@ from sim_framework.scenarios.ants_foraging import (
     build_initial_state as build_ants_initial_state,
     create_ant_behavior_runner,
 )
+from sim_framework.scenarios.drone_patrol import (
+    build_drone_initial_state,
+    create_drone_behavior_runner,
+)
 
 
 SCENARIO_REGISTRY: dict[str, dict[str, Any]] = {
     "ants_foraging": {
         "build_initial_state": build_ants_initial_state,
         "create_behavior_runner": create_ant_behavior_runner,
+    },
+    "drone_patrol": {
+        "build_initial_state": build_drone_initial_state,
+        "create_behavior_runner": create_drone_behavior_runner,
     }
 }
 

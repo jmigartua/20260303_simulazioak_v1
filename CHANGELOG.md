@@ -13,6 +13,7 @@ All notable changes to this project are documented in this file.
 #### Added
 - JSON file persistence adapter (`sim_framework.adapters.persistence.JsonFilePersistence`) implementing `PersistencePort` save/load for run manifests and snapshots.
 - Adapter-level tests covering protocol conformance, round-trip integrity, serialized bundle contract, and missing-run errors.
+- New `drone_patrol` scenario with registry integration and dedicated scenario/integration tests.
 
 #### Changed
 - Public CLI now supports persistence flows:
