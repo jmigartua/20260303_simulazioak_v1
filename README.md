@@ -22,6 +22,13 @@ uv pip install -e .[dev]
 .venv/bin/python -m pytest -v
 ```
 
+## Developer shortcuts
+
+```bash
+make ci-local
+make perf-snapshot-toggle
+```
+
 ## Run benchmark
 
 ```bash
