@@ -33,6 +33,8 @@ Latest baseline snapshot in this repository:
 - `Plans/perf_baseline_2026-03-03.md`
 - `Plans/perf_baseline_2026-03-04_post_opt.json`
 - `Plans/perf_comparison_2026-03-04.md`
+- `Plans/perf_baseline_2026-03-04_no_snapshots.json` (headless mode, SnapshotEvent emission disabled)
+- `Plans/perf_comparison_2026-03-04_no_snapshots.md`
 
 ## Current status
 
