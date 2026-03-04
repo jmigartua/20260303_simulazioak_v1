@@ -28,6 +28,12 @@ uv pip install -e .[dev]
 .venv/bin/python scripts/benchmark_headless.py --agents 100,300 --ticks 50 --repeats 2 --json-out Plans/perf_baseline_$(date +%F).json
 ```
 
+Reproducible ON/OFF snapshot comparison (runs both modes + writes comparison markdown):
+
+```bash
+.venv/bin/python scripts/run_perf_snapshot_toggle.py --agents 100,300 --ticks 100 --repeats 3
+```
+
 ## Run simulation (public runtime mode)
 
 `sim-run` exposes a runtime preset:
