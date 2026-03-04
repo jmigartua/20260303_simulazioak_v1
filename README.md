@@ -31,6 +31,8 @@ make perf-smoke
 make perf-snapshot-toggle
 ```
 
+`make release-check` runs release-version consistency, import-flow checks, full tests, and package install sanity.
+
 ## Run benchmark
 
 ```bash

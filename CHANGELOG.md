@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.1.2rc2] - 2026-03-04
+
+### Added
+- Benchmark smoke workflow (`.github/workflows/benchmark-smoke.yml`) with artifact upload for snapshot ON/OFF outputs.
+- Wheel packaging CI job in `.github/workflows/ci.yml` (build, clean install, `sim-run` smoke check).
+- Tooling contract tests for benchmark artifact schema and markdown summary generation.
+- Release consistency guardrail script (`scripts/check_release_consistency.py`) and tests.
+
+### Changed
+- Developer workflow hardening with `make release-check` now validating release consistency before tests/package checks.
+- App CLI test suite expanded for `--json-out` persistence behavior and argument error paths.
+
 ## [0.1.1] - 2026-03-04
 
 ### Added
