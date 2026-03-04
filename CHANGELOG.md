@@ -20,6 +20,7 @@ All notable changes to this project are documented in this file.
 - R6/R9 roadmap artifact in `Plans/r6_r9_ui_desktop_roadmap_2026-03-04.md` defining milestones for web UI, desktop packaging, and CI hardening.
 - M1 visible app shell (`sim_framework.app.web`) with browser canvas, control API (`play/pause/step/reset/set_speed/seek`), scenario switching without restart, and live state polling.
 - M2 step-1 renderer upgrade: PixiJS-backed drawing pipeline for the web shell with automatic canvas fallback.
+- M2 rendering polish: scenario-specific visuals (drone waypoint path + glyphs, ant state coloring), signal-color mapping by field kind, and refresh-rate telemetry in UI.
 - Web runtime bridge (`sim_framework.adapters.web.runtime_bridge`) with scenario-aware composition and thread-safe command/state access.
 - New console script entry point: `sim-web`.
 - M1 tests for bridge command flow, scenario switching, and HTTP shell smoke behavior.

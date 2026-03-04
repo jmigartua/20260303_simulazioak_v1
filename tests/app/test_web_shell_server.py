@@ -64,6 +64,7 @@ def test_web_shell_serves_html_and_state_and_accepts_commands() -> None:
         assert "Switch Scenario" in html
         assert "Signal overlay" in html
         assert "Renderer:" in html
+        assert "Refresh Hz:" in html
         assert "pixi.min.js" in html
 
         meta = _get_json(f"{base_url}/api/meta")

@@ -125,6 +125,7 @@ _SHELL_HTML = """<!doctype html>
     <aside class="panel">
       <h3 style="margin: 6px 0 10px 0;">M1 Live State</h3>
       <div class="stat">Renderer: <strong id="renderer">-</strong></div>
+      <div class="stat">Refresh Hz: <strong id="fps">0.0</strong></div>
       <div class="stat">Scenario: <strong id="scenario">-</strong></div>
       <div class="stat">Tick: <strong id="tick">0</strong></div>
       <div class="stat">Paused: <strong id="paused">true</strong></div>
@@ -155,11 +156,13 @@ const scenarioSelect = document.getElementById("scenario-select");
 const seekTickInput = document.getElementById("seek-tick");
 const showSignalToggle = document.getElementById("show-signal");
 const rendererLabel = document.getElementById("renderer");
+const fpsLabel = document.getElementById("fps");
 let latest = null;
 let meta = null;
 let pixiApp = null;
 let pixiLayers = null;
 let fallbackCtx = null;
+let lastRenderTs = null;
 
 function initRenderer() {
   if (window.PIXI) {
@@ -184,6 +187,27 @@ function initRenderer() {
 
   fallbackCtx = canvas.getContext("2d");
   rendererLabel.textContent = "Canvas fallback";
+}
+
+function signalColorForKind(kind) {
+  if (kind === "radio") return 0x2563eb;
+  if (kind === "thermal") return 0xea580c;
+  return 0xb45309;
+}
+
+function signalRgbaForKind(kind, alpha) {
+  if (kind === "radio") return `rgba(37, 99, 235, ${alpha.toFixed(3)})`;
+  if (kind === "thermal") return `rgba(234, 88, 12, ${alpha.toFixed(3)})`;
+  return `rgba(180, 83, 9, ${alpha.toFixed(3)})`;
+}
+
+function clearPixiContainer(container) {
+  const children = container.removeChildren();
+  for (const child of children) {
+    if (child && typeof child.destroy === "function") {
+      child.destroy();
+    }
+  }
 }
 
 async function postJson(url, payload) {
@@ -223,6 +247,8 @@ function drawSignalOverlay(state, sx, sy) {
     }
   }
   if (maxSignal <= 0) return;
+  const signalKind = state.signal.kind || "pheromone";
+  const pixiColor = signalColorForKind(signalKind);
 
   for (let y = 0; y < state.signal.data.length; y++) {
     const row = state.signal.data[y];
@@ -232,12 +258,12 @@ function drawSignalOverlay(state, sx, sy) {
       const alpha = Math.min(0.45, (value / maxSignal) * 0.45);
       if (pixiApp) {
         const cell = new PIXI.Graphics();
-        cell.beginFill(0xb45309, alpha);
+        cell.beginFill(pixiColor, alpha);
         cell.drawRect(x * sx, y * sy, Math.ceil(sx), Math.ceil(sy));
         cell.endFill();
         pixiLayers.signal.addChild(cell);
       } else if (fallbackCtx) {
-        fallbackCtx.fillStyle = `rgba(180, 83, 9, ${alpha.toFixed(3)})`;
+        fallbackCtx.fillStyle = signalRgbaForKind(signalKind, alpha);
         fallbackCtx.fillRect(x * sx, y * sy, Math.ceil(sx), Math.ceil(sy));
       }
     }
@@ -246,9 +272,9 @@ function drawSignalOverlay(state, sx, sy) {
 
 function drawStatePixi(state) {
   if (!state || !pixiApp) return;
-  pixiLayers.signal.removeChildren();
-  pixiLayers.terrain.removeChildren();
-  pixiLayers.agents.removeChildren();
+  clearPixiContainer(pixiLayers.signal);
+  clearPixiContainer(pixiLayers.terrain);
+  clearPixiContainer(pixiLayers.agents);
 
   const width = canvas.width;
   const height = canvas.height;
@@ -256,14 +282,33 @@ function drawStatePixi(state) {
   const worldH = state.world.height;
   const sx = width / worldW;
   const sy = height / worldH;
+  const isDroneScenario = state.scenario === "drone_patrol";
 
   drawSignalOverlay(state, sx, sy);
 
   const colony = new PIXI.Graphics();
-  colony.beginFill(0x1f2937, 1.0);
+  colony.beginFill(isDroneScenario ? 0x1e3a8a : 0x1f2937, 1.0);
   colony.drawCircle(state.colony.x * sx, state.colony.y * sy, 7);
   colony.endFill();
   pixiLayers.terrain.addChild(colony);
+
+  if (isDroneScenario) {
+    const margin = 2.0;
+    const waypoints = [
+      [margin, margin],
+      [worldW - margin, margin],
+      [worldW - margin, worldH - margin],
+      [margin, worldH - margin],
+    ];
+    const path = new PIXI.Graphics();
+    path.lineStyle(1.5, 0x1d4ed8, 0.85);
+    path.moveTo(waypoints[0][0] * sx, waypoints[0][1] * sy);
+    for (let i = 1; i < waypoints.length; i++) {
+      path.lineTo(waypoints[i][0] * sx, waypoints[i][1] * sy);
+    }
+    path.lineTo(waypoints[0][0] * sx, waypoints[0][1] * sy);
+    pixiLayers.terrain.addChild(path);
+  }
 
   for (const food of state.food_sources) {
     const sprite = new PIXI.Graphics();
@@ -274,12 +319,25 @@ function drawStatePixi(state) {
   }
 
   for (const agent of state.agents) {
-    const dot = new PIXI.Graphics();
-    const color = agent.carrying > 0 ? 0xdc2626 : 0x0f766e;
-    dot.beginFill(color, 1.0);
-    dot.drawCircle(agent.x * sx, agent.y * sy, 4);
-    dot.endFill();
-    pixiLayers.agents.addChild(dot);
+    const sprite = new PIXI.Graphics();
+    if (isDroneScenario) {
+      sprite.beginFill(0x0f766e, 0.95);
+      sprite.drawPolygon([
+        agent.x * sx,
+        agent.y * sy - 5,
+        agent.x * sx + 4,
+        agent.y * sy + 4,
+        agent.x * sx - 4,
+        agent.y * sy + 4,
+      ]);
+      sprite.endFill();
+    } else {
+      const color = agent.carrying > 0 ? 0xdc2626 : 0x0f766e;
+      sprite.beginFill(color, 1.0);
+      sprite.drawCircle(agent.x * sx, agent.y * sy, 4);
+      sprite.endFill();
+    }
+    pixiLayers.agents.addChild(sprite);
   }
 }
 
@@ -294,13 +352,33 @@ function drawStateCanvasFallback(state) {
   const worldH = state.world.height;
   const sx = width / worldW;
   const sy = height / worldH;
+  const isDroneScenario = state.scenario === "drone_patrol";
 
   drawSignalOverlay(state, sx, sy);
 
-  fallbackCtx.fillStyle = "#1f2937";
+  fallbackCtx.fillStyle = isDroneScenario ? "#1e3a8a" : "#1f2937";
   fallbackCtx.beginPath();
   fallbackCtx.arc(state.colony.x * sx, state.colony.y * sy, 7, 0, Math.PI * 2);
   fallbackCtx.fill();
+
+  if (isDroneScenario) {
+    const margin = 2.0;
+    const waypoints = [
+      [margin, margin],
+      [worldW - margin, margin],
+      [worldW - margin, worldH - margin],
+      [margin, worldH - margin],
+    ];
+    fallbackCtx.strokeStyle = "#1d4ed8";
+    fallbackCtx.lineWidth = 1.5;
+    fallbackCtx.beginPath();
+    fallbackCtx.moveTo(waypoints[0][0] * sx, waypoints[0][1] * sy);
+    for (let i = 1; i < waypoints.length; i++) {
+      fallbackCtx.lineTo(waypoints[i][0] * sx, waypoints[i][1] * sy);
+    }
+    fallbackCtx.closePath();
+    fallbackCtx.stroke();
+  }
 
   fallbackCtx.fillStyle = "#16a34a";
   for (const food of state.food_sources) {
@@ -310,10 +388,20 @@ function drawStateCanvasFallback(state) {
   }
 
   for (const agent of state.agents) {
-    fallbackCtx.fillStyle = agent.carrying > 0 ? "#dc2626" : "#0f766e";
-    fallbackCtx.beginPath();
-    fallbackCtx.arc(agent.x * sx, agent.y * sy, 4, 0, Math.PI * 2);
-    fallbackCtx.fill();
+    if (isDroneScenario) {
+      fallbackCtx.fillStyle = "#0f766e";
+      fallbackCtx.beginPath();
+      fallbackCtx.moveTo(agent.x * sx, agent.y * sy - 5);
+      fallbackCtx.lineTo(agent.x * sx + 4, agent.y * sy + 4);
+      fallbackCtx.lineTo(agent.x * sx - 4, agent.y * sy + 4);
+      fallbackCtx.closePath();
+      fallbackCtx.fill();
+    } else {
+      fallbackCtx.fillStyle = agent.carrying > 0 ? "#dc2626" : "#0f766e";
+      fallbackCtx.beginPath();
+      fallbackCtx.arc(agent.x * sx, agent.y * sy, 4, 0, Math.PI * 2);
+      fallbackCtx.fill();
+    }
   }
 }
 
@@ -327,6 +415,15 @@ function drawState(state) {
 
 function render() {
   if (!latest) return;
+  const now = performance.now();
+  if (lastRenderTs !== null) {
+    const dt = now - lastRenderTs;
+    if (dt > 0) {
+      const hz = 1000 / dt;
+      fpsLabel.textContent = hz.toFixed(1);
+    }
+  }
+  lastRenderTs = now;
   document.getElementById("scenario").textContent = latest.scenario;
   document.getElementById("tick").textContent = String(latest.tick);
   document.getElementById("paused").textContent = String(latest.paused);
