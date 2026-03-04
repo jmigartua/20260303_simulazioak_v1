@@ -108,6 +108,7 @@ M1 controls currently available in the shell:
 - renderer backend: PixiJS shell (CDN) with automatic canvas fallback
 - scenario-specific visuals (ants state colors, drone waypoint path and drone glyphs)
 - refresh telemetry (`Refresh Hz`) for basic runtime smoothness sanity checks
+- sync telemetry (`API latency ms`, `Tick drift`) to monitor polling responsiveness and state progression
 
 Latest baseline snapshot in this repository:
 - `Plans/perf_baseline_2026-03-03.json`

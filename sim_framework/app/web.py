@@ -126,6 +126,8 @@ _SHELL_HTML = """<!doctype html>
       <h3 style="margin: 6px 0 10px 0;">M1 Live State</h3>
       <div class="stat">Renderer: <strong id="renderer">-</strong></div>
       <div class="stat">Refresh Hz: <strong id="fps">0.0</strong></div>
+      <div class="stat">API latency ms: <strong id="latency">0.0</strong></div>
+      <div class="stat">Tick drift: <strong id="drift">0</strong></div>
       <div class="stat">Scenario: <strong id="scenario">-</strong></div>
       <div class="stat">Tick: <strong id="tick">0</strong></div>
       <div class="stat">Paused: <strong id="paused">true</strong></div>
@@ -157,12 +159,16 @@ const seekTickInput = document.getElementById("seek-tick");
 const showSignalToggle = document.getElementById("show-signal");
 const rendererLabel = document.getElementById("renderer");
 const fpsLabel = document.getElementById("fps");
+const latencyLabel = document.getElementById("latency");
+const driftLabel = document.getElementById("drift");
 let latest = null;
 let meta = null;
 let pixiApp = null;
 let pixiLayers = null;
 let fallbackCtx = null;
 let lastRenderTs = null;
+let lastTick = null;
+let lastApiLatencyMs = 0.0;
 
 function initRenderer() {
   if (window.PIXI) {
@@ -211,11 +217,13 @@ function clearPixiContainer(container) {
 }
 
 async function postJson(url, payload) {
+  const t0 = performance.now();
   const res = await fetch(url, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(payload),
   });
+  lastApiLatencyMs = performance.now() - t0;
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data.error || "request failed");
@@ -424,12 +432,17 @@ function render() {
     }
   }
   lastRenderTs = now;
+  if (lastTick !== null) {
+    driftLabel.textContent = String(latest.tick - lastTick);
+  }
+  lastTick = latest.tick;
   document.getElementById("scenario").textContent = latest.scenario;
   document.getElementById("tick").textContent = String(latest.tick);
   document.getElementById("paused").textContent = String(latest.paused);
   document.getElementById("agents").textContent = String(latest.metrics.agent_count);
   document.getElementById("carrying").textContent = String(latest.metrics.carrying_agents);
   document.getElementById("signal").textContent = latest.metrics.signal_total.toFixed(2);
+  latencyLabel.textContent = lastApiLatencyMs.toFixed(1);
   seekTickInput.max = String(Math.max(0, latest.tick));
   if (scenarioSelect.value !== latest.scenario) {
     scenarioSelect.value = latest.scenario;
@@ -439,7 +452,9 @@ function render() {
 
 async function refresh() {
   try {
+    const t0 = performance.now();
     const res = await fetch("/api/state");
+    lastApiLatencyMs = performance.now() - t0;
     latest = await res.json();
     render();
   } catch (_err) {
