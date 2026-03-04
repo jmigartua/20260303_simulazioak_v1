@@ -114,11 +114,17 @@ class SimulationEngine:
         history: HistoryPort | None,
     ) -> SimulationState:
         updated_agents = self._advance_agents(state, behavior_runner)
+        # Avoid deep-copying all agents on every tick; only clone static topology
+        # structures shallowly to keep state snapshots isolated between ticks.
         next_state = state.model_copy(
-            deep=True,
             update={
                 "tick": state.tick + 1,
                 "agents": updated_agents,
+                "food_sources": [food.model_copy(deep=False) for food in state.food_sources],
+                "colony": state.colony.model_copy(deep=False),
+                "signal_fields": [
+                    field.model_copy(deep=False) for field in state.signal_fields
+                ],
             },
         )
 

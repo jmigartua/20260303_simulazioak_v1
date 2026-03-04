@@ -5,8 +5,10 @@ import random
 from sim_framework.contracts.models import (
     AgentState,
     Colony,
+    FoodSource,
     PauseCommand,
     SetSpeedCommand,
+    SignalField,
     SimulationState,
     StepCommand,
     Vector2,
@@ -118,3 +120,28 @@ def test_can_disable_snapshot_event_emission_for_headless_mode() -> None:
     events = engine.drain_published_events()
     snapshot_events = [event for event in events if event.kind == "snapshot"]
     assert not snapshot_events
+
+
+def test_tick_clones_static_topology_without_deep_copying_agents() -> None:
+    state = SimulationState(
+        tick=0,
+        agents=[AgentState(id="a0", position=Vector2(x=0.0, y=0.0))],
+        food_sources=[
+            FoodSource(id="f0", position=Vector2(x=1.0, y=1.0), amount=10.0)
+        ],
+        colony=Colony(id="c1", position=Vector2(x=0.0, y=0.0)),
+        signal_fields=[
+            SignalField(kind="pheromone", width=10, height=10, decay=0.95, diffusion=0.1)
+        ],
+        seed=42,
+    )
+    engine = SimulationEngine(seed=7, emit_snapshot_events=False)
+
+    next_state = engine.tick(state, _runner)
+
+    assert next_state.tick == 1
+    assert next_state.colony is not state.colony
+    assert next_state.food_sources is not state.food_sources
+    assert next_state.food_sources[0] is not state.food_sources[0]
+    assert next_state.signal_fields is not state.signal_fields
+    assert next_state.signal_fields[0] is not state.signal_fields[0]
