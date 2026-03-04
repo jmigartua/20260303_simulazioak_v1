@@ -1,0 +1,110 @@
+{
+  "config": {
+    "agents": [
+      100,
+      300
+    ],
+    "ticks": 100,
+    "repeats": 3,
+    "width": 30,
+    "height": 30,
+    "seed": 42,
+    "emit_snapshot_events": true
+  },
+  "runs": [
+    {
+      "agents": 100,
+      "ticks": 100,
+      "elapsed_s": 8.822030405979604,
+      "ticks_per_s": 11.33525905014107,
+      "us_per_agent_tick": 882.2030405979604,
+      "peak_mem_mb": 18.984222412109375,
+      "state_tick": 100,
+      "carrying_agents": 22,
+      "signal_total": 7329.0
+    },
+    {
+      "agents": 100,
+      "ticks": 100,
+      "elapsed_s": 8.825917572015896,
+      "ticks_per_s": 11.33026670417446,
+      "us_per_agent_tick": 882.5917572015896,
+      "peak_mem_mb": 18.982467651367188,
+      "state_tick": 100,
+      "carrying_agents": 36,
+      "signal_total": 7459.0
+    },
+    {
+      "agents": 100,
+      "ticks": 100,
+      "elapsed_s": 8.750941129983403,
+      "ticks_per_s": 11.427342329771754,
+      "us_per_agent_tick": 875.0941129983403,
+      "peak_mem_mb": 18.982635498046875,
+      "state_tick": 100,
+      "carrying_agents": 33,
+      "signal_total": 7264.0
+    },
+    {
+      "agents": 300,
+      "ticks": 100,
+      "elapsed_s": 65.66667924902868,
+      "ticks_per_s": 1.5228423478027355,
+      "us_per_agent_tick": 2188.8893083009557,
+      "peak_mem_mb": 55.77793884277344,
+      "state_tick": 100,
+      "carrying_agents": 138,
+      "signal_total": 22012.0
+    },
+    {
+      "agents": 300,
+      "ticks": 100,
+      "elapsed_s": 66.23013856296893,
+      "ticks_per_s": 1.509886619139775,
+      "us_per_agent_tick": 2207.6712854322977,
+      "peak_mem_mb": 55.778724670410156,
+      "state_tick": 100,
+      "carrying_agents": 90,
+      "signal_total": 21645.0
+    },
+    {
+      "agents": 300,
+      "ticks": 100,
+      "elapsed_s": 68.34446286101593,
+      "ticks_per_s": 1.4631763249549303,
+      "us_per_agent_tick": 2278.1487620338644,
+      "peak_mem_mb": 55.77915954589844,
+      "state_tick": 100,
+      "carrying_agents": 117,
+      "signal_total": 21456.0
+    }
+  ],
+  "summaries": [
+    {
+      "agents": 100,
+      "ticks": 100,
+      "repeats": 3,
+      "elapsed_s_mean": 8.799629702659635,
+      "elapsed_s_stdev": 0.04221031090722896,
+      "ticks_per_s_mean": 11.36428936136243,
+      "ticks_per_s_stdev": 0.05466249627014125,
+      "us_per_agent_tick_mean": 879.9629702659635,
+      "us_per_agent_tick_stdev": 4.221031090722896,
+      "peak_mem_mb_mean": 18.983108520507812,
+      "peak_mem_mb_stdev": 0.0009683021233035344
+    },
+    {
+      "agents": 300,
+      "ticks": 100,
+      "repeats": 3,
+      "elapsed_s_mean": 66.74709355767118,
+      "elapsed_s_stdev": 1.411758873911396,
+      "ticks_per_s_mean": 1.498635097299147,
+      "ticks_per_s_stdev": 0.03138401071272283,
+      "us_per_agent_tick_mean": 2224.9031185890394,
+      "us_per_agent_tick_stdev": 47.058629130380005,
+      "peak_mem_mb_mean": 55.77860768636068,
+      "peak_mem_mb_stdev": 0.0006187026593773454
+    }
+  ]
+}
