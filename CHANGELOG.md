@@ -8,6 +8,19 @@ All notable changes to this project are documented in this file.
 - Promote release candidate `0.1.2rc2` to stable `0.1.2`.
 - No additional code changes beyond the `0.1.2rc2` tested baseline.
 
+### Post-0.1.2 (main branch, unreleased)
+
+#### Added
+- JSON file persistence adapter (`sim_framework.adapters.persistence.JsonFilePersistence`) implementing `PersistencePort` save/load for run manifests and snapshots.
+- Adapter-level tests covering protocol conformance, round-trip integrity, serialized bundle contract, and missing-run errors.
+
+#### Changed
+- Public CLI now supports persistence flows:
+  - `--save-run-id` to persist a run bundle.
+  - `--load-run-id` to load and summarize a persisted run.
+  - `--persistence-root` to control storage location.
+- App CLI tests extended with save/load success paths and persistence-specific argument/error coverage.
+
 ## [0.1.2rc2] - 2026-03-04
 
 ### Added

@@ -62,6 +62,19 @@ You can explicitly override snapshot behavior in either mode:
 .venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 100 --runtime-mode headless --emit-snapshot-events
 ```
 
+Run persistence workflows (save/load snapshots + manifest):
+
+```bash
+# Save a run bundle to runs/demo-run/run.json
+.venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 50 --runtime-mode headless --save-run-id demo-run
+
+# Load a previously saved run and print metadata summary
+.venv/bin/python -m sim_framework.app.cli --load-run-id demo-run
+
+# Use a custom persistence root
+.venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 25 --save-run-id custom-run --persistence-root /tmp/sim-runs
+```
+
 Latest baseline snapshot in this repository:
 - `Plans/perf_baseline_2026-03-03.json`
 - `Plans/perf_baseline_2026-03-03.md`
@@ -75,6 +88,7 @@ Latest baseline snapshot in this repository:
 - Deterministic engine loop and command handling implemented.
 - Rewind/history snapshot support implemented.
 - Ant foraging scenario runs headless and is covered by integration tests.
+- File-based persistence adapter implemented for run save/load (`JsonFilePersistence` + CLI flags).
 
 ## Release artifacts
 
