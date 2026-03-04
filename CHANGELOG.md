@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.1.2] - 2026-03-04
+
+### Release
+- Promote release candidate `0.1.2rc2` to stable `0.1.2`.
+- No additional code changes beyond the `0.1.2rc2` tested baseline.
+
 ## [0.1.2rc2] - 2026-03-04
 
 ### Added
