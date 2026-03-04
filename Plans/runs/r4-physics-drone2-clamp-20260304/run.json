@@ -1,0 +1,7840 @@
+{
+  "manifest": {
+    "run_id": "r4-physics-drone2-clamp-20260304",
+    "scenario_name": "drone_patrol",
+    "seed": 42
+  },
+  "snapshots": [
+    {
+      "tick": 0,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 1,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 1.848528137423857,
+            "y": 1.848528137423857
+          },
+          "velocity": {
+            "x": 0.8485281374238569,
+            "y": 0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.1514718625761431,
+            "y": 1.848528137423857
+          },
+          "velocity": {
+            "x": -0.8485281374238569,
+            "y": 0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.1514718625761431,
+            "y": 0.1514718625761431
+          },
+          "velocity": {
+            "x": -0.8485281374238569,
+            "y": -0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 1.848528137423857,
+            "y": 0.1514718625761431
+          },
+          "velocity": {
+            "x": 0.8485281374238569,
+            "y": -0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 1.848528137423857,
+            "y": 1.848528137423857
+          },
+          "velocity": {
+            "x": 0.8485281374238569,
+            "y": 0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.1514718625761431,
+            "y": 1.848528137423857
+          },
+          "velocity": {
+            "x": -0.8485281374238569,
+            "y": 0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.1514718625761431,
+            "y": 0.1514718625761431
+          },
+          "velocity": {
+            "x": -0.8485281374238569,
+            "y": -0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 1.848528137423857,
+            "y": 0.1514718625761431
+          },
+          "velocity": {
+            "x": 0.8485281374238569,
+            "y": -0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 1.848528137423857,
+            "y": 1.848528137423857
+          },
+          "velocity": {
+            "x": 0.8485281374238569,
+            "y": 0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.1514718625761431,
+            "y": 1.848528137423857
+          },
+          "velocity": {
+            "x": -0.8485281374238569,
+            "y": 0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.1514718625761431,
+            "y": 0.1514718625761431
+          },
+          "velocity": {
+            "x": -0.8485281374238569,
+            "y": -0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 1.848528137423857,
+            "y": 0.1514718625761431
+          },
+          "velocity": {
+            "x": 0.8485281374238569,
+            "y": -0.8485281374238569
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 2,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.848528137423857,
+            "y": 0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -0.848528137423857,
+            "y": 0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": -0.848528137423857,
+            "y": -0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.848528137423857,
+            "y": -0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.848528137423857,
+            "y": 0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -0.848528137423857,
+            "y": 0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": -0.848528137423857,
+            "y": -0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.848528137423857,
+            "y": -0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.848528137423857,
+            "y": 0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -0.848528137423857,
+            "y": 0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": -0.848528137423857,
+            "y": -0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.848528137423857,
+            "y": -0.848528137423857
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 3,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 4,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 5,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 6,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 7,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 8,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 9,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 10,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 11,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.8,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 0.8
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 1.2
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.8,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 0.8
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 1.2
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.8,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 0.8
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 1.2
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 12,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 13,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 14,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 15,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 16,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 17,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 18,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 19,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 20,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 21,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 0.8
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 1.2
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.8,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 0.8
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 1.2
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.8,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 0.8
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 1.2
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.8,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 22,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 23,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 24,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 25,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 26,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 27,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 28,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 29,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 30,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 31,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 1.2
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.8,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 0.8
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 1.2
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.8,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 0.8
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 1.2
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.8,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 0.8
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 32,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": -1.2,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": -1.2
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 33,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 34,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 35,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 36,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 37,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 38,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 39,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "tick": 40,
+      "agents": [
+        {
+          "id": "drone-0",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-1",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-2",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-3",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-4",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-5",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-6",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-7",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-8",
+          "position": {
+            "x": 2.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-9",
+          "position": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-10",
+          "position": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        },
+        {
+          "id": "drone-11",
+          "position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "energy": 1.0,
+          "carrying": 0,
+          "state_label": "patrolling"
+        }
+      ],
+      "food_sources": [],
+      "colony": {
+        "id": "base-1",
+        "position": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "signal_fields": [
+        {
+          "kind": "radio",
+          "width": 2,
+          "height": 2,
+          "decay": 0.99,
+          "diffusion": 0.05
+        }
+      ],
+      "seed": 42
+    }
+  ]
+}

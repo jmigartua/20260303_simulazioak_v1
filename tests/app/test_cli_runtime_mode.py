@@ -98,6 +98,27 @@ def test_cli_drone_patrol_runs_headless(capsys) -> None:
     assert payload["run"]["ants"] == 10
 
 
+def test_cli_wrap_boundary_mode_is_reported(capsys) -> None:
+    payload = _run_cli(
+        [
+            "--scenario",
+            "drone_patrol",
+            "--ticks",
+            "5",
+            "--ants",
+            "10",
+            "--runtime-mode",
+            "headless",
+            "--boundary-mode",
+            "wrap",
+        ],
+        capsys,
+    )
+
+    assert payload["scenario"] == "drone_patrol"
+    assert payload["physics"]["boundary_mode"] == "wrap"
+
+
 def test_cli_rejects_invalid_scenario(capsys) -> None:
     with pytest.raises(SystemExit) as exc:
         main(["--scenario", "unknown_scenario"])

@@ -62,6 +62,7 @@ Scenario-aware benchmarking is supported:
 .venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 100 --runtime-mode interactive
 .venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 100 --runtime-mode headless
 .venv/bin/python -m sim_framework.app.cli --scenario drone_patrol --ticks 100 --runtime-mode headless
+.venv/bin/python -m sim_framework.app.cli --scenario drone_patrol --ticks 100 --runtime-mode headless --boundary-mode wrap
 ```
 
 You can explicitly override snapshot behavior in either mode:

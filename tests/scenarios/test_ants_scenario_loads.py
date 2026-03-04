@@ -103,3 +103,23 @@ def test_behavior_runner_caches_spatial_hash_per_tick(monkeypatch: pytest.Monkey
     next_tick_state = state.model_copy(update={"tick": state.tick + 1})
     _ = runner(next_tick_state.agents[0], next_tick_state, rng)
     assert build_calls == 2
+
+
+def test_ant_runner_respects_configured_boundary_mode(monkeypatch: pytest.MonkeyPatch) -> None:
+    seen_mode: dict[str, str] = {}
+
+    def fake_apply_movement(agent, dt, bounds, mode="clamp"):
+        _ = (dt, bounds)
+        seen_mode["mode"] = mode
+        return agent
+
+    monkeypatch.setattr("sim_framework.scenarios.ants_foraging.spec.apply_movement", fake_apply_movement)
+
+    state = build_initial_state(num_ants=2, width=20, height=20, seed=9)
+    signal_grid = SignalGrid.from_config(state.signal_fields[0])
+    bounds = WorldBounds(width=20.0, height=20.0)
+    runner = create_ant_behavior_runner(bounds=bounds, signal_grid=signal_grid, boundary_mode="wrap")
+    rng = random.Random(state.seed)
+
+    _ = runner(state.agents[0], state, rng)
+    assert seen_mode["mode"] == "wrap"

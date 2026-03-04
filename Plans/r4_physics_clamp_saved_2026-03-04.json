@@ -1,0 +1,33 @@
+{
+  "scenario": "drone_patrol",
+  "runtime": {
+    "mode": "headless",
+    "emit_snapshot_events": false
+  },
+  "run": {
+    "ticks_requested": 40,
+    "ticks_completed": 40,
+    "ants": 12,
+    "seed": 42,
+    "world": {
+      "width": 12,
+      "height": 12
+    }
+  },
+  "physics": {
+    "boundary_mode": "clamp"
+  },
+  "events": {
+    "published": 0,
+    "snapshot": 0
+  },
+  "metrics": {
+    "carrying_agents": 0,
+    "signal_total": 71.99999999999999
+  },
+  "persistence": {
+    "root": "Plans/runs",
+    "saved_run_id": "r4-physics-clamp-20260304",
+    "snapshots_saved": 41
+  }
+}

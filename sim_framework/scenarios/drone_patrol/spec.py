@@ -11,7 +11,7 @@ from sim_framework.contracts.validators import (
     validate_known_behavior_names,
 )
 from sim_framework.core.environment import SignalGrid
-from sim_framework.core.physics import WorldBounds, apply_movement
+from sim_framework.core.physics import BoundaryMode, WorldBounds, apply_movement
 
 DRONE_SCOUT_SPEC = StateMachineAgentSchemaSpec(
     agent_type="drone_scout",
@@ -84,7 +84,15 @@ def _drone_index(agent_id: str) -> int:
         return 0
 
 
-def create_drone_behavior_runner(bounds: WorldBounds, signal_grid: SignalGrid):
+def create_drone_behavior_runner(
+    bounds: WorldBounds,
+    signal_grid: SignalGrid,
+    *,
+    boundary_mode: BoundaryMode = "clamp",
+):
+    if boundary_mode not in {"clamp", "wrap"}:
+        raise ValueError("boundary_mode must be 'clamp' or 'wrap'")
+
     max_speed = DRONE_SCOUT_SPEC.attributes.max_speed
     segment_ticks = int(
         DRONE_SCOUT_SPEC.states["patrolling"].behaviors[0].params["segment_ticks"]
@@ -116,7 +124,6 @@ def create_drone_behavior_runner(bounds: WorldBounds, signal_grid: SignalGrid):
             }
         )
         signal_grid.deposit(next_agent.position, beacon_amount)
-        return apply_movement(next_agent, dt=1.0, bounds=bounds, mode="clamp")
+        return apply_movement(next_agent, dt=1.0, bounds=bounds, mode=boundary_mode)
 
     return run
-

@@ -53,3 +53,26 @@ def test_behavior_runner_keeps_agents_in_bounds_and_emits_signal() -> None:
     assert next_agent.state_label == "patrolling"
     assert signal_grid.total_signal() > 0.0
 
+
+def test_drone_runner_respects_configured_boundary_mode(monkeypatch) -> None:
+    seen_mode: dict[str, str] = {}
+
+    def fake_apply_movement(agent, dt, bounds, mode="clamp"):
+        _ = (dt, bounds)
+        seen_mode["mode"] = mode
+        return agent
+
+    monkeypatch.setattr("sim_framework.scenarios.drone_patrol.spec.apply_movement", fake_apply_movement)
+
+    state = build_drone_initial_state(num_drones=2, width=20, height=20, seed=7)
+    bounds = WorldBounds(width=20.0, height=20.0)
+    signal_grid = SignalGrid.from_config(state.signal_fields[0])
+    runner = create_drone_behavior_runner(
+        bounds=bounds,
+        signal_grid=signal_grid,
+        boundary_mode="wrap",
+    )
+    rng = random.Random(state.seed)
+
+    _ = runner(state.agents[0], state, rng)
+    assert seen_mode["mode"] == "wrap"

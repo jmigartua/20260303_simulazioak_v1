@@ -15,6 +15,7 @@ All notable changes to this project are documented in this file.
 - Adapter-level tests covering protocol conformance, round-trip integrity, serialized bundle contract, and missing-run errors.
 - New `drone_patrol` scenario with registry integration and dedicated scenario/integration tests.
 - R5 drone reproducibility bundle in `Plans/` with adapter-backed save/load artifacts and scenario-aware ON/OFF benchmark outputs.
+- R4 physics reproducibility bundle in `Plans/` demonstrating boundary mode impact (`clamp` vs `wrap`) with deterministic artifacts.
 
 #### Changed
 - Public CLI now supports persistence flows:
@@ -24,6 +25,7 @@ All notable changes to this project are documented in this file.
 - App CLI tests extended with save/load success paths and persistence-specific argument/error coverage.
 - Benchmark tooling is now scenario-aware (`--scenario`) for both `benchmark_headless.py` and `run_perf_snapshot_toggle.py`.
 - CLI scenario initialization now dispatches agent-count parameter by scenario signature (`num_ants` / `num_drones` / `num_agents`) to support multi-scenario execution.
+- CLI now exposes `--boundary-mode` (`clamp`/`wrap`) and passes physics mode into scenario behavior runners.
 
 ## [0.1.2rc2] - 2026-03-04
 

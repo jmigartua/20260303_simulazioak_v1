@@ -12,7 +12,7 @@ from sim_framework.contracts.validators import (
     validate_known_behavior_names,
 )
 from sim_framework.core.environment import SignalGrid
-from sim_framework.core.physics import SpatialHash, WorldBounds, apply_movement
+from sim_framework.core.physics import BoundaryMode, SpatialHash, WorldBounds, apply_movement
 
 ANT_WORKER_SPEC = StateMachineAgentSchemaSpec(
     agent_type="ant_worker",
@@ -105,7 +105,15 @@ def _normalize(dx: float, dy: float) -> tuple[float, float]:
     return dx / mag, dy / mag
 
 
-def create_ant_behavior_runner(bounds: WorldBounds, signal_grid: SignalGrid):
+def create_ant_behavior_runner(
+    bounds: WorldBounds,
+    signal_grid: SignalGrid,
+    *,
+    boundary_mode: BoundaryMode = "clamp",
+):
+    if boundary_mode not in {"clamp", "wrap"}:
+        raise ValueError("boundary_mode must be 'clamp' or 'wrap'")
+
     max_speed = ANT_WORKER_SPEC.attributes.max_speed
     sensor_radius = ANT_WORKER_SPEC.attributes.sensor_radius
     pickup_radius = ANT_WORKER_SPEC.states["searching"].behaviors[2].params["pickup_radius"]
@@ -182,6 +190,6 @@ def create_ant_behavior_runner(bounds: WorldBounds, signal_grid: SignalGrid):
                 "velocity": Vector2(x=ux * max_speed, y=uy * max_speed),
             }
         )
-        return apply_movement(next_agent, dt=1.0, bounds=bounds, mode="clamp")
+        return apply_movement(next_agent, dt=1.0, bounds=bounds, mode=boundary_mode)
 
     return run

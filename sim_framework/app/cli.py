@@ -10,7 +10,7 @@ from sim_framework.adapters.persistence import JsonFilePersistence
 from sim_framework.contracts.models import RunManifest, SnapshotEvent
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.history import SnapshotHistory
-from sim_framework.core.physics import WorldBounds
+from sim_framework.core.physics import BoundaryMode, WorldBounds
 from sim_framework.scenarios.registry import get_scenario, list_scenarios
 
 from sim_framework.app.runtime import RuntimeConfig, RuntimeMode, create_engine
@@ -25,6 +25,13 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--ants", type=int, default=40)
     parser.add_argument("--width", type=int, default=30)
     parser.add_argument("--height", type=int, default=30)
+    parser.add_argument(
+        "--boundary-mode",
+        type=str,
+        choices=["clamp", "wrap"],
+        default="clamp",
+        help="Physics boundary behavior for movement.",
+    )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument(
         "--runtime-mode",
@@ -124,6 +131,20 @@ def _build_state_for_scenario(
     return build_fn(**kwargs)
 
 
+def _create_runner_for_scenario(
+    runner_factory,
+    *,
+    bounds: WorldBounds,
+    signal_grid: SignalGrid,
+    boundary_mode: BoundaryMode,
+):
+    signature = inspect.signature(runner_factory)
+    kwargs = {"bounds": bounds, "signal_grid": signal_grid}
+    if "boundary_mode" in signature.parameters:
+        kwargs["boundary_mode"] = boundary_mode
+    return runner_factory(**kwargs)
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
@@ -170,7 +191,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         parser.error(str(exc))
     bounds = WorldBounds(width=float(args.width), height=float(args.height))
     signal_grid = SignalGrid.from_config(state.signal_fields[0])
-    runner = scenario["create_behavior_runner"](bounds=bounds, signal_grid=signal_grid)
+    runner = _create_runner_for_scenario(
+        scenario["create_behavior_runner"],
+        bounds=bounds,
+        signal_grid=signal_grid,
+        boundary_mode=args.boundary_mode,
+    )
     engine = create_engine(seed=state.seed, runtime=runtime)
     history = SnapshotHistory(snapshot_every=1)
     snapshots_for_persistence = [state.model_copy(deep=True)]
@@ -193,6 +219,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             "ants": len(state.agents),
             "seed": state.seed,
             "world": {"width": args.width, "height": args.height},
+        },
+        "physics": {
+            "boundary_mode": args.boundary_mode,
         },
         "events": {
             "published": len(events),
