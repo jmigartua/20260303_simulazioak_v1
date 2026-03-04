@@ -18,6 +18,9 @@ dev = [
   "pytest>=8.0",
 ]
 
+[project.scripts]
+sim-run = "sim_framework.app.cli:main"
+
 [tool.setuptools.packages.find]
 include = ["sim_framework*"]
 

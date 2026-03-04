@@ -28,6 +28,23 @@ uv pip install -e .[dev]
 .venv/bin/python scripts/benchmark_headless.py --agents 100,300 --ticks 50 --repeats 2 --json-out Plans/perf_baseline_$(date +%F).json
 ```
 
+## Run simulation (public runtime mode)
+
+`sim-run` exposes a runtime preset:
+- `interactive` (default): emits `SnapshotEvent` events.
+- `headless`: disables `SnapshotEvent` emission by default for lower overhead.
+
+```bash
+.venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 100 --runtime-mode interactive
+.venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 100 --runtime-mode headless
+```
+
+You can explicitly override snapshot behavior in either mode:
+
+```bash
+.venv/bin/python -m sim_framework.app.cli --scenario ants_foraging --ticks 100 --runtime-mode headless --emit-snapshot-events
+```
+
 Latest baseline snapshot in this repository:
 - `Plans/perf_baseline_2026-03-03.json`
 - `Plans/perf_baseline_2026-03-03.md`
