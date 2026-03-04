@@ -58,3 +58,8 @@ Latest baseline snapshot in this repository:
 - Deterministic engine loop and command handling implemented.
 - Rewind/history snapshot support implemented.
 - Ant foraging scenario runs headless and is covered by integration tests.
+
+## Release artifacts
+
+- Changelog: `CHANGELOG.md`
+- Milestone notes for commits 27-29: `Plans/milestone_0.1.1_notes.md`
