@@ -20,9 +20,12 @@ def _load_module(rel_path: str, module_name: str):
     return module
 
 
-def _payload(*, emit_snapshot_events: bool, agents: int, us: float, mem: float) -> dict:
+def _payload(
+    *, emit_snapshot_events: bool, agents: int, us: float, mem: float, scenario: str = "ants_foraging"
+) -> dict:
     return {
         "config": {
+            "scenario": scenario,
             "ticks": 10,
             "repeats": 1,
             "emit_snapshot_events": emit_snapshot_events,
@@ -92,6 +95,7 @@ def test_main_generates_json_and_markdown_with_stable_contract(
 
     def fake_run_benchmark(
         *,
+        scenario: str,
         agents: list[int],
         ticks: int,
         repeats: int,
@@ -103,6 +107,7 @@ def test_main_generates_json_and_markdown_with_stable_contract(
     ) -> None:
         payload = {
             "config": {
+                "scenario": scenario,
                 "agents": agents,
                 "ticks": ticks,
                 "repeats": repeats,
@@ -137,6 +142,8 @@ def test_main_generates_json_and_markdown_with_stable_contract(
         "argv",
         [
             "run_perf_snapshot_toggle.py",
+            "--scenario",
+            "drone_patrol",
             "--agents",
             "10,20",
             "--ticks",
@@ -163,9 +170,17 @@ def test_main_generates_json_and_markdown_with_stable_contract(
     off_payload = json.loads(off_path.read_text(encoding="utf-8"))
     for payload in (on_payload, off_payload):
         assert set(payload) == {"config", "runs", "summaries"}
-        assert {"agents", "ticks", "repeats", "width", "height", "seed", "emit_snapshot_events"} <= set(
-            payload["config"]
-        )
+        assert {
+            "scenario",
+            "agents",
+            "ticks",
+            "repeats",
+            "width",
+            "height",
+            "seed",
+            "emit_snapshot_events",
+        } <= set(payload["config"])
+        assert payload["config"]["scenario"] == "drone_patrol"
         assert payload["runs"]
         assert payload["summaries"]
         assert {"agents", "state_tick", "carrying_agents", "signal_total"} <= set(payload["runs"][0])

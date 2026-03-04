@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import cProfile
+import inspect
 import json
 import pstats
 import statistics
@@ -15,11 +16,12 @@ from time import perf_counter
 from sim_framework.core.engine import SimulationEngine
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.physics import WorldBounds
-from sim_framework.scenarios.ants_foraging import build_initial_state, create_ant_behavior_runner
+from sim_framework.scenarios.registry import get_scenario, list_scenarios
 
 
 @dataclass
 class BenchmarkRun:
+    scenario: str
     agents: int
     ticks: int
     elapsed_s: float
@@ -33,6 +35,7 @@ class BenchmarkRun:
 
 @dataclass
 class BenchmarkSummary:
+    scenario: str
     agents: int
     ticks: int
     repeats: int
@@ -59,7 +62,35 @@ def _parse_agents(raw: str) -> list[int]:
     return parsed
 
 
+def _build_state_for_scenario(
+    build_fn,
+    *,
+    scenario: str,
+    agents: int,
+    width: int,
+    height: int,
+    seed: int,
+):
+    signature = inspect.signature(build_fn)
+    kwargs = {"width": width, "height": height, "seed": seed}
+
+    if "num_ants" in signature.parameters:
+        kwargs["num_ants"] = agents
+    elif "num_drones" in signature.parameters:
+        kwargs["num_drones"] = agents
+    elif "num_agents" in signature.parameters:
+        kwargs["num_agents"] = agents
+    else:
+        raise ValueError(
+            f"Scenario '{scenario}' does not expose a supported agent-count parameter "
+            "(expected one of: num_ants, num_drones, num_agents)."
+        )
+
+    return build_fn(**kwargs)
+
+
 def _single_run(
+    scenario: str,
     agents: int,
     ticks: int,
     width: int,
@@ -68,14 +99,22 @@ def _single_run(
     *,
     emit_snapshot_events: bool,
 ) -> BenchmarkRun:
-    state = build_initial_state(num_ants=agents, width=width, height=height, seed=seed)
+    scenario_impl = get_scenario(scenario)
+    state = _build_state_for_scenario(
+        scenario_impl["build_initial_state"],
+        scenario=scenario,
+        agents=agents,
+        width=width,
+        height=height,
+        seed=seed,
+    )
     bounds = WorldBounds(width=float(width), height=float(height))
     signal_grid = SignalGrid.from_config(state.signal_fields[0])
     engine = SimulationEngine(
         seed=seed,
         emit_snapshot_events=emit_snapshot_events,
     )
-    runner = create_ant_behavior_runner(bounds=bounds, signal_grid=signal_grid)
+    runner = scenario_impl["create_behavior_runner"](bounds=bounds, signal_grid=signal_grid)
 
     tracemalloc.start()
     start = perf_counter()
@@ -89,6 +128,7 @@ def _single_run(
     tps = ticks / elapsed
     us_per_agent_tick = (elapsed * 1_000_000.0) / (agents * ticks)
     return BenchmarkRun(
+        scenario=scenario,
         agents=agents,
         ticks=ticks,
         elapsed_s=elapsed,
@@ -105,12 +145,14 @@ def _summarize(runs: list[BenchmarkRun]) -> BenchmarkSummary:
     if not runs:
         raise ValueError("runs cannot be empty")
     agents = runs[0].agents
+    scenario = runs[0].scenario
     ticks = runs[0].ticks
     elapsed = [r.elapsed_s for r in runs]
     tps = [r.ticks_per_s for r in runs]
     uapt = [r.us_per_agent_tick for r in runs]
     peak = [r.peak_mem_mb for r in runs]
     return BenchmarkSummary(
+        scenario=scenario,
         agents=agents,
         ticks=ticks,
         repeats=len(runs),
@@ -128,7 +170,8 @@ def _summarize(runs: list[BenchmarkRun]) -> BenchmarkSummary:
 def _print_summary(summary: BenchmarkSummary) -> None:
     print(
         (
-            f"agents={summary.agents:>4} ticks={summary.ticks:>4} repeats={summary.repeats} | "
+            f"scenario={summary.scenario} agents={summary.agents:>4} ticks={summary.ticks:>4} "
+            f"repeats={summary.repeats} | "
             f"elapsed={summary.elapsed_s_mean:.3f}s ±{summary.elapsed_s_stdev:.3f} | "
             f"tps={summary.ticks_per_s_mean:.2f} ±{summary.ticks_per_s_stdev:.2f} | "
             f"us/agent-tick={summary.us_per_agent_tick_mean:.3f} ±{summary.us_per_agent_tick_stdev:.3f} | "
@@ -139,6 +182,7 @@ def _print_summary(summary: BenchmarkSummary) -> None:
 
 def _run_benchmark(
     *,
+    scenario: str,
     agents: list[int],
     ticks: int,
     repeats: int,
@@ -155,6 +199,7 @@ def _run_benchmark(
         for repeat in range(repeats):
             run_seed = seed + repeat
             run = _single_run(
+                scenario=scenario,
                 agents=agent_count,
                 ticks=ticks,
                 width=width,
@@ -189,7 +234,14 @@ def _write_profile(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Headless performance benchmark for ants_foraging scenario."
+        description="Headless performance benchmark for registered simulation scenarios."
+    )
+    parser.add_argument(
+        "--scenario",
+        type=str,
+        choices=list_scenarios(),
+        default="ants_foraging",
+        help="Scenario to benchmark.",
     )
     parser.add_argument("--agents", type=_parse_agents, default="100,500,1000")
     parser.add_argument("--ticks", type=int, default=200)
@@ -236,6 +288,7 @@ def main() -> None:
         profiler = cProfile.Profile()
         all_runs, summaries = profiler.runcall(
             _run_benchmark,
+            scenario=args.scenario,
             agents=args.agents,
             ticks=args.ticks,
             repeats=args.repeats,
@@ -252,6 +305,7 @@ def main() -> None:
         )
     else:
         all_runs, summaries = _run_benchmark(
+            scenario=args.scenario,
             agents=args.agents,
             ticks=args.ticks,
             repeats=args.repeats,
@@ -265,6 +319,7 @@ def main() -> None:
         args.json_out.parent.mkdir(parents=True, exist_ok=True)
         payload = {
             "config": {
+                "scenario": args.scenario,
                 "agents": args.agents,
                 "ticks": args.ticks,
                 "repeats": args.repeats,

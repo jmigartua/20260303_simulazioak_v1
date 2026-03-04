@@ -8,6 +8,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
+from sim_framework.scenarios.registry import list_scenarios
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 BENCHMARK_SCRIPT = PROJECT_ROOT / "scripts" / "benchmark_headless.py"
@@ -28,6 +29,7 @@ def _parse_agents(raw: str) -> list[int]:
 
 def _run_benchmark(
     *,
+    scenario: str,
     agents: list[int],
     ticks: int,
     repeats: int,
@@ -40,6 +42,8 @@ def _run_benchmark(
     cmd = [
         sys.executable,
         str(BENCHMARK_SCRIPT),
+        "--scenario",
+        str(scenario),
         "--agents",
         ",".join(str(v) for v in agents),
         "--ticks",
@@ -90,6 +94,7 @@ def _write_comparison(on_payload: dict, off_payload: dict, out_path: Path) -> No
     lines.append("# Snapshot ON vs OFF Benchmark Comparison")
     lines.append("")
     lines.append("- Source: `scripts/run_perf_snapshot_toggle.py`")
+    lines.append(f"- Scenario: `{on_payload['config'].get('scenario', 'unknown')}`")
     lines.append(
         f"- ON config: ticks={on_payload['config']['ticks']}, repeats={on_payload['config']['repeats']}, "
         f"emit_snapshot_events={on_payload['config']['emit_snapshot_events']}"
@@ -132,6 +137,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Run ON/OFF snapshot baseline and generate a comparison markdown file."
     )
+    parser.add_argument(
+        "--scenario",
+        type=str,
+        choices=list_scenarios(),
+        default="ants_foraging",
+        help="Scenario to benchmark in ON/OFF mode.",
+    )
     parser.add_argument("--agents", type=_parse_agents, default="100,300")
     parser.add_argument("--ticks", type=int, default=100)
     parser.add_argument("--repeats", type=int, default=3)
@@ -160,6 +172,7 @@ def main() -> None:
     comparison_md = args.output_dir / f"perf_comparison_{args.label}.md"
 
     _run_benchmark(
+        scenario=args.scenario,
         agents=args.agents,
         ticks=args.ticks,
         repeats=args.repeats,
@@ -170,6 +183,7 @@ def main() -> None:
         snapshot_events=True,
     )
     _run_benchmark(
+        scenario=args.scenario,
         agents=args.agents,
         ticks=args.ticks,
         repeats=args.repeats,

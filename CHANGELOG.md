@@ -21,6 +21,7 @@ All notable changes to this project are documented in this file.
   - `--load-run-id` to load and summarize a persisted run.
   - `--persistence-root` to control storage location.
 - App CLI tests extended with save/load success paths and persistence-specific argument/error coverage.
+- Benchmark tooling is now scenario-aware (`--scenario`) for both `benchmark_headless.py` and `run_perf_snapshot_toggle.py`.
 
 ## [0.1.2rc2] - 2026-03-04
 

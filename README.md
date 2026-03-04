@@ -45,6 +45,13 @@ Reproducible ON/OFF snapshot comparison (runs both modes + writes comparison mar
 .venv/bin/python scripts/run_perf_snapshot_toggle.py --agents 100,300 --ticks 100 --repeats 3
 ```
 
+Scenario-aware benchmarking is supported:
+
+```bash
+.venv/bin/python scripts/benchmark_headless.py --scenario drone_patrol --agents 100 --ticks 50 --repeats 2
+.venv/bin/python scripts/run_perf_snapshot_toggle.py --scenario drone_patrol --agents 100,300 --ticks 100 --repeats 3
+```
+
 ## Run simulation (public runtime mode)
 
 `sim-run` exposes a runtime preset:
