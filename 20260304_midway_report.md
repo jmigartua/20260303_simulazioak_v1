@@ -5,7 +5,7 @@
 **Project:** TFG — Modular Multi-Agent Simulation Framework
 **Version:** v1 (20260303_simulazioak_v1)
 **Assessment type:** Deep midway analysis — architecture, implementation, testing, performance, and roadmap
-**Scope note:** Two-pass report. Pass 1 analyzes the baseline through commit 32; Pass 2 (addendum) extends coverage through commit 48 on 2026-03-04. For commits after 48, use `11_agent_execution_audit.md` + `CHANGELOG.md`.
+**Scope note:** Three-pass report. Pass 1 analyzes the baseline through commit 32; Pass 2 (addendum) extends coverage through commit 48; Pass 3 (addendum) extends coverage through commit 63 on 2026-03-04. For commits after 63, use `11_agent_execution_audit.md` + `CHANGELOG.md`. Sections 1-15 preserve Pass 1 baseline context; the current consolidated state is in Sections 29-30.
 
 ---
 
@@ -27,7 +27,7 @@
 14. [Strengths — What Works Exceptionally Well](#14-strengths--what-works-exceptionally-well)
 15. [Roadmap to Thesis Defense](#15-roadmap-to-thesis-defense)
 16. [ADDENDUM: Post-Commit-32 Progress](#16-addendum-post-commit-32-progress-commits-3348)
-29. [Conclusion (Updated)](#29-conclusion-updated)
+30. [Conclusion (Updated — Pass 3)](#30-conclusion-updated--pass-3)
 
 ---
 
@@ -44,7 +44,7 @@ This project implements a **modular, deterministic, multi-agent simulation frame
 - Headless CLI with JSON output and runtime mode toggling
 - Performance baselines with profiling and a documented optimization cycle
 
-The project is at the **midway point**: the simulation core and first scenario are complete and rigorously tested. The remaining work — frontend UI, second scenario, persistence, and thesis writing — represents the second half.
+The project is at the **midway point** in Pass 1 context: the simulation core and first scenario are complete and rigorously tested. At that stage, the remaining work — frontend UI, second scenario, persistence, and thesis writing — represented the second half. (See Sections 29-30 for the current post-Pass-3 state.)
 
 ---
 
@@ -141,7 +141,7 @@ adapters  ← imports contracts (+ orchestration interfaces)
 app       ← imports everything (composition root)
 ```
 
-This is verified by inspection (no automated import-lint script yet — see Gap Analysis).
+This is verified by inspection in Pass 1 context (no automated import-lint script at that stage — see Gap Analysis). For current status after Pass 3, see Section 29.11 (`check_import_flow.py` CI enforcement and I-17 note).
 
 ### 3.3 Key Design Decisions (D1–D15)
 
@@ -1119,21 +1119,475 @@ The tooling tests represent a mature pattern: **testing the test infrastructure 
 
 ---
 
-## 29. Conclusion (Updated)
+## 29. PASS 3: Post-Commit-48 Deep Analysis (Commits 49–63)
 
-This project has moved beyond a "strong midway point" to a **release-hardened backend/core engineering product**. The 16 new commits (33–48) addressed five infrastructure gaps identified in the previous analysis: CI/CD, import-flow enforcement, release versioning, packaging, and developer workflow.
+**Scope:** This third analysis pass covers the 15 commits following the Pass 2 addendum (commits 49–63, 2026-03-04). These commits represent a major capability expansion: the project moved from a single-scenario headless engine to a **multi-scenario, persistence-backed, runtime-configurable framework** with comprehensive reproducibility evidence and a concrete UI roadmap.
 
-The current state — v0.1.2 stable with 86 passing tests, 2 CI workflows, 3 automated guardrails, and a Makefile-driven workflow — represents professional-grade software engineering. For a TFG, this level of infrastructure rigor is exceptional.
-
-**What the project demonstrates right now:**
-
-- Modular architecture with automated enforcement (0 import violations, CI-gated)
-- Deterministic simulation with reproducible benchmarks (cross-checked ON/OFF)
-- Release discipline (CHANGELOG, version consistency, wheel packaging)
-- 86 tests with 100% pass rate in 0.66 seconds
-
-**What remains is the user-facing layer and academic writing:** frontend visualization, the drone scenario for generality proof, persistence for save/load, and the thesis document itself. The backend/core foundation is not merely adequate — it is excellent.
+**Method:** Source-level code reading of all new and modified files, test verification (110/110 passing, 0.82s), git log analysis, evidence artifact verification.
 
 ---
 
-**Objective of the project:** Build a modular, deterministic, multi-agent simulation framework demonstrated through ant colony foraging with pheromone stigmergy. **Achievements:** v0.1.2 stable release with 86 passing tests, CI/CD pipeline with 2 workflows and 3 automated guardrails, deterministic engine with replay/rewind, spatial hashing, pheromone dynamics, import-flow enforcement (0 violations), wheel packaging with smoke test, reproducible benchmark runner with determinism cross-checking, and complete architectural documentation. **Remaining steps:** Web UI visualization, drone scenario for multi-scenario proof, persistence adapter, desktop packaging, and thesis writing (Chapters 1-6). **Current state (2026-03-04):** Project is at commit 48, version 0.1.2 (stable), with 3,505 LOC across 18 test modules, full CI/CD green, release-hardened in backend/core scope — ready for the user-facing development phase.
+### 29.1 JSON File Persistence Adapter — Deep Dive (Commits 47–49)
+
+The `JsonFilePersistence` adapter (33 LOC at `sim_framework/adapters/persistence/json_file.py`) is the first concrete `PersistencePort` implementation. It implements save/load for `RunManifest` + snapshot lists as `{root}/{run_id}/run.json`.
+
+**Design Assessment:**
+
+| Aspect | Finding |
+|---|---|
+| **Port conformance** | Implements `PersistencePort.save_run()` and `PersistencePort.load_run()` |
+| **Isolation** | Uses `model_copy(deep=True)` for on-disk serialization — prevents reference leaking between in-memory and persisted state |
+| **Structure** | Stores as `{root}/{run_id}/run.json` containing `RunManifest` + serialized snapshots |
+| **Error handling** | `FileNotFoundError` on missing run IDs with informative message |
+| **Layer compliance** | Sits in `sim_framework/adapters/persistence/` — correct layer per D5/D6 |
+
+**CLI Integration (commit 48):** Three new CLI flags thread persistence through the composition root:
+
+- `--save-run-id <id>`: Persist manifest + snapshots after simulation
+- `--load-run-id <id>`: Load and summarize a previously persisted run (returns early, no simulation)
+- `--persistence-root <path>`: Control storage location (default: `runs/`)
+
+Mutually exclusive save/load group prevents contradictory invocations. The `_emit_payload()` DRY refactor centralizes JSON output to both stdout and optional `--json-out` file.
+
+**Performance Concern (still open):** The current implementation runs `state.model_copy(deep=True)` on every tick to build `snapshots_for_persistence`, even when `--save-run-id` is not specified. For 100 ticks with 100 agents, this creates ~100 unnecessary deep copies. The overhead is proportional to `O(ticks × agents)` and becomes measurable at scale. Fix: guard the deep copy behind `args.save_run_id is not None`.
+
+**Test Coverage:** 3 adapter tests (69 LOC) + 5 new CLI tests covering save→load round-trip, error paths, and persistence-specific argument validation. Tests verify:
+
+1. Protocol conformance (round-trip: save → load → identical manifest + snapshots)
+2. Mutation isolation (modifying loaded data doesn't affect stored data)
+3. Missing-run error path (`FileNotFoundError`)
+
+---
+
+### 29.2 Drone Patrol Scenario — Multi-Scenario Generality (Commit 51)
+
+The `drone_patrol` scenario (184 LOC at `sim_framework/scenarios/drone_patrol/spec.py`) is the second scenario, proving R5 (multi-scenario generality). Twelve drones patrol rectangular waypoints broadcasting a "radio" signal.
+
+**Architecture Assessment:**
+
+| Aspect | Finding |
+|---|---|
+| **State machine** | Single-state (`patrolling`) with 3 behaviors: `select_waypoint`, `move_to_waypoint`, `broadcast_beacon` |
+| **Signal field** | Uses `radio` signal kind (vs `pheromone` in ants) — demonstrates signal generality |
+| **Agent identity** | `drone-{idx}` naming convention with index-based waypoint phase offset |
+| **Movement** | Deterministic waypoint cycling: 4 corners with `margin=2.0`, phase = `(tick // segment_ticks + drone_index) % 4` |
+| **Physics** | Consumes `BoundaryMode` parameter (clamp/wrap) — same physics module as ants |
+| **Spec override** | Accepts `agent_spec` parameter for runtime customization of speed, sensor radius, behavior params |
+
+**Behavior Model Comparison:**
+
+| Dimension | Ants Foraging | Drone Patrol |
+|---|---|---|
+| States | 2 (searching ↔ carrying) | 1 (patrolling) |
+| State transitions | food pickup / colony drop | none |
+| Behaviors per state | 3 (searching), 3 (carrying) | 3 |
+| Signal type | pheromone (attract) | radio (broadcast) |
+| Movement | gradient-following + random wander | waypoint tracking |
+| Spatial interaction | neighbor avoidance via SpatialHash | independent waypoints |
+| Randomness | wander direction, food search | deterministic (no RNG calls) |
+
+**Significance for R5:** The drone scenario proves the framework's generality claim because it exercises fundamentally different agent behavior (deterministic waypoints vs stochastic foraging) through the *same* engine, physics, history, and persistence infrastructure. The scenario plug-in architecture (registry pattern) works exactly as designed.
+
+**Test Coverage:** 6 scenario-level tests + 1 integration test (100-tick headless). The integration test runs a full drone simulation and verifies tick completion, agent count, and event generation.
+
+---
+
+### 29.3 Scenario-Aware Benchmark Workflows (Commit 52)
+
+Both benchmark scripts (`benchmark_headless.py` and `run_perf_snapshot_toggle.py`) now accept `--scenario` CLI arguments with `inspect.signature`-based dispatch.
+
+**Key Technical Detail:** The `_build_state_for_scenario()` function in `cli.py` uses Python's `inspect.signature()` to detect which agent-count parameter a scenario's `build_initial_state` function expects (`num_ants`, `num_drones`, or `num_agents`). This is a pragmatic adapter pattern that avoids forcing all scenarios to use the same parameter name.
+
+**Test Coverage:** 7 new tests (97 LOC) covering:
+- Scenario dispatch for both `ants_foraging` and `drone_patrol`
+- Benchmark JSON artifact schema validation for drone scenario
+- Integration tests for scenario-aware benchmark pipeline
+
+---
+
+### 29.4 Reproducibility Evidence Bundles — R3, R4, R5, R7 (Commits 50, 53, 55, 56)
+
+These four commits represent the **most scientifically significant work in the post-48 phase**. Each one produces a complete reproducibility bundle: CLI commands, seed values, run artifacts, SHA-256 hashes, and markdown documentation proving that the framework's claims are verified.
+
+#### R7: Adapter-Backed Save/Load Reproducibility (Commit 50)
+
+**What it proves:** Simulation state can be saved, loaded, and verified as identical.
+
+| Artifact | Content |
+|---|---|
+| `Plans/r7_repro_save_2026-03-04.json` | CLI output of save operation (seed=42, 5 ticks, 10 ants) |
+| `Plans/r7_repro_load_2026-03-04.json` | CLI output of load operation (same run ID) |
+| `Plans/runs/r7-repro-20260304/run.json` | Full persisted bundle (1,137 lines): manifest + 6 snapshots |
+| `Plans/r7_reproducibility_example_2026-03-04.md` | Documentation with SHA-256 hashes |
+
+**Verification:** All 3 SHA-256 hashes verified. The `run.json` contains 6 valid snapshots (tick 0 through tick 5) with correct `RunManifest` metadata.
+
+#### R5: Drone Reproducibility Bundle (Commit 53)
+
+**What it proves:** The second scenario produces deterministic, reproducible results with the same save/load cycle.
+
+| Artifact | Content |
+|---|---|
+| `Plans/r5_drone_repro_save_2026-03-04.json` | Save output for drone patrol |
+| `Plans/r5_drone_repro_load_2026-03-04.json` | Load output for drone patrol |
+| `Plans/runs/r5-drone-repro-20260304/run.json` | Full persisted drone run (1,728 lines) |
+| `Plans/perf_*_drone_patrol_*` | ON/OFF benchmark comparison (determinism cross-check: 2/2 matched) |
+
+**Significance:** Proves scenario-agnostic persistence — the same adapter handles both ant and drone state without modification.
+
+#### R4: Physics Boundary Mode Reproducibility (Commit 55)
+
+**What it proves:** The `--boundary-mode` CLI parameter (`clamp` vs `wrap`) produces verifiably different trajectories while maintaining determinism within each mode.
+
+| Artifact | Content |
+|---|---|
+| 6 run bundles in `Plans/runs/r4-physics-*` | Clamp vs wrap for ants, drones (base), drones (alt) |
+| `Plans/r4_physics_reproducibility_2026-03-04.md` | Documentation with trajectory divergence evidence |
+
+**Technical Detail:** Boundary mode is threaded through `cli.py → _create_runner_for_scenario() → behavior_runner → apply_movement()`. The `physics.py` module now exports `BoundaryMode = Literal["clamp", "wrap"]` as a type alias. Scenarios that accept `boundary_mode` in their runner factory get it automatically; others silently ignore it (inspect-based dispatch).
+
+**This was the largest commit by diff:** +71,840 lines, 99.4% from run.json evidence files. The actual code changes are ~80 lines across 6 files.
+
+#### R3: Agent-Spec Runtime Overrides (Commit 56)
+
+**What it proves:** Agent attributes and behavior parameters can be overridden at runtime via `--agent-spec-json` without modifying source code.
+
+| Artifact | Content |
+|---|---|
+| `Plans/r3_agent_spec_ants_custom_2026-03-04.json` | Custom ant spec (speed=1.5, sensor=5.0, wander_sigma=0.6) |
+| `Plans/r3_agent_spec_drone_custom_2026-03-04.json` | Custom drone spec (speed=2.0, sensor=8.0, segment_ticks=5) |
+| `Plans/runs/r3-ants-custom-20260304/run.json` | 3,957 lines — full ant run with custom spec |
+| `Plans/runs/r3-drone-custom-20260304/run.json` | 3,432 lines — full drone run with custom spec |
+
+**Three-Level Validation Pipeline:**
+
+1. **Schema validation:** Pydantic parses `StateMachineAgentSchemaSpec` — rejects malformed JSON, missing fields, invalid types
+2. **Known-behavior validation:** `validate_known_behavior_names()` rejects specs referencing behaviors not registered in the scenario
+3. **Scenario-specific validation:** `validate_ant_agent_spec()` / `validate_drone_agent_spec()` enforce scenario invariants (required states, required behaviors per state)
+
+**Security:** The `validators.py` module (134 LOC) includes `FORBIDDEN_PAYLOAD_KEYS` and `FORBIDDEN_STRING_TOKENS` that recursively scan behavior parameters for executable content (`lambda`, `import`, `exec(`, `eval(`, `os.system`, `subprocess.`). This implements the D6 configurability boundary: parameters are data-driven, never code-driven.
+
+**Impact on Behavior Runners:** Both `create_ant_behavior_runner()` and `create_drone_behavior_runner()` now use `_behavior_params()` to look up behavior parameters by name from the spec, rather than hardcoding values. This means changing `wander_sigma` from `0.4` to `0.6` only requires a JSON file — no code changes.
+
+---
+
+### 29.5 R6/R9 UI-Desktop Roadmap (Commit 57)
+
+`Plans/r6_r9_ui_desktop_roadmap_2026-03-04.md` (124 LOC) defines a 5-milestone plan for the remaining frontend work:
+
+| Milestone | Scope | Acceptance Criteria |
+|---|---|---|
+| M1: Adapter skeleton | Web adapter ports + control mapping + browser shell | Boot + render placeholder, controls reach engine |
+| M2: PixiJS rendering | Agent/resource/signal visualization + scenario switch | Visual state matches headless tick progression |
+| M3: Playback + capture | Rewind/seek timeline + screenshot export | Rewind works, screenshot produces deterministic capture |
+| M4: Linux desktop | Desktop shell + packaging script | Launch on clean Linux, scenario works without dev tools |
+| M5: CI hardening | Frontend lint/test/build + desktop smoke | CI validates headless + UI stacks together |
+
+**Assessment:** The roadmap is structurally sound but lacks two critical elements:
+1. **Timeline estimates** — no week assignments, making it impossible to assess schedule risk
+2. **Technology selection for desktop** — "Linux desktop shell" is unspecified (PyWebView was locked in D1, but the roadmap doesn't confirm it)
+
+The evidence matrix R6 and R9 were moved to "In progress" based on this planning document — which is generous, since no implementation exists yet.
+
+---
+
+### 29.6 CLI Evolution — From Simple Runner to Multi-Feature Composition Root
+
+The CLI (`sim_framework/app/cli.py`) has grown from 66 LOC (commit 27) to **307 LOC** and is now the most complex single file in the project. It deserves dedicated analysis because it serves as the sole composition root.
+
+**Current CLI Surface:**
+
+| Flag | Added In | Purpose |
+|---|---|---|
+| `--scenario` | commit 48 (expanded 52) | Scenario selection (ants_foraging / drone_patrol) |
+| `--ticks` | commit 27 | Simulation duration |
+| `--ants` | commit 27 | Agent count (name is semantically wrong for drones) |
+| `--width` / `--height` | commit 27 | World dimensions |
+| `--seed` | commit 27 | RNG seed |
+| `--runtime-mode` | commit 27 | interactive / headless |
+| `--emit-snapshot-events` / `--no-snapshot-events` | commit 27 | Snapshot override |
+| `--json-out` | commit 36 | File output path |
+| `--boundary-mode` | commit 55 | clamp / wrap physics |
+| `--agent-spec-json` | commit 56 | Custom agent spec path |
+| `--persistence-root` | commit 48 | Storage root |
+| `--save-run-id` / `--load-run-id` | commit 48 | Persistence operations |
+
+**Architectural Quality:**
+
+1. **Inspect-based dispatch** (`_build_state_for_scenario`, `_create_runner_for_scenario`): Enables adding new scenarios without modifying CLI code — the dispatch reads parameter names from the scenario's function signature. This is a clean adapter pattern.
+
+2. **Three-level agent spec validation** (`_load_agent_spec`): Progressive validation (parse → known behaviors → scenario constraints) provides clear, actionable error messages at each level.
+
+3. **DRY output** (`_emit_payload`): Single function handles both stdout and file output.
+
+**Known Issues:**
+
+| Issue | Severity | Details |
+|---|---|---|
+| `--ants` flag name | LOW | Semantically incorrect for drone scenarios. Should be `--agents`. |
+| Unconditional deep copy for persistence | MEDIUM | `snapshots_for_persistence.append(state.model_copy(deep=True))` runs every tick even without `--save-run-id` |
+| CLI complexity growth | OBSERVATION | 307 LOC is approaching the point where splitting into subcommands (e.g., `sim-run run`, `sim-run load`) would improve maintainability |
+
+---
+
+### 29.7 Test Suite Evolution: 86 → 110 Tests
+
+#### 29.7.1 New Tests Added (24 tests)
+
+| Module | Tests Added | LOC | Focus |
+|---|---|---|---|
+| `tests/adapters/test_json_file_persistence.py` | +3 | 69 | Round-trip, isolation, missing-run error |
+| `tests/app/test_cli_runtime_mode.py` | +10 | +312 (total 364) | Persistence save/load, drone dispatch, boundary mode, agent spec |
+| `tests/scenarios/test_drone_scenario_loads.py` | +6 | 96 | Drone spec, registry, custom spec, boundary mode |
+| `tests/scenarios/test_ants_scenario_loads.py` | +2 | +56 (total 148) | Boundary mode, agent spec override |
+| `tests/integration/test_headless_drone_100ticks.py` | +1 | 29 | Full 100-tick drone simulation |
+| `tests/tooling/test_benchmark_headless.py` | +3 | 97 | Scenario dispatch, drone benchmark |
+
+#### 29.7.2 Test Distribution Update
+
+| Category | Modules | Tests (commit 48) | Tests (now) | Delta |
+|---|---|---|---|---|
+| Contracts | 4 | 23 | 23 | — |
+| Core | 6 | 35 | 35 | — |
+| App | 2 | 11 | 21 | +10 |
+| Scenarios | 2 | 6 | 14 | +8 |
+| Integration | 2 | 1 | 2 | +1 |
+| Smoke | 1 | 1 | 1 | — |
+| Tooling | 4 | 10 | 13 | +3 |
+| Adapters | 1 | 0 | 3 | +3 (new) |
+| **Total** | **22** | **86** | **110** | **+24** |
+
+#### 29.7.3 Test Quality Assessment
+
+The new tests demonstrate mature testing patterns:
+
+1. **Adapter round-trip tests** verify that save→load produces identical data, including mutation isolation (modifying loaded objects doesn't corrupt stored state).
+
+2. **CLI integration tests** run the full `main()` function with crafted argument lists and verify JSON output structure, persistence side effects, and error handling. The `test_cli_runtime_mode.py` file at 364 LOC is now the largest test file — it thoroughly covers the CLI composition root which is the correct testing priority given the CLI's complexity.
+
+3. **Scenario validation tests** verify that custom agent specs are accepted when valid, rejected when they reference unknown behaviors, and that scenario-specific invariants (required states, required behaviors) are enforced.
+
+4. **Cross-scenario benchmark tests** validate that the benchmark tooling works for both scenarios, producing correct JSON schema artifacts.
+
+---
+
+### 29.8 Codebase Metrics — Three-Pass Comparison
+
+| Metric | Commit 32 (Pass 1) | Commit 48 (Pass 2) | Commit 63 (Pass 3) | Delta (Pass 2→3) |
+|---|---|---|---|---|
+| Total commits | 32 | 48 | 63 | +15 |
+| Python LOC (source) | ~1,200 | ~1,500 | 1,723 | +223 |
+| Python LOC (tests) | ~1,580 | ~2,000 | 2,202 | +202 |
+| Python LOC (scripts) | ~400 | ~550 | 743 | +193 |
+| **Python LOC (total)** | **~2,782** | **~3,505** | **4,668** | **+1,163** |
+| Test count | 72 | 86 | 110 | +24 |
+| Test modules | 15 | 18 | 22 | +4 (adapters/, drone scenario/integration) |
+| Test pass rate | 100% | 100% | 100% | — |
+| Test execution time | 0.48s | 0.66s | 0.82s | +0.16s |
+| Scenarios | 1 (ants) | 1 (ants) | 2 (ants + drone) | +1 |
+| Adapters | 0 | 0 | 1 (JsonFilePersistence) | +1 |
+| CLI flags | 8 | 11 | 13 | +2 |
+| Git tags | 4 | 5 | 7 | +2 |
+| Reproducibility bundles | 0 | 0 | 10+ (R3/R4/R5/R7) | +10 |
+| Evidence matrix status | 5 Done | 7 Done | 9 Done + 2 In Progress + 1 Done(scope) | see below |
+
+---
+
+### 29.9 Updated Requirement Traceability (R1–R12)
+
+| Req | Status (Pass 2, commit 48) | Status (Pass 3, commit 63) | What Changed |
+|---|---|---|---|
+| R1 Modularity | **DONE** | **DONE** | No change — import-flow still 0 violations (28 imports checked) |
+| R2 Per-module testing | **DONE** (impl. scope) | **DONE** (impl. scope) | 110/110 tests across 22 modules |
+| R3 Configurable agents | In progress | **DONE** (impl. scope) | `--agent-spec-json` with 3-level validation + evidence bundles |
+| R4 Configurable physics | In progress | **DONE** (impl. scope) | `--boundary-mode` (clamp/wrap) with evidence bundles |
+| R5 Multi-scenario | In progress | **DONE** (impl. scope) | drone_patrol scenario + registry + repro evidence |
+| R6 Modern UI | Not started | **In progress** | Roadmap defined (M1–M5), no implementation |
+| R7 Playback controls | In progress | **DONE** (impl. scope) | Adapter-backed save/load with SHA-256 verified bundles |
+| R8 Python | **DONE** | **DONE** | No change |
+| R9 Desktop + web | Not started | **In progress** | Roadmap defined, no implementation |
+| R10 Orchestrator | **DONE** (impl. scope) | **DONE** (impl. scope) | CLI composition root expanded with persistence + multi-scenario |
+| R11 Robust runtime | **DONE** | **DONE** | No change |
+| R12 Determinism | **DONE** | **DONE** | Additional evidence across 10+ reproducibility bundles |
+
+**Summary:** 9 requirements at Done/Done(scope) (was 7), 2 In Progress (was 4), 0 Not Started (was 2).
+
+The "(implemented scope)" qualifier means: the requirement is satisfied in the headless/backend scope. Full satisfaction requires the UI adapter layer (R6/R9), which will also complete the "UI editor" aspect of R3 and R4.
+
+---
+
+### 29.10 Updated Gap Analysis
+
+#### 29.10.1 Gaps Closed Since Pass 2
+
+| Gap (from Section 27) | Previous Status | Current Status | How Closed |
+|---|---|---|---|
+| **Second scenario (drones)** | OPEN (HIGH) | **CLOSED** | `drone_patrol` with 6 tests + 1 integration + repro bundle |
+| **Persistence adapter** | OPEN (MEDIUM) | **CLOSED** | `JsonFilePersistence` + CLI save/load + R7 evidence |
+| **R3 runtime configurability** | OPEN (IN PROGRESS) | **CLOSED (impl. scope)** | `--agent-spec-json` + 3-level validation + evidence |
+| **R4 physics configurability** | OPEN (IN PROGRESS) | **CLOSED (impl. scope)** | `--boundary-mode` + evidence |
+| **R5 multi-scenario proof** | OPEN (IN PROGRESS) | **CLOSED (impl. scope)** | Drone scenario + shared tooling + evidence |
+| **R7 save/load evidence** | OPEN (IN PROGRESS) | **CLOSED (impl. scope)** | Adapter-backed repro bundles |
+
+#### 29.10.2 Remaining Critical Gaps
+
+| Gap | Impact | Effort Estimate | Priority |
+|---|---|---|---|
+| **Web UI / Visualization (R6)** | Cannot demonstrate visual simulation | 3-4 weeks (M1–M3) | **CRITICAL** |
+| **Thesis Chapters 1-6** | No written thesis | 3-4 weeks | **CRITICAL** |
+
+#### 29.10.3 Remaining Important Gaps
+
+| Gap | Impact | Effort Estimate | Priority |
+|---|---|---|---|
+| Linux desktop packaging (R9, M4) | Cannot demonstrate desktop deployment | 1 week | HIGH |
+| UI CI hardening (M5) | Frontend untested in CI | 2-3 days | MEDIUM |
+| `--ants` flag rename to `--agents` | Semantic incorrectness | 30 minutes | LOW |
+| Unconditional persistence deep copy | Performance waste | 15 minutes | LOW |
+| `adapters` layer in import-flow checker (I-17) | Not covered by guardrail | 1 hour | MEDIUM |
+| Emergence quantification metric | Qualitative-only validation | 2-3 days | MEDIUM |
+| Property-based tests (hypothesis) | Test sophistication | 2-3 days | LOW |
+| Coverage reporting (pytest-cov) | No line coverage % | 30 minutes | LOW |
+
+---
+
+### 29.11 Architecture Quality Assessment — Current State
+
+#### 29.11.1 Layer Compliance
+
+The 5-package architecture (D5) is fully respected:
+
+```
+contracts/  (126 + 36 + 63 + 134 = 359 LOC)  ← depends on nothing
+    ↑
+core/       (172 + 104 + 69 + 122 = 467 LOC)  ← depends on contracts only
+    ↑
+scenarios/  (263 + 184 + 39 + 15 + 15 = 516 LOC)  ← depends on contracts + core
+    ↑
+adapters/   (33 + 3 + 3 = 39 LOC)              ← depends on contracts
+    ↑
+app/        (307 + 32 + 3 = 342 LOC)           ← depends on everything (composition root)
+```
+
+**28 total imports across the codebase, 0 violations.** The import-flow guardrail validates this automatically in CI.
+
+**Note:** The `adapters` layer is NOT yet included in `check_import_flow.py`'s `ALLOWED_IMPORTS` dict (issue I-17). The adapter correctly imports only from `contracts`, but this compliance is not enforced by the guardrail.
+
+#### 29.11.2 Decision Compliance Matrix (D1–D15)
+
+| Decision | Status | Evidence |
+|---|---|---|
+| D1: Web-first UI | **In roadmap** | `Plans/r6_r9_ui_desktop_roadmap_2026-03-04.md` |
+| D2: Python 3.11+ | **DONE** | CI enforces, pytest policy gate |
+| D3: Pydantic models | **DONE** | All domain models are Pydantic BaseModel |
+| D4: Protocol contracts | **DONE** | `RendererPort`, `PersistencePort`, `HistoryPort` |
+| D5: 5-package structure | **DONE** | 0 import violations, CI-gated |
+| D6: Config boundary | **DONE** | `validators.py` forbids executable payloads |
+| D7: Composition model | **DONE** | `StateMachineAgentSchemaSpec` + behavior registry |
+| D8: Snapshot + replay | **DONE** | `SnapshotHistory` with `deque(maxlen=N)` |
+| D9: Queue concurrency | **PARTIAL** | Command queue exists; dedicated thread model not yet needed |
+| D10: Minimal ports | **DONE** | 3 ports: Renderer, Persistence, History |
+| D11: Error isolation | **DONE** | `try/except` per agent in engine |
+| D12: Determinism | **DONE** | Seeded RNG + cross-checked benchmarks + repro bundles |
+| D13: Performance policy | **DONE** | Benchmark harness + snapshot toggle + baselines |
+| D14: Test minimum | **DONE** | 110 tests: unit + contract + determinism + schema + integration |
+| D15: Build order | **DONE** | contracts → core → scenarios → adapters → app (verified by commits) |
+
+---
+
+### 29.12 Scientific Rigor Assessment
+
+The post-48 commits significantly strengthened the project's scientific credibility through reproducibility bundles. This deserves dedicated analysis.
+
+#### 29.12.1 Reproducibility Evidence Inventory
+
+| Requirement | Bundle | Artifacts | SHA-256 Verified |
+|---|---|---|---|
+| R3 (agent config) | Ants custom spec | spec JSON + CLI output + run.json (3,957 lines) | Yes (8 hashes) |
+| R3 (agent config) | Drone custom spec | spec JSON + CLI output + run.json (3,432 lines) | Yes (8 hashes) |
+| R4 (physics) | Clamp vs wrap (3 configs) | 6 run bundles + CLI outputs + comparison doc | Yes |
+| R5 (multi-scenario) | Drone save/load | save JSON + load JSON + run.json (1,728 lines) + ON/OFF benchmark | Yes |
+| R7 (playback) | Save/load round-trip | save JSON + load JSON + run.json (1,137 lines) | Yes (3 hashes) |
+
+**Total evidence:** 10+ run bundles containing ~82,000+ lines of JSON state data, all with verified SHA-256 hashes.
+
+#### 29.12.2 What This Means for the Thesis
+
+The reproducibility evidence is **thesis-defense ready** for the backend scope. A thesis evaluator can:
+
+1. Clone the repository
+2. Create and activate a Python 3.11 environment (`uv venv --python 3.11 && source .venv/bin/activate`)
+3. Install dependencies in that environment (`uv pip install --python .venv/bin/python -e .[dev]`)
+4. Execute the exact CLI commands documented in each `Plans/r*_reproducibility_*.md` file
+5. Verify the SHA-256 hashes match
+6. Confirm deterministic behavior
+
+This satisfies the ABM V&V (Verification & Validation) requirements identified in the meta-audit (Section 4 of `07_tfg_evidence_matrix.md`): software verification through unit/contract/determinism tests, and replicability through seeded manifests and replay artifacts.
+
+---
+
+### 29.13 Risk Register Update
+
+| Risk | Previous | Current | Change |
+|---|---|---|---|
+| Analysis paralysis | MEDIUM (was HIGH) | **LOW** | 15 post-48 commits included substantial implementation and evidence closure; execution momentum remained strong despite some documentation commits |
+| Single scenario bottleneck | HIGH | **CLOSED** | Drone scenario implemented and tested |
+| No persistence | MEDIUM | **CLOSED** | JsonFilePersistence adapter implemented |
+| UI timeline pressure | HIGH | **HIGH** | Still the critical path — roadmap exists but no implementation |
+| Thesis writing pressure | HIGH | **HIGH** | No thesis chapters written; parallel to UI development |
+| Test coverage plateau | LOW | **LOW** | 110 tests, growing proportionally with features |
+| CLI complexity creep | — | **NEW (MEDIUM)** | 307 LOC in single file; approaching subcommand threshold |
+
+---
+
+### 29.14 Strengths — What the Post-48 Phase Did Exceptionally Well
+
+1. **Evidence-driven development.** Every requirement closure (R3, R4, R5, R7) comes with a reproducibility bundle containing CLI commands, run artifacts, and SHA-256 hashes. This is publishable-quality scientific methodology.
+
+2. **Incremental scenario proof.** The drone scenario was added with minimal framework changes — only the scenario module and CLI dispatch needed modification. This proves the architecture's extension point (D5, D6, D7) works as designed.
+
+3. **Three-level agent spec validation.** The `--agent-spec-json` path validates at schema level (Pydantic), behavior level (known names), and scenario level (structural invariants). This is defense-in-depth that prevents both accidental and malicious misconfiguration.
+
+4. **Security awareness.** The `FORBIDDEN_PAYLOAD_KEYS` and `FORBIDDEN_STRING_TOKENS` in `validators.py` demonstrate awareness of the code injection risk identified in the meta-audit. The D6 configurability boundary is enforced structurally, not just by convention.
+
+5. **Inspect-based dispatch.** The `_build_state_for_scenario()` and `_create_runner_for_scenario()` functions use `inspect.signature()` to adapt to different scenario function signatures without hardcoding scenario names. This is a clean open-closed principle implementation.
+
+---
+
+## 30. Conclusion (Updated — Pass 3)
+
+This project has evolved from a "release-hardened backend" (Pass 2) to a **feature-complete backend with comprehensive scientific evidence**. The 15 commits (49–63) closed 6 of the 8 gaps identified in Pass 2, added a second scenario, a persistence adapter, runtime configurability, physics mode selection, and produced 10+ reproducibility bundles with verified SHA-256 hashes.
+
+**Current state — v0.1.2+ (post-release, main branch):**
+
+- **63 commits**, 4,668 Python LOC (1,723 source + 2,202 tests + 743 scripts)
+- **110 tests**, 100% pass rate, 0.82s execution
+- **2 scenarios** (ants foraging + drone patrol) with shared infrastructure
+- **1 persistence adapter** (JSON file) with save/load CLI integration
+- **13 CLI flags** covering scenario, physics, agent spec, persistence, and runtime mode
+- **10+ reproducibility bundles** with SHA-256 verification
+- **9/12 requirements at Done/Done(scope)**, 2 In Progress, 0 Not Started
+- **0 import violations** across 28 imports (CI-enforced)
+- **7 git tags** including 3 milestones and 4 release/version tags
+
+**What the project demonstrates right now:**
+
+- Modular architecture with automated enforcement (0 violations, CI-gated)
+- Multi-scenario generality (ants + drones through same engine/physics/history)
+- Runtime configurability (agent attributes, physics modes, all via CLI)
+- Deterministic simulation with reproducible benchmarks and evidence bundles
+- Persistence with save/load round-trip verification
+- Release discipline (CHANGELOG, version consistency, wheel packaging)
+- Professional-grade test suite (110 tests, 22 modules, 8 categories)
+
+**What remains:**
+
+1. **Web UI visualization (R6)** — the critical path. Milestones M1–M3 of the roadmap.
+2. **Linux desktop packaging (R9)** — Milestone M4. Depends on web UI.
+3. **Thesis writing** — Chapters 1-6. Can be parallelized with UI development.
+
+**Project maturity assessment:** The backend/core is not just adequate — it exceeds the quality bar expected of a TFG. The architecture is clean, the tests are thorough, the scientific evidence is rigorous, and the engineering practices (CI/CD, guardrails, reproducible benchmarks) are professional-grade. The remaining work is entirely user-facing (frontend + thesis document).
+
+---
+
+**Objective of the project:** Build a modular, deterministic, multi-agent simulation framework demonstrated through ant colony foraging with pheromone stigmergy, extensible to other agent-based scenarios (drones, weather). **Achievements:** v0.1.2 stable release + post-release features; 110 passing tests across 22 modules in 8 categories; 2 complete scenarios (ants foraging + drone patrol); JSON file persistence adapter with CLI save/load; runtime-configurable agent attributes (`--agent-spec-json`) and physics (`--boundary-mode`); 10+ reproducibility bundles with SHA-256 verification; CI/CD pipeline with 2 workflows and 3 automated guardrails; deterministic engine with replay/rewind, spatial hashing, pheromone dynamics; import-flow enforcement (0 violations across 28 imports); wheel packaging with smoke test; reproducible benchmark runner with determinism cross-checking; 5-milestone UI/desktop roadmap; and comprehensive architectural documentation. **Remaining steps:** Web UI visualization (PixiJS rendering, playback controls, scenario switching), Linux desktop packaging (PyWebView), and thesis writing (Chapters 1-6: introduction, state of art, architecture, implementation, results, conclusions). **Current position (2026-03-04):** Project is at commit 63, version 0.1.2+ (main branch, post-release), with 4,668 Python LOC across 22 test modules, full CI/CD green, 9/12 requirements satisfied in backend scope, 2 in progress (UI/desktop), 0 not started — the backend is complete and the project is entering the user-facing development phase.
