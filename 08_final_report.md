@@ -2,6 +2,7 @@
 
 **Date:** 2026-03-03 (original draft)
 **Synced to implementation state:** 2026-03-04 (`v0.1.2`)
+**Audit sync range:** through commit 44 (2026-03-04); run a new sync pass for later commits
 **Iteration:** 4th (final) in the thinking chain
 **Documents audited:** `06_execution_blueprint.md`, `07_tfg_evidence_matrix.md`
 **Full context:** `00_prompt.md` through `05_audit_report.md`

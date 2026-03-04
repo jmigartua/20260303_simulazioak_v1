@@ -4,6 +4,7 @@
 **Purpose:** Provide thesis-defense traceability from requirement to architecture decision, implementation artifact, test evidence, and demo evidence.  
 **Companion document:** `06_execution_blueprint.md`
 **Current implementation state:** `v0.1.2` (stable), CI green, 86/86 tests passing
+**Scope note:** Synced to audited range through commit 44 (2026-03-04). Re-validate matrix rows after newer commits.
 
 ---
 

@@ -3,6 +3,7 @@
 **Date:** 2026-03-03  
 **Project:** Modular multi-agent simulation framework (TFG)  
 **Status:** Canonical implementation blueprint (reconciles 04 + 05 audit reports)
+**Scope note:** Design-time blueprint. For implemented/current status, use `11_agent_execution_audit.md` + `CHANGELOG.md`.
 
 ---
 
@@ -219,4 +220,3 @@ Project is considered "ready for thesis defense" when all are true:
 3. One additional non-ant scenario runs with same core.
 4. Desktop build (pywebview) and web mode both demonstrable.
 5. Traceability matrix (see `07_tfg_evidence_matrix.md`) is complete with evidence links.
-

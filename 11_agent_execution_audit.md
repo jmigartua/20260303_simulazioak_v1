@@ -54,10 +54,12 @@
 | 40 — release consistency guardrail | DONE | N/A (post-checklist CI/CD) | 9/10 | 9/10 | 0 issues |
 | 41 — 0.1.2rc2 release metadata | DONE | N/A (post-checklist release) | 9/10 | — | 0 issues |
 | 42 — 0.1.2 stable release | DONE | N/A (post-checklist release) | 9/10 | — | 0 issues |
+| 43 — midway report + audit commit | DONE | N/A (post-checklist documentation) | 6/10 | — | 1 issue (I-16) |
+| 44 — evidence matrix + final report sync | DONE | N/A (post-checklist documentation) | 9/10 | — | 0 issues |
 
-**Test suite:** 86 passed, 0 failed (as of commit 42 — +14 from tooling tests, CLI error-paths, perf contract, release consistency)
+**Test suite:** 86 passed, 0 failed (as of commit 44 — no new tests; documentation-only commit)
 **End-of-Commit-10 Acceptance:** ALL 4 CRITERIA MET
-**Post-Checklist Phase:** Commits 11-42 address audit findings, strengthen controls, establish performance baseline, deliver profile-guided optimization cycle, add public CLI with runtime modes, reduce engine per-tick overhead, establish CI/CD pipeline with guardrails, add reproducible benchmark tooling, and complete 0.1.2 release cycle
+**Post-Checklist Phase:** Commits 11-44 address audit findings, strengthen controls, establish performance baseline, deliver profile-guided optimization cycle, add public CLI with runtime modes, reduce engine per-tick overhead, establish CI/CD pipeline with guardrails, add reproducible benchmark tooling, complete 0.1.2 release cycle, produce midway project report, and sync evidence matrix + final report to v0.1.2 implementation state
 
 ---
 
@@ -87,6 +89,8 @@ This section reflects the current project state after checklist completion:
 20. CI/CD pipeline (commits 30, 37, 38, 40): GitHub Actions on Python 3.11 with import-flow guardrail, release consistency guardrail, pytest, sdist/wheel build + clean-venv smoke test, benchmark smoke workflow with artifact upload. Two workflows: `ci.yml` (test + package jobs) and `benchmark-smoke.yml` (workflow_dispatch + path-filtered PR trigger).
 21. Reproducible benchmark tooling (commit 32): `scripts/run_perf_snapshot_toggle.py` automates ON/OFF comparison with determinism cross-checks, generates comparison markdown. Tested by contract tests validating JSON schema and markdown output (commits 33, 39). AST-based import-flow checker (`scripts/check_import_flow.py`) tested with layer resolution, violation detection, and live project validation (commit 33). Release consistency guardrail (`scripts/check_release_consistency.py`) validates pyproject.toml version matches CHANGELOG.md headings (commit 40).
 22. Release cycle complete: 0.1.1 (commit 31) → 0.1.2rc2 (commit 41) → 0.1.2 stable (commit 42). Release consistency guardrail runs in CI before tests. Makefile provides `release-check` target combining release-consistency + import-check + test-v + package-check (commit 35).
+23. Midway report (`20260304_midway_report.md`, 754 lines, commit 43): comprehensive project analysis covering architecture, implementation, testing, performance, gaps, roadmap. Technically competent on engine/scenario/architecture details but suffers from pervasive staleness (I-16): describes commit-32 state (72 tests, 32 commits) despite 86 tests and 43 commits at commit time. Omits CI/CD pipeline, release cycle, and incorrectly claims import-lint "does not exist".
+24. Evidence matrix and final report synced to v0.1.2 implementation state (commit 44). Evidence matrix updated all 12 requirements (R1-R12) from "Not started" placeholders to actual implementation statuses with correct artifact paths, test evidence, and demo/thesis evidence. Final report received implementation status addendum acknowledging v0.1.2, 86/86 tests, CI/CD active. Deep-dive verification: **66/66 checks PASS** — every artifact reference, test reference, and status claim verified against actual codebase. This partially addresses I-16 staleness for these two documents (midway report remains stale).
 
 ---
 
@@ -2030,6 +2034,157 @@ Clean rc→stable promotion. The explicit "no additional code changes" note is g
 
 ---
 
+## Commit 43: `docs: add midway report analysis and comprehensive project report`
+
+**Git:** `20d3005`
+**Checklist compliance:** N/A (post-checklist — documentation + bundled audit commit)
+
+### What this commit does
+
+Adds a 754-line comprehensive midway report (`20260304_midway_report.md`) analyzing the project's architecture, implementation, test suite, performance, gaps, and roadmap. Also adds a task tracking PRD. Additionally commits the auditor's previously uncommitted Round 8-10 audit edits to `11_agent_execution_audit.md` (913 line additions).
+
+### Changes Made
+
+- `20260304_midway_report.md` (new, 754 lines) — 16-section midway analysis covering:
+  - Executive summary, project origin (R1-R12), scope boundaries
+  - Architecture: package structure, dependency rules, D1-D15 decisions, 8 architectural patterns
+  - Implementation inventory: component status matrix, git progression through commit 32
+  - Core engine deep dive: tick lifecycle diagram, state management, command queue
+  - Ant foraging scenario: biological model, FSM (searching ↔ carrying), 6 behaviors, environment config, emergence phases
+  - Test suite analysis: distribution (15 modules, 72 tests), gates G1-G8, quality assessment
+  - Performance: benchmark harness, baselines, cProfile hotspot analysis, scaling, optimization history
+  - Code quality: 1.24:1 test/implementation ratio, qualitative assessment, audit findings summary
+  - Documentation ecosystem: 11 analysis documents, 6 performance files
+  - Requirement traceability: R1-R12 status (5 done, 4 partial, 3 not started)
+  - Risk register: 6 risks with probability/impact/mitigation
+  - Gap analysis: critical (UI, thesis, drone), important (emergence metrics, persistence), nice-to-have
+  - Strengths: contract-first design, structural determinism, honest performance reporting
+  - Roadmap: MVD items 1-5, full defense items 6-10, 12-week timeline
+- `MEMORY/WORK/20260304-midway-report-analysis/PRD.md` (new, 61 lines) — task tracking with ISC criteria
+- `11_agent_execution_audit.md` (+913 lines) — bundled auditor's Rounds 8-10 content + minor Environment Snapshot modifications
+
+### Assessment
+
+The midway report is technically competent on architectural and implementation details. Engine deep dive, scenario model, dependency rules, and package structure all verified against source code. The report demonstrates genuine understanding of the codebase — not superficial summarization.
+
+**However**, the report has a critical staleness problem: it describes the project as of commit 32 (72 tests, 32 commits) despite being committed at commit 43 (86 tests, 43 commits). This produces systematic errors:
+
+| Category | Report Claims | Actual at Commit Time | Delta |
+|----------|--------------|----------------------|-------|
+| Test count | 72 | 86 | -14 (16% undercount) |
+| Commit count | 32 | 43 | -11 (26% undercount) |
+| Test modules | 15 | 18 | -3 (missing `tests/tooling/`) |
+| Import-lint | "does not exist" | Exists + CI + 3 tests | Factually wrong |
+| CI/CD pipeline | Not mentioned | 2 workflows + 4 jobs | Entirely omitted |
+| Release cycle | Not mentioned | 0.1.1 → 0.1.2rc2 → 0.1.2 | Entirely omitted |
+| Performance baselines | Pre-engine-opt only | Post-engine-opt available | Stale by 1 optimization round |
+
+The staleness is pervasive: "32 commits" appears 4 times, "72 tests" appears 8+ times throughout the 754-line document. The report describes a project that is 11 commits and 14 tests behind reality.
+
+Additionally, the commit bundles 913 lines of the auditor's uncommitted Round 8-10 work without acknowledgment in the commit message. The commit message frames the commit as adding a "midway report analysis" but 53% of the line additions are audit content from a different authorship context.
+
+### Verification (Independent — Round 11 auditor)
+
+16 checks:
+
+1. Section 3.1 package structure matches actual `ls -R sim_framework/` ✓
+2. Section 3.2 dependency rules accurate but claims "no automated import-lint" — STALE, `check_import_flow.py` exists ✗
+3. D1-D15 decisions accurately assessed (D14 test count stale: 72 vs 86) ✓ (with caveat)
+4. Section 4.1 test counts undercount by 14 (missing `tests/tooling/` and expanded `tests/app/`) ✗
+5. Section 5.1 engine tick lifecycle diagram matches `engine.py` source precisely ✓
+6. Section 6 ant foraging FSM, behaviors, parameters, environment config all verified ✓
+7. Section 7.1 reports 72 tests, actual is 86 ✗
+8. Section 7.4 lists "no automated import-lint" as gap — factually wrong since commit 30 ✗
+9. Section 8.2 baselines match pre-engine-opt data (real but not latest) ✓ (with caveat)
+10. Section 4.2 git progression stops at commit 32, omits 11 commits ✗
+11. Section 11 R1-R12 traceability mostly accurate; R1 "remaining: import-lint" is stale ✓
+12. Section 9.3 audit findings summary mostly correct; I-3 and I-10 miscategorized ✓
+13. Staleness pervasive: 4× "32 commits", 8× "72 tests" — OBSERVATION
+14. No mention of CI/CD, release cycle, tooling tests ✗
+15. Commit message omits 913 lines of bundled audit content ✗
+16. Environment Snapshot modified to "46 commits" and "43-46 pending" — internally inconsistent with midway report's "32 commits" in same commit — OBSERVATION
+
+**5/16 PASS, 6/16 FAIL, 3/16 PASS with caveat, 2/16 OBSERVATION.**
+
+### Issues Found
+
+| # | Severity | Finding |
+|---|----------|---------|
+| I-16 | **MEDIUM** | **Midway report describes commit-32 state despite being committed at commit 43.** The 754-line report omits 11 commits (26%), 14 tests (16%), the entire CI/CD pipeline, the release cycle, the import-flow guardrail script, and tooling tests. It claims "no automated import-lint" as a gap when the script exists and runs in CI. Internal inconsistency: the audit file in the same commit says "86 tests" and "46 commits" while the midway report says "72 tests" and "32 commits". The technical content (engine, scenario, architecture) is accurate and well-written, but the quantitative claims are systematically stale. |
+
+---
+
+## Commit 44: `docs: sync final report and evidence matrix to v0.1.2 state`
+
+**Git:** `5b313b9`
+**Files changed:** 2 files, +32 insertions, -18 deletions
+**Code quality:** 9/10
+
+### What the agent did
+
+Updated two pre-implementation design documents to reflect the actual v0.1.2 implementation state:
+
+**1. Evidence matrix (`07_tfg_evidence_matrix.md`):**
+- Added date (2026-03-04) and implementation state line (`v0.1.2 (stable), CI green, 86/86 tests passing`)
+- Introduced new status category: "Done (implemented scope)"
+- Updated ALL 12 requirements (R1-R12) from "Not started" placeholders to actual implementation statuses:
+  - **Done (5):** R1 (strict modularity), R8 (Python implementation), R11 (robust runtime), R12 (determinism), R3b (configurable methods)
+  - **Done (implemented scope) (2):** R2 (per-module testing), R10 (orchestrator governance)
+  - **In progress (4):** R3 (configurable attributes — UI editor pending), R4 (configurable physics — UI pending), R5 (multi-scenario — drone pending), R7 (playback/rewind — adapters pending)
+  - **Not started (2):** R6 (modern UI/PixiJS), R9 (Linux desktop + web shell)
+- Added correct implementation artifacts, test evidence references, and demo/thesis evidence for each requirement
+
+**2. Final report (`08_final_report.md`):**
+- Added header: "Synced to implementation state: 2026-03-04 (v0.1.2)"
+- Added "Implementation Status Addendum" section documenting: v0.1.2 stable, 86/86 tests, CI/CD active, tooling complete
+- Changed Section 1 to past tense ("had accumulated" → reflects design-time perspective)
+- Added directive: "Read this report as architectural rationale; use audit + CHANGELOG as implementation truth"
+
+### Deep-Dive Verification
+
+66 independent checks performed against the actual codebase:
+
+**R1 (7 checks):** `contracts/models.py` ✓, `contracts/ports.py` ✓, `scripts/check_import_flow.py` ✓, `tests/contracts/test_ports_contract_shape.py` ✓, `tests/tooling/test_check_import_flow.py` ✓, CI import-flow step in `ci.yml` ✓, status "Done" accurate ✓
+**R2 (8 checks):** All 6 test directories exist ✓, 86/86 test count verified ✓, "Done (implemented scope)" accurate ✓
+**R3 (4 checks):** `contracts/validators.py` ✓, `scenarios/ants_foraging/spec.py` ✓, `tests/contracts/test_validators_schema.py` ✓, "In progress" accurate ✓
+**R3b (5 checks):** `contracts/behaviors.py` ✓, behavior registry tests (5 tests) ✓, schema tests (7 tests) ✓, "Done (implemented scope)" accurate ✓
+**R4 (3 checks):** `core/physics.py` ✓, `tests/core/test_physics_movement.py` (5 tests) ✓, "In progress" accurate ✓
+**R5 (5 checks):** `scenarios/registry.py` ✓, `scenarios/ants_foraging/` ✓, `tests/scenarios/test_ants_scenario_loads.py` (6 tests) ✓, integration smoke test ✓, "In progress" accurate ✓
+**R6 (3 checks):** N/A artifacts correct ✓, N/A tests correct ✓, "Not started" accurate ✓
+**R7 (7 checks):** `core/engine.py` ✓, `core/history.py` ✓, all 6 command types in `models.py` ✓, determinism tests (6) ✓, history tests (8) ✓, command tests ✓, "In progress" accurate ✓
+**R8 (4 checks):** Python codebase ✓, CI Python 3.11 ✓, release-check script ✓, "Done" accurate ✓
+**R9 (3 checks):** `app/cli.py` exists ✓, CLI smoke tests (7) ✓, "Not started" for browser/desktop target accurate ✓
+**R10 (5 checks):** `app/cli.py` ✓, `app/runtime.py` ✓, `tests/app/test_cli_runtime_mode.py` (7 tests) ✓, wheel smoke in CI ✓, "Done (implemented scope)" accurate ✓
+**R11 (3 checks):** Engine error isolation path ✓, `test_engine_error_isolation.py` (2 tests) ✓, "Done" accurate ✓
+**R12 (6 checks):** Seeded RNG ✓, benchmark tooling ✓, Plans/ manifests (11 files) ✓, determinism tests (6) ✓, ON/OFF contract tests (4) ✓, "Done" accurate ✓
+**Final report addendum (3 checks):** 86/86 tests verified by `pytest --co` ✓, CI/CD workflows exist ✓, tooling scripts present ✓
+
+**RESULT: 66/66 PASS. 0 FAIL.**
+
+### Assessment
+
+This is a high-quality documentation sync commit. Unlike the midway report (commit 43, I-16), this commit uses **correct current data** — every artifact reference, test count, and status assessment is verified accurate against the actual codebase.
+
+The commit directly addresses the evidence matrix's previous "Not started" placeholder state and establishes a reliable thesis-defense traceability chain from requirement → decision → artifact → test → evidence. The status gradations ("Done", "Done (implemented scope)", "In progress", "Not started") are well-calibrated and honest about what remains unfinished.
+
+The final report addendum is well-designed: rather than rewriting the entire report, it adds a clearly-demarcated addendum and redirects readers to the audit + CHANGELOG for implementation truth. This preserves the report's value as architectural rationale while acknowledging its design-time perspective.
+
+**Partial I-16 mitigation:** The evidence matrix and final report are now current, but the midway report (`20260304_midway_report.md`) remains stale with commit-32 data.
+
+### What's Good
+
+- Every artifact path in the matrix corresponds to a real file
+- Status assessments are honest — incomplete items are marked "In progress" or "Not started", not overstated
+- The "Done (implemented scope)" status category is a useful distinction from "Done"
+- Final report addendum approach preserves document integrity while updating status
+- Cross-reference consistency: evidence matrix and final report addendum agree on all data points
+
+### Issues Found
+
+No new issues. This commit partially addresses I-16 for the evidence matrix and final report (midway report remains affected).
+
+---
+
 ## Previous Forward-Looking Concerns — Assessment
 
 | Concern | Prediction | Outcome | Accuracy |
@@ -2059,6 +2214,8 @@ Clean rc→stable promotion. The explicit "no additional code changes" note is g
 | Round 9 packaging validation needed | Editable install doesn't catch packaging bugs | Commit 38 added wheel build + clean-venv smoke test in CI | CORRECT — non-editable install catches missing files/broken entry points |
 | Round 9 tooling test coverage gap | Scripts lack unit tests | Commits 33, 39, 40 added comprehensive tests for all 3 scripts (import-flow, perf-toggle, release-consistency) | CORRECT — 10 tooling tests now cover script logic |
 | Round 10 release candidate process | rc→stable promotion should be formalized | Commits 41-42 demonstrate clean rc2→stable promotion with explicit "no code changes" changelog note | MONITORING — pattern established, reusable for future releases |
+| Round 10 midway report staleness risk | Report written against older codebase snapshot could produce stale claims | Commit 43 midway report describes commit-32 state (72 tests, 32 commits) despite 86 tests and 43 commits at commit time | CONFIRMED — I-16 documents pervasive staleness across 12+ data points |
+| Round 11 I-16 staleness propagation | Stale data in midway report could infect other documents | Commit 44 synced evidence matrix and final report to v0.1.2 with correct data (66/66 checks PASS); midway report remains stale | PARTIALLY ADDRESSED — 2 of 3 key documents now current |
 
 ---
 
@@ -2074,10 +2231,13 @@ Clean rc→stable promotion. The explicit "no additional code changes" note is g
 | Pytest runtime policy gate | ACTIVE | Reject Python <3.11 at session start | OK — commit 17 |
 | Editable install in `.venv` | SUCCEEDS | Should succeed | OK — discovery fixed and Python policy satisfied |
 | Tests passing | 86/86 | All green | OK |
-| Git commits | 46 | 10 checklist + 36 post-checklist | PARTIAL — this report audits through commit 42; commits 43-46 are pending next round |
+| Git commits | 44 | 10 checklist + 34 post-checklist (including midway report and evidence sync commits) | COMPLETE (audited through commit 44 on 2026-03-04; rerun needed for newer commits) |
 | Import rule violations | 0 | 0 | OK — `contracts ← core ← scenarios ← app`, 20 imports all flow correctly |
 | End-of-commit-10 acceptance | ALL 4 MET | All 4 criteria | COMPLETE |
-| Post-checklist improvements (audited scope) | 32 commits (11-42) | Audit findings + policy + integration + perf baseline + profile-guided opt + app CLI + engine deep-copy opt + CI/CD pipeline + tooling tests + release cycle | COMPLETED FOR AUDITED SCOPE |
+| Post-checklist improvements | 34 commits (11-44) | Audit findings + policy + integration + perf baseline + profile-guided opt + app CLI + engine deep-copy opt + CI/CD pipeline + tooling tests + release cycle + midway report + evidence sync | ALL COMPLETED (within audited range) |
+| Midway report | COMMITTED | `20260304_midway_report.md` — 754-line project analysis | OK — commit 43 (I-16 staleness noted) |
+| Evidence matrix sync | COMMITTED | `07_tfg_evidence_matrix.md` — R1-R12 updated to v0.1.2 implementation state (66/66 checks PASS) | OK — commit 44 |
+| Final report sync | COMMITTED | `08_final_report.md` — implementation status addendum added, past-tense framing, reader directive | OK — commit 44 |
 | CI/CD pipeline | ACTIVE | `.github/workflows/ci.yml` (test + package) + `benchmark-smoke.yml` | OK — commits 30/37/38/40 |
 | Release consistency guardrail | ACTIVE | `scripts/check_release_consistency.py` validates pyproject.toml ↔ CHANGELOG.md | OK — commit 40 |
 | Makefile dev workflow | ACTIVE | `make release-check` = release-consistency + import-check + test-v + package-check | OK — commits 34/35 |
@@ -2116,8 +2276,9 @@ Clean rc→stable promotion. The explicit "no additional code changes" note is g
 | I-13 | LOW | 9 | `SpatialHash` built to spec but unused by ants scenario — unit-tested only | **RESOLVED** by commit 18 (scenario neighbor-avoidance integration) |
 | I-14 | MEDIUM | 10 | Two coexisting schema systems — `AgentSchemaSpec` (validators.py) is dead code, `AntBehaviorSpec` (spec.py) is active | **RESOLVED** by commit 11 (unified `StateMachineAgentSchemaSpec` in contracts) |
 | I-15 | LOW | 10 | Pheromone gradient logic in scenario, not framework — `_best_pheromone_direction()` is not reusable | **RESOLVED** by commit 12 (`SignalGrid.sense_gradient()` framework API) |
+| I-16 | MEDIUM | 43 | Midway report describes commit-32 state despite being committed at commit 43: omits 11 commits (26%), 14 tests (16%), CI/CD pipeline, release cycle, import-flow guardrail; claims "no import-lint" when it exists and runs in CI; "32 commits"×4 and "72 tests"×8 throughout | PARTIALLY ADDRESSED — commit 44 synced evidence matrix (66/66 PASS) and final report to v0.1.2; midway report remains stale |
 
-**CRITICAL:** 0 | **MEDIUM:** 0 OPEN (I-1 accepted, I-3 controlled) | **LOW:** 2 (I-2, I-4) | **RESOLVED:** 10 | **CONTROLLED:** 1 | **ACCEPTED:** 1 | **SUPERSEDED:** 1
+**CRITICAL:** 0 | **MEDIUM:** 1 PARTIALLY ADDRESSED (I-16) + 2 non-open (I-1 ACCEPTED, I-3 CONTROLLED) | **LOW:** 2 (I-2, I-4) | **RESOLVED:** 10 | **CONTROLLED:** 1 | **ACCEPTED:** 1 | **SUPERSEDED:** 1
 
 ---
 
@@ -2227,6 +2388,22 @@ Clean rc→stable promotion. The explicit "no additional code changes" note is g
 73. Commits 36-42 deep-dive: 27 checks — --json-out test with tmp_path + round-trip equality ✓, benchmark-smoke.yml triggers/params/artifacts/path-filter ✓, package job needs:test/build/clean-venv/smoke/upload/.gitignore ✓, perf contract test with monkeypatch/schema/multi-agent/markdown ✓, release-consistency guardrail tomllib/validation/tests/CI-step ✓, 0.1.2rc2 version+changelog ✓, 0.1.2 stable promotion with explicit rc2 provenance ✓ → **ALL 27 PASSED**
 74. `.venv/bin/python scripts/check_release_consistency.py` → `pyproject version: 0.1.2, changelog headings: 0.1.2, 0.1.2rc2, 0.1.1, Result: OK` (release consistency validated)
 
+### Round 11 (commit 43 — midway report + bundled audit commit)
+
+75. `git log --oneline e713dc0..HEAD` → 1 new commit: `20d3005 docs: add midway report analysis and comprehensive project report`. Only 1 commit, not the 5 expected by user ("43-47").
+76. `.venv/bin/python -m pytest -v` → `86 passed in 0.60s` (unchanged — no code modifications in commit 43)
+77. `.venv/bin/python scripts/check_import_flow.py` → `Total imports: 20, Result: OK (0 violations)` (unchanged — no source modifications)
+78. Commit 43 deep-dive: 16 checks — package structure ✓, dependency rules accurate but import-lint claim stale ✗, D1-D15 ✓ (D14 stale), test counts undercount by 14 ✗, engine lifecycle diagram precise ✓, scenario model verified ✓, test count wrong (72 vs 86) ✗, import-lint gap claim factually wrong ✗, baselines match real data (not latest) ✓, git progression stops at 32 ✗, R1-R12 mostly accurate ✓, audit findings summary ✓, staleness pervasive (4×"32", 8×"72") ⚠️, CI/CD entirely omitted ✗, commit message omits 913-line audit bundle ✗, Environment Snapshot internally inconsistent ⚠️ → **5 PASS, 6 FAIL, 3 PASS with caveat, 2 OBSERVATION. Issue I-16 opened.**
+79. `git diff e713dc0..20d3005 -- 11_agent_execution_audit.md | wc -l` → 972 diff lines. Agent committed auditor's uncommitted Rounds 8-10 content (913 insertions) as part of its own commit.
+
+### Round 12 (commit 44 — evidence matrix + final report sync)
+
+80. `git log --oneline 20d3005..HEAD` → 1 new commit: `5b313b9 docs: sync final report and evidence matrix to v0.1.2 state`. Only 1 commit, not the 5 expected by user ("44-48").
+81. `.venv/bin/python -m pytest -v` → `86 passed in 0.59s` (unchanged — documentation-only commit)
+82. `.venv/bin/python scripts/check_import_flow.py` → `Total imports: 20, Result: OK (0 violations)` (unchanged — no source modifications)
+83. Deep-dive verification: 66 independent checks across R1-R12 artifact existence, test evidence, status accuracy, and final report addendum claims → **66/66 PASS, 0 FAIL**. Every file path in the evidence matrix corresponds to a real file; every status assessment matches actual implementation state.
+84. `git diff 20d3005..5b313b9 --stat` → 2 files changed, 32 insertions, 18 deletions (`07_tfg_evidence_matrix.md`, `08_final_report.md`)
+
 ---
 
 ## Audit Methodology
@@ -2241,4 +2418,4 @@ Each commit is assessed on:
 
 ---
 
-*All 10 checklist commits completed. Post-checklist commits 11-42 address audit findings, policy controls, integration hardening, performance baseline, profile-guided optimization cycle, public CLI with runtime modes, engine per-tick deep-copy elimination, CI/CD pipeline with import-flow and release-consistency guardrails, wheel packaging validation, reproducible benchmark tooling with contract tests, and stable 0.1.2 release. All 74 command evidence items independently verified. 86/86 tests passing. 0 import rule violations across 20 import statements. 0 open CRITICAL or MEDIUM issues. Audit complete for commits 1-42; commits 43-46 are pending the next audit round.*
+*All 10 checklist commits completed. Post-checklist commits 11-44 address audit findings, policy controls, integration hardening, performance baseline, profile-guided optimization cycle, public CLI with runtime modes, engine per-tick deep-copy elimination, CI/CD pipeline with import-flow and release-consistency guardrails, wheel packaging validation, reproducible benchmark tooling with contract tests, stable 0.1.2 release, midway project report, and evidence matrix + final report sync to v0.1.2 state. All 84 command evidence items independently verified. 86/86 tests passing. 0 import rule violations across 20 import statements. 1 partially addressed MEDIUM issue (I-16: midway report staleness — evidence matrix and final report synced, midway report remains stale). Audit complete for audited range through commit 44 (2026-03-04); run a new round for commits after 44.*

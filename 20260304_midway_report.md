@@ -5,6 +5,7 @@
 **Project:** TFG — Modular Multi-Agent Simulation Framework
 **Version:** v1 (20260303_simulazioak_v1)
 **Assessment type:** Deep midway analysis — architecture, implementation, testing, performance, and roadmap
+**Scope note:** Historical snapshot written against implementation state through commit 32 on 2026-03-04. Use `11_agent_execution_audit.md` + `CHANGELOG.md` for current state after commit 32.
 
 ---
 
