@@ -102,3 +102,26 @@ def test_cli_rejects_conflicting_snapshot_flags(capsys) -> None:
     assert exc.value.code == 2
     err = capsys.readouterr().err
     assert "not allowed with argument" in err
+
+
+def test_cli_writes_json_output_file(tmp_path, capsys) -> None:
+    out_path = tmp_path / "run.json"
+    payload = _run_cli(
+        [
+            "--scenario",
+            "ants_foraging",
+            "--ticks",
+            "5",
+            "--ants",
+            "10",
+            "--runtime-mode",
+            "headless",
+            "--json-out",
+            str(out_path),
+        ],
+        capsys,
+    )
+
+    assert out_path.exists()
+    persisted = json.loads(out_path.read_text(encoding="utf-8"))
+    assert persisted == payload
