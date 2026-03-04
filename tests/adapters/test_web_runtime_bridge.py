@@ -71,6 +71,39 @@ def test_reset_rebuilds_session_to_tick_zero() -> None:
     assert payload["metrics"]["agent_count"] == 4
 
 
+def test_seek_command_rewinds_to_previous_tick() -> None:
+    bridge = WebRuntimeBridge(BridgeConfig(scenario_name="ants_foraging", agents=6, seed=5))
+    bridge.apply_command({"kind": "play"})
+    for _ in range(4):
+        bridge.tick_once()
+    assert bridge.state_payload()["tick"] >= 4
+
+    bridge.apply_command({"kind": "seek", "tick": 1})
+    bridge.tick_once()
+    assert bridge.state_payload()["tick"] == 1
+
+
+def test_switch_scenario_rebuilds_without_restart() -> None:
+    bridge = WebRuntimeBridge(BridgeConfig(scenario_name="ants_foraging", agents=5))
+    assert bridge.state_payload()["scenario"] == "ants_foraging"
+
+    bridge.switch_scenario("drone_patrol")
+    payload = bridge.state_payload()
+    assert payload["scenario"] == "drone_patrol"
+    assert payload["tick"] == 0
+    assert payload["metrics"]["agent_count"] == 5
+
+
+def test_state_payload_exposes_signal_grid_for_overlay() -> None:
+    bridge = WebRuntimeBridge(BridgeConfig(scenario_name="ants_foraging", width=12, height=10))
+    payload = bridge.state_payload()
+    signal = payload["signal"]
+    assert signal["width"] == 12
+    assert signal["height"] == 10
+    assert len(signal["data"]) == 10
+    assert len(signal["data"][0]) == 12
+
+
 def test_invalid_command_payload_is_rejected() -> None:
     bridge = WebRuntimeBridge(BridgeConfig())
     with pytest.raises(ValueError):

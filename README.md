@@ -100,7 +100,10 @@ sim-web --scenario drone_patrol --agents 20 --boundary-mode wrap
 
 M1 controls currently available in the shell:
 - `Play`, `Pause`, `Step`, `Reset`
+- scenario switch without server restart (`ants_foraging` <-> `drone_patrol`)
+- seek/rewind controls (`Seek tick`, `Rewind 10`)
 - speed updates via `set_speed`
+- signal overlay toggle for pheromone/radio field heat tint
 - live state panel (`tick`, `paused`, `agent_count`, `carrying_agents`, `signal_total`)
 
 Latest baseline snapshot in this repository:

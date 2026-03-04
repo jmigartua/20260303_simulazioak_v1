@@ -3,7 +3,7 @@ from __future__ import annotations
 import inspect
 import threading
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any
 
 from pydantic import TypeAdapter
@@ -13,7 +13,7 @@ from sim_framework.contracts.models import ControlCommand, PauseCommand, Simulat
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.history import SnapshotHistory
 from sim_framework.core.physics import WorldBounds
-from sim_framework.scenarios.registry import get_scenario
+from sim_framework.scenarios.registry import get_scenario, list_scenarios
 
 
 _COMMAND_ADAPTER = TypeAdapter(ControlCommand)
@@ -91,6 +91,10 @@ class WebRuntimeBridge:
 
         self._rebuild()
 
+    @property
+    def available_scenarios(self) -> list[str]:
+        return list_scenarios()
+
     def _rebuild(self) -> None:
         scenario = get_scenario(self._config.scenario_name)
         state = _build_state_for_scenario(
@@ -127,6 +131,15 @@ class WebRuntimeBridge:
         self._runner = runner
         self._engine = engine
         self._history = history
+
+    def switch_scenario(self, scenario_name: str) -> None:
+        with self._lock:
+            if scenario_name not in self.available_scenarios:
+                raise ValueError(f"Unknown scenario: {scenario_name}")
+            if scenario_name == self._config.scenario_name:
+                return
+            self._config = replace(self._config, scenario_name=scenario_name)
+            self._rebuild()
 
     def start(self) -> None:
         if self._running:
@@ -174,6 +187,7 @@ class WebRuntimeBridge:
             assert self._engine is not None
             assert self._signal_grid is not None
 
+            signal_data = [row[:] for row in self._signal_grid.data]
             state = self._state
             return {
                 "scenario": self._config.scenario_name,
@@ -209,4 +223,20 @@ class WebRuntimeBridge:
                     "carrying_agents": sum(1 for agent in state.agents if agent.carrying > 0),
                     "signal_total": self._signal_grid.total_signal(),
                 },
+                "signal": {
+                    "kind": self._signal_grid.kind,
+                    "width": self._signal_grid.width,
+                    "height": self._signal_grid.height,
+                    "data": signal_data,
+                },
+            }
+
+    def meta_payload(self) -> dict[str, Any]:
+        with self._lock:
+            return {
+                "available_scenarios": self.available_scenarios,
+                "current_scenario": self._config.scenario_name,
+                "boundary_mode": self._config.boundary_mode,
+                "runtime_mode": self._config.runtime_mode.value,
+                "agents": self._config.agents,
             }

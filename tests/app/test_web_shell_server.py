@@ -61,14 +61,31 @@ def test_web_shell_serves_html_and_state_and_accepts_commands() -> None:
         assert "Pause" in html
         assert "Step" in html
         assert "Reset" in html
+        assert "Switch Scenario" in html
+        assert "Signal overlay" in html
+
+        meta = _get_json(f"{base_url}/api/meta")
+        assert "ants_foraging" in meta["available_scenarios"]
+        assert "drone_patrol" in meta["available_scenarios"]
+        assert meta["current_scenario"] == "ants_foraging"
 
         state = _get_json(f"{base_url}/api/state")
         assert state["paused"] is True
         assert state["tick"] == 0
+        assert "signal" in state
+        assert "data" in state["signal"]
 
         _post_json(f"{base_url}/api/command", {"kind": "step", "steps": 1})
         progressed = _wait_for_tick(base_url, at_least=1, timeout_s=1.0)
         assert progressed["tick"] >= 1
+
+        switched = _post_json(f"{base_url}/api/scenario", {"scenario": "drone_patrol"})
+        assert switched["scenario"] == "drone_patrol"
+        assert switched["tick"] == 0
+
+        _post_json(f"{base_url}/api/command", {"kind": "step", "steps": 1})
+        after_switch_step = _wait_for_tick(base_url, at_least=1, timeout_s=1.0)
+        assert after_switch_step["scenario"] == "drone_patrol"
     finally:
         server.shutdown()
         thread.join(timeout=1.0)

@@ -94,12 +94,18 @@ _SHELL_HTML = """<!doctype html>
       align-items: center;
       margin-top: 8px;
     }
-    input[type=number] {
+    input[type=number], select {
       width: 80px;
       padding: 6px 8px;
       border-radius: 8px;
       border: 1px solid var(--line);
       background: #fff;
+    }
+    input[type=checkbox] {
+      width: auto;
+    }
+    #scenario-select {
+      width: 170px;
     }
   </style>
 </head>
@@ -107,6 +113,8 @@ _SHELL_HTML = """<!doctype html>
   <div class="wrap">
     <section class="panel">
       <div class="controls">
+        <select id="scenario-select"></select>
+        <button id="switch-scenario">Switch Scenario</button>
         <button id="play" class="primary">Play</button>
         <button id="pause">Pause</button>
         <button id="step">Step</button>
@@ -127,39 +135,89 @@ _SHELL_HTML = """<!doctype html>
         <input id="speed" type="number" min="0.1" step="0.1" value="1.0" />
         <button id="set-speed">Apply</button>
       </div>
+      <div class="row">
+        <label for="seek-tick">Seek tick</label>
+        <input id="seek-tick" type="number" min="0" step="1" value="0" />
+        <button id="seek-btn">Seek</button>
+        <button id="rewind-10">Rewind 10</button>
+      </div>
+      <div class="row">
+        <label for="show-signal">Signal overlay</label>
+        <input id="show-signal" type="checkbox" />
+      </div>
     </aside>
   </div>
 <script>
 const canvas = document.getElementById("sim-canvas");
 const ctx = canvas.getContext("2d");
+const scenarioSelect = document.getElementById("scenario-select");
+const seekTickInput = document.getElementById("seek-tick");
+const showSignalToggle = document.getElementById("show-signal");
 let latest = null;
+let meta = null;
 
-async function postCommand(payload) {
-  const res = await fetch("/api/command", {
+async function postJson(url, payload) {
+  const res = await fetch(url, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(payload),
   });
+  const data = await res.json();
   if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error || "command failed");
+    throw new Error(data.error || "request failed");
   }
-  latest = await res.json();
+  return data;
+}
+
+async function postCommand(payload) {
+  latest = await postJson("/api/command", payload);
   render();
+}
+
+async function switchScenario(scenarioName) {
+  latest = await postJson("/api/scenario", {scenario: scenarioName});
+  if (meta) {
+    meta.current_scenario = scenarioName;
+  }
+  render();
+}
+
+function drawSignalOverlay(state, sx, sy) {
+  if (!showSignalToggle.checked) return;
+  if (!state.signal || !state.signal.data) return;
+
+  let maxSignal = 0.0;
+  for (const row of state.signal.data) {
+    for (const value of row) {
+      if (value > maxSignal) maxSignal = value;
+    }
+  }
+  if (maxSignal <= 0) return;
+
+  for (let y = 0; y < state.signal.data.length; y++) {
+    const row = state.signal.data[y];
+    for (let x = 0; x < row.length; x++) {
+      const value = row[x];
+      if (value <= 0) continue;
+      const alpha = Math.min(0.45, (value / maxSignal) * 0.45);
+      ctx.fillStyle = `rgba(180, 83, 9, ${alpha.toFixed(3)})`;
+      ctx.fillRect(x * sx, y * sy, Math.ceil(sx), Math.ceil(sy));
+    }
+  }
 }
 
 function drawState(state) {
   const width = canvas.width;
   const height = canvas.height;
   ctx.clearRect(0, 0, width, height);
-  if (!state) {
-    return;
-  }
+  if (!state) return;
 
   const worldW = state.world.width;
   const worldH = state.world.height;
   const sx = width / worldW;
   const sy = height / worldH;
+
+  drawSignalOverlay(state, sx, sy);
 
   ctx.fillStyle = "#1f2937";
   ctx.beginPath();
@@ -189,6 +247,10 @@ function render() {
   document.getElementById("agents").textContent = String(latest.metrics.agent_count);
   document.getElementById("carrying").textContent = String(latest.metrics.carrying_agents);
   document.getElementById("signal").textContent = latest.metrics.signal_total.toFixed(2);
+  seekTickInput.max = String(Math.max(0, latest.tick));
+  if (scenarioSelect.value !== latest.scenario) {
+    scenarioSelect.value = latest.scenario;
+  }
   drawState(latest);
 }
 
@@ -202,6 +264,19 @@ async function refresh() {
   }
 }
 
+async function loadMeta() {
+  const res = await fetch("/api/meta");
+  meta = await res.json();
+  scenarioSelect.innerHTML = "";
+  for (const scenario of meta.available_scenarios) {
+    const option = document.createElement("option");
+    option.value = scenario;
+    option.textContent = scenario;
+    scenarioSelect.appendChild(option);
+  }
+  scenarioSelect.value = meta.current_scenario;
+}
+
 document.getElementById("play").onclick = () => postCommand({kind: "play"});
 document.getElementById("pause").onclick = () => postCommand({kind: "pause"});
 document.getElementById("step").onclick = () => postCommand({kind: "step", steps: 1});
@@ -210,8 +285,22 @@ document.getElementById("set-speed").onclick = () => {
   const speed = Number(document.getElementById("speed").value);
   postCommand({kind: "set_speed", speed_multiplier: speed});
 };
+document.getElementById("seek-btn").onclick = () => {
+  const tick = Math.max(0, Math.floor(Number(seekTickInput.value)));
+  postCommand({kind: "seek", tick});
+};
+document.getElementById("rewind-10").onclick = () => {
+  if (!latest) return;
+  const tick = Math.max(0, latest.tick - 10);
+  seekTickInput.value = String(tick);
+  postCommand({kind: "seek", tick});
+};
+document.getElementById("switch-scenario").onclick = () => {
+  switchScenario(scenarioSelect.value);
+};
+showSignalToggle.onchange = () => render();
 
-refresh();
+loadMeta().then(refresh);
 setInterval(refresh, 120);
 </script>
 </body>
@@ -245,6 +334,9 @@ def _make_handler(bridge: WebRuntimeBridge):
             if self.path == "/api/state":
                 self._json(bridge.state_payload())
                 return
+            if self.path == "/api/meta":
+                self._json(bridge.meta_payload())
+                return
 
             if self.path == "/health":
                 self._json({"ok": True})
@@ -253,7 +345,7 @@ def _make_handler(bridge: WebRuntimeBridge):
             self._json({"error": "not found"}, status=404)
 
         def do_POST(self) -> None:  # noqa: N802 - stdlib hook name
-            if self.path != "/api/command":
+            if self.path not in {"/api/command", "/api/scenario"}:
                 self._json({"error": "not found"}, status=404)
                 return
 
@@ -270,7 +362,14 @@ def _make_handler(bridge: WebRuntimeBridge):
                 return
 
             try:
-                bridge.apply_command(payload)
+                if self.path == "/api/scenario":
+                    scenario_name = payload.get("scenario")
+                    if not isinstance(scenario_name, str) or not scenario_name:
+                        self._json({"error": "scenario must be a non-empty string"}, status=400)
+                        return
+                    bridge.switch_scenario(scenario_name)
+                else:
+                    bridge.apply_command(payload)
             except ValueError as exc:
                 self._json({"error": str(exc)}, status=400)
                 return
