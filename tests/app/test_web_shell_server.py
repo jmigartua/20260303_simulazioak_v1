@@ -10,6 +10,10 @@ from urllib import request
 from sim_framework.adapters.web.runtime_bridge import BridgeConfig, WebRuntimeBridge
 from sim_framework.app.web import WebShellServer
 
+_ONE_PIXEL_PNG_BASE64 = (
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO7nL8sAAAAASUVORK5CYII="
+)
+
 
 def _get_json(url: str) -> dict:
     with request.urlopen(url, timeout=2.0) as response:
@@ -114,6 +118,7 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
         assert "Last capture:" in html
         assert "Capture files:" in html
         assert "Capture JSON" in html
+        assert "Capture PNG" in html
         assert "Refresh Captures" in html
         assert "Delete Capture" in html
         assert "Timeline" in html
@@ -180,6 +185,36 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
         assert len(listing["captures"]) == 1
         assert listing["captures"][0]["name"] == capture_name
         assert listing["captures"][0]["scenario"] == "drone_patrol"
+        assert listing["captures"][0]["kind"] == "state_capture"
+
+        screenshot = _post_json(
+            f"{base_url}/api/capture/screenshot",
+            {"image_base64": _ONE_PIXEL_PNG_BASE64, "mime_type": "image/png"},
+        )
+        assert screenshot["capture_name"].endswith("_screenshot.json")
+        assert screenshot["image_file"].endswith(".png")
+        assert len(screenshot["image_digest"]) == 64
+        assert len(screenshot["bundle_digest"]) == 64
+
+        bundle_path = Path(screenshot["bundle_file"])
+        image_path = Path(screenshot["image_file"])
+        assert bundle_path.exists()
+        assert image_path.exists()
+        bundle_json = json.loads(bundle_path.read_text(encoding="utf-8"))
+        assert bundle_json["image_digest"] == screenshot["image_digest"]
+        assert bundle_json["bundle_digest"] == screenshot["bundle_digest"]
+
+        listing = _get_json(f"{base_url}/api/captures")
+        assert len(listing["captures"]) == 2
+        screenshot_entry = next(item for item in listing["captures"] if item["name"] == screenshot["capture_name"])
+        assert screenshot_entry["kind"] == "screenshot_bundle"
+
+        deleted_shot = _post_json(
+            f"{base_url}/api/capture/delete",
+            {"name": screenshot["capture_name"]},
+        )
+        assert deleted_shot["deleted"] == screenshot["capture_name"]
+        assert not image_path.exists()
 
         deleted = _post_json(f"{base_url}/api/capture/delete", {"name": capture_name})
         assert deleted["deleted"] == capture_name
@@ -188,6 +223,13 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
         code, err = _post_json_error(f"{base_url}/api/capture/delete", {"name": "../bad.json"})
         assert code == 400
         assert "plain filename" in err["error"]
+
+        code, err = _post_json_error(
+            f"{base_url}/api/capture/screenshot",
+            {"image_base64": "not_base64", "mime_type": "image/png"},
+        )
+        assert code == 400
+        assert "valid base64" in err["error"]
     finally:
         server.shutdown()
         thread.join(timeout=1.0)

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import hashlib
 import json
 from datetime import datetime, timezone
@@ -129,6 +131,7 @@ _SHELL_HTML = """<!doctype html>
         <button id="step">Step</button>
         <button id="reset" class="secondary">Reset</button>
         <button id="capture-json">Capture JSON</button>
+        <button id="capture-png">Capture PNG</button>
       </div>
       <canvas id="sim-canvas" width="900" height="600"></canvas>
     </section>
@@ -282,6 +285,22 @@ async function captureJson() {
   const capture = await postJson("/api/capture", {});
   latest = capture.state;
   capturePathLabel.textContent = capture.capture_file;
+  await refreshCaptures(capture.capture_name || null);
+  render();
+}
+
+async function capturePng() {
+  const dataUrl = canvas.toDataURL("image/png");
+  const marker = "base64,";
+  const idx = dataUrl.indexOf(marker);
+  const encoded = idx >= 0 ? dataUrl.slice(idx + marker.length) : "";
+  if (!encoded) return;
+  const capture = await postJson("/api/capture/screenshot", {
+    image_base64: encoded,
+    mime_type: "image/png",
+  });
+  latest = capture.state;
+  capturePathLabel.textContent = capture.bundle_file;
   await refreshCaptures(capture.capture_name || null);
   render();
 }
@@ -615,6 +634,9 @@ document.getElementById("switch-scenario").onclick = () => {
 document.getElementById("capture-json").onclick = () => {
   captureJson();
 };
+document.getElementById("capture-png").onclick = () => {
+  capturePng();
+};
 document.getElementById("refresh-captures").onclick = () => {
   refreshCaptures();
 };
@@ -635,30 +657,95 @@ setInterval(refresh, 120);
 """
 
 
+_MAX_SCREENSHOT_BASE64_CHARS = 12_000_000
+
+
+def _capture_digest_for_payload(payload: dict[str, Any]) -> str:
+    stable_blob = json.dumps(
+        {"state": payload["state"], "meta": payload["meta"]},
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    return hashlib.sha256(stable_blob.encode("utf-8")).hexdigest()
+
+
 def _capture_payload(bridge: WebRuntimeBridge) -> dict[str, Any]:
     payload = {
         "captured_at_utc": datetime.now(timezone.utc).isoformat(),
         "state": bridge.state_payload(),
         "meta": bridge.meta_payload(),
     }
-    stable_blob = json.dumps(
-        {"state": payload["state"], "meta": payload["meta"]},
-        sort_keys=True,
-        separators=(",", ":"),
-    )
-    payload["capture_digest"] = hashlib.sha256(stable_blob.encode("utf-8")).hexdigest()
+    payload["capture_digest"] = _capture_digest_for_payload(payload)
     return payload
 
 
-def _write_capture_file(capture_root: Path, payload: dict[str, Any]) -> Path:
-    capture_root.mkdir(parents=True, exist_ok=True)
+def _capture_basename(payload: dict[str, Any]) -> str:
     state = payload.get("state", {})
     scenario = str(state.get("scenario", "unknown"))
     tick = int(state.get("tick", 0))
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
-    out_path = capture_root / f"capture_{scenario}_tick{tick}_{timestamp}.json"
+    return f"capture_{scenario}_tick{tick}_{timestamp}"
+
+
+def _write_capture_file(capture_root: Path, payload: dict[str, Any]) -> Path:
+    capture_root.mkdir(parents=True, exist_ok=True)
+    out_path = capture_root / f"{_capture_basename(payload)}.json"
     out_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     return out_path
+
+
+def _decode_png_bytes_from_payload(payload: dict[str, Any]) -> bytes:
+    encoded = payload.get("image_base64")
+    if not isinstance(encoded, str) or not encoded:
+        raise ValueError("image_base64 must be a non-empty string")
+    if len(encoded) > _MAX_SCREENSHOT_BASE64_CHARS:
+        raise ValueError("image_base64 payload exceeds size limit")
+    mime_type = payload.get("mime_type", "image/png")
+    if mime_type != "image/png":
+        raise ValueError("mime_type must be image/png")
+    try:
+        image_bytes = base64.b64decode(encoded, validate=True)
+    except (binascii.Error, ValueError) as exc:
+        raise ValueError("image_base64 is not valid base64") from exc
+    if not image_bytes.startswith(b"\x89PNG\r\n\x1a\n"):
+        raise ValueError("image payload is not a PNG file")
+    return image_bytes
+
+
+def _write_screenshot_bundle(
+    capture_root: Path,
+    *,
+    payload: dict[str, Any],
+    image_bytes: bytes,
+) -> tuple[Path, Path, dict[str, Any]]:
+    capture_root.mkdir(parents=True, exist_ok=True)
+    base = _capture_basename(payload)
+    image_path = capture_root / f"{base}.png"
+    bundle_path = capture_root / f"{base}_screenshot.json"
+
+    image_path.write_bytes(image_bytes)
+    image_digest = hashlib.sha256(image_bytes).hexdigest()
+    bundle = {
+        "captured_at_utc": payload["captured_at_utc"],
+        "state": payload["state"],
+        "meta": payload["meta"],
+        "capture_digest": payload["capture_digest"],
+        "image_file": str(image_path),
+        "image_digest": image_digest,
+        "bundle_digest": hashlib.sha256(
+            json.dumps(
+                {
+                    "state": payload["state"],
+                    "meta": payload["meta"],
+                    "image_digest": image_digest,
+                },
+                sort_keys=True,
+                separators=(",", ":"),
+            ).encode("utf-8")
+        ).hexdigest(),
+    }
+    bundle_path.write_text(json.dumps(bundle, indent=2) + "\n", encoding="utf-8")
+    return image_path, bundle_path, bundle
 
 
 def _capture_path_from_name(capture_root: Path, name: str) -> Path:
@@ -691,6 +778,13 @@ def _capture_index_entry(path: Path) -> dict[str, Any]:
     entry["tick"] = state.get("tick")
     entry["captured_at_utc"] = payload.get("captured_at_utc")
     entry["capture_digest"] = payload.get("capture_digest")
+    if "image_file" in payload:
+        entry["kind"] = "screenshot_bundle"
+        entry["image_file"] = payload.get("image_file")
+        entry["image_digest"] = payload.get("image_digest")
+        entry["bundle_digest"] = payload.get("bundle_digest")
+    else:
+        entry["kind"] = "state_capture"
     return entry
 
 
@@ -749,6 +843,7 @@ def _make_handler(bridge: WebRuntimeBridge, *, capture_root: Path):
                 "/api/command",
                 "/api/scenario",
                 "/api/capture",
+                "/api/capture/screenshot",
                 "/api/capture/delete",
             }:
                 self._json({"error": "not found"}, status=404)
@@ -782,6 +877,29 @@ def _make_handler(bridge: WebRuntimeBridge, *, capture_root: Path):
                 return
 
             try:
+                if self.path == "/api/capture/screenshot":
+                    image_bytes = _decode_png_bytes_from_payload(payload)
+                    capture_payload = _capture_payload(bridge)
+                    image_path, bundle_path, bundle = _write_screenshot_bundle(
+                        capture_root,
+                        payload=capture_payload,
+                        image_bytes=image_bytes,
+                    )
+                    self._json(
+                        {
+                            "capture_file": str(image_path),
+                            "capture_name": bundle_path.name,
+                            "image_file": str(image_path),
+                            "bundle_file": str(bundle_path),
+                            "state": capture_payload["state"],
+                            "captured_at_utc": capture_payload["captured_at_utc"],
+                            "capture_digest": capture_payload["capture_digest"],
+                            "image_digest": bundle["image_digest"],
+                            "bundle_digest": bundle["bundle_digest"],
+                        },
+                        status=200,
+                    )
+                    return
                 if self.path == "/api/capture/delete":
                     name = payload.get("name")
                     if not isinstance(name, str):
@@ -795,7 +913,19 @@ def _make_handler(bridge: WebRuntimeBridge, *, capture_root: Path):
                     if not target.exists():
                         self._json({"error": f"capture not found: {name}"}, status=404)
                         return
+                    try:
+                        target_payload = json.loads(target.read_text(encoding="utf-8"))
+                    except (OSError, json.JSONDecodeError):
+                        target_payload = {}
                     target.unlink()
+                    image_file = target_payload.get("image_file")
+                    if isinstance(image_file, str):
+                        try:
+                            image_path = Path(image_file).resolve()
+                            if image_path.parent == capture_root.resolve() and image_path.exists():
+                                image_path.unlink()
+                        except OSError:
+                            pass
                     self._json(
                         {
                             "deleted": name,

@@ -119,6 +119,7 @@ M1 controls currently available in the shell:
 - timing-behavior contract tests cover real-time tick advance on `play` and stabilization on `pause`
 - capture/export workflow via `Capture JSON` button and `/api/capture` endpoint (writes timestamped JSON under `--capture-root`)
 - capture management workflow via `/api/captures` and `/api/capture/delete` (refresh/delete from UI without restart)
+- screenshot export workflow via `Capture PNG` and `/api/capture/screenshot` (stores `.png` + deterministic metadata bundle)
 - timeline replay interactions: slider-based seek, rewind-10/rewind-50, and `Jump Latest` using `timeline.max_tick_reached`
 
 Latest baseline snapshot in this repository:
