@@ -22,7 +22,7 @@ def test_cli_interactive_mode_emits_snapshot_events(capsys) -> None:
             "ants_foraging",
             "--ticks",
             "5",
-            "--ants",
+            "--agents",
             "10",
             "--runtime-mode",
             "interactive",
@@ -43,7 +43,7 @@ def test_cli_headless_mode_disables_snapshot_events(capsys) -> None:
             "ants_foraging",
             "--ticks",
             "5",
-            "--ants",
+            "--agents",
             "10",
             "--runtime-mode",
             "headless",
@@ -96,6 +96,7 @@ def test_cli_drone_patrol_runs_headless(capsys) -> None:
     assert payload["scenario"] == "drone_patrol"
     assert payload["runtime"]["mode"] == "headless"
     assert payload["run"]["ticks_completed"] == 5
+    assert payload["run"]["agents"] == 10
     assert payload["run"]["ants"] == 10
 
 

@@ -7,6 +7,8 @@ from sim_framework.contracts.models import (
     Colony,
     FoodSource,
     PauseCommand,
+    PlayCommand,
+    SeekCommand,
     SetSpeedCommand,
     SignalField,
     SimulationState,
@@ -145,3 +147,47 @@ def test_tick_clones_static_topology_without_deep_copying_agents() -> None:
     assert next_state.food_sources[0] is not state.food_sources[0]
     assert next_state.signal_fields is not state.signal_fields
     assert next_state.signal_fields[0] is not state.signal_fields[0]
+
+
+def test_seek_without_history_emits_error_and_clears_pending_seek() -> None:
+    engine = SimulationEngine(seed=7)
+    state = _state(num_agents=1)
+
+    engine.enqueue_command(SeekCommand(tick=0))
+    paused_state = engine.tick(state, _runner)
+    assert paused_state.tick == 0
+
+    events = engine.drain_published_events()
+    error_events = [event for event in events if event.kind == "error"]
+    assert len(error_events) == 1
+    assert "requires history support" in error_events[0].message
+
+    engine.enqueue_command(PlayCommand())
+    running_state = engine.tick(paused_state, _runner)
+    assert running_state.tick == 1
+
+
+def test_post_step_hook_runs_once_per_simulation_step() -> None:
+    engine = SimulationEngine(seed=7)
+    state = _state(num_agents=1)
+
+    steps_called = 0
+
+    def hook() -> None:
+        nonlocal steps_called
+        steps_called += 1
+
+    engine.enqueue_command(SetSpeedCommand(speed_multiplier=3.0))
+    state = engine.tick(state, _runner, post_step_hook=hook)
+
+    assert state.tick == 3
+    assert steps_called == 3
+
+
+def test_paused_without_pending_steps_returns_same_state_instance() -> None:
+    engine = SimulationEngine(seed=7)
+    state = _state(num_agents=1)
+    engine.enqueue_command(PauseCommand())
+
+    paused_state = engine.tick(state, _runner)
+    assert paused_state is state

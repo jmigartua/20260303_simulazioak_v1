@@ -15,7 +15,8 @@ ALLOWED_IMPORTS: dict[str, set[str]] = {
     "contracts": {"contracts"},
     "core": {"contracts", "core"},
     "scenarios": {"contracts", "core", "scenarios"},
-    "app": {"contracts", "core", "scenarios", "app"},
+    "adapters": {"contracts", "core", "scenarios", "adapters"},
+    "app": {"contracts", "core", "scenarios", "adapters", "app"},
 }
 
 
@@ -99,7 +100,7 @@ def main() -> int:
     violations = validate_import_flow(uses)
 
     print(f"Total imports: {len(uses)}")
-    print("Expected flow: contracts <- core <- scenarios <- app")
+    print("Expected flow: contracts <- core <- scenarios <- adapters <- app")
 
     if violations:
         print("\nViolations:")

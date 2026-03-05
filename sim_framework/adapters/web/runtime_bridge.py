@@ -8,11 +8,11 @@ from typing import Any
 
 from pydantic import TypeAdapter
 
-from sim_framework.app.runtime import RuntimeConfig, RuntimeMode, create_engine
-from sim_framework.contracts.models import ControlCommand, PauseCommand, SimulationState
+from sim_framework.contracts.models import ControlCommand, PauseCommand, ResetCommand, SimulationState
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.history import SnapshotHistory
 from sim_framework.core.physics import WorldBounds
+from sim_framework.core.runtime import RuntimeConfig, RuntimeMode, create_engine
 from sim_framework.scenarios.registry import get_scenario, list_scenarios
 
 
@@ -92,6 +92,31 @@ class WebRuntimeBridge:
 
         self._rebuild()
 
+    def _require_engine(self):
+        if self._engine is None:
+            raise RuntimeError("WebRuntimeBridge engine is not initialized")
+        return self._engine
+
+    def _require_state(self) -> SimulationState:
+        if self._state is None:
+            raise RuntimeError("WebRuntimeBridge state is not initialized")
+        return self._state
+
+    def _require_history(self) -> SnapshotHistory:
+        if self._history is None:
+            raise RuntimeError("WebRuntimeBridge history is not initialized")
+        return self._history
+
+    def _require_runner(self):
+        if self._runner is None:
+            raise RuntimeError("WebRuntimeBridge runner is not initialized")
+        return self._runner
+
+    def _require_signal_grid(self) -> SignalGrid:
+        if self._signal_grid is None:
+            raise RuntimeError("WebRuntimeBridge signal grid is not initialized")
+        return self._signal_grid
+
     @property
     def available_scenarios(self) -> list[str]:
         return list_scenarios()
@@ -122,7 +147,12 @@ class WebRuntimeBridge:
 
         # Start paused so browser controls drive execution.
         engine.enqueue_command(PauseCommand())
-        state = engine.tick(state, runner, history=history)
+        state = engine.tick(
+            state,
+            runner,
+            history=history,
+            post_step_hook=self._evolve_signal_field,
+        )
         engine.drain_published_events()
 
         self._scenario = scenario
@@ -163,40 +193,48 @@ class WebRuntimeBridge:
 
     def tick_once(self) -> None:
         with self._lock:
-            assert self._state is not None
-            assert self._engine is not None
-            assert self._history is not None
-            assert self._runner is not None
-            self._state = self._engine.tick(self._state, self._runner, history=self._history)
+            state = self._require_state()
+            engine = self._require_engine()
+            history = self._require_history()
+            runner = self._require_runner()
+            self._state = engine.tick(
+                state,
+                runner,
+                history=history,
+                post_step_hook=self._evolve_signal_field,
+            )
             self._max_tick_reached = max(self._max_tick_reached, self._state.tick)
-            self._engine.drain_published_events()
+            engine.drain_published_events()
+
+    def _evolve_signal_field(self) -> None:
+        signal_grid = self._require_signal_grid()
+        signal_grid.diffuse_step()
+        signal_grid.decay_step()
 
     def apply_command(self, payload: dict[str, Any]) -> None:
-        kind = payload.get("kind")
         with self._lock:
-            if kind == "reset":
-                self._rebuild()
-                return
             try:
                 command = _COMMAND_ADAPTER.validate_python(payload)
             except Exception as exc:
                 raise ValueError(f"Invalid command payload: {exc}") from exc
-            assert self._engine is not None
-            self._engine.enqueue_command(command)
+            if isinstance(command, ResetCommand):
+                self._rebuild()
+                return
+            engine = self._require_engine()
+            engine.enqueue_command(command)
 
     def state_payload(self) -> dict[str, Any]:
         with self._lock:
-            assert self._state is not None
-            assert self._engine is not None
-            assert self._signal_grid is not None
+            state = self._require_state()
+            engine = self._require_engine()
+            signal_grid = self._require_signal_grid()
 
-            signal_data = [row[:] for row in self._signal_grid.data]
-            state = self._state
+            signal_data = [row[:] for row in signal_grid.data]
             return {
                 "scenario": self._config.scenario_name,
                 "tick": state.tick,
-                "paused": self._engine.is_paused,
-                "speed_multiplier": self._engine.speed_multiplier,
+                "paused": engine.is_paused,
+                "speed_multiplier": engine.speed_multiplier,
                 "world": {"width": self._config.width, "height": self._config.height},
                 "colony": {
                     "x": state.colony.position.x,
@@ -224,16 +262,16 @@ class WebRuntimeBridge:
                 "metrics": {
                     "agent_count": len(state.agents),
                     "carrying_agents": sum(1 for agent in state.agents if agent.carrying > 0),
-                    "signal_total": self._signal_grid.total_signal(),
+                    "signal_total": signal_grid.total_signal(),
                 },
                 "timeline": {
                     "current_tick": state.tick,
                     "max_tick_reached": self._max_tick_reached,
                 },
                 "signal": {
-                    "kind": self._signal_grid.kind,
-                    "width": self._signal_grid.width,
-                    "height": self._signal_grid.height,
+                    "kind": signal_grid.kind,
+                    "width": signal_grid.width,
+                    "height": signal_grid.height,
                     "data": signal_data,
                 },
             }

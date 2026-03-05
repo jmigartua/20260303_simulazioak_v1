@@ -24,7 +24,7 @@ class AgentState(BaseModel):
 class FoodSource(BaseModel):
     id: str = Field(min_length=1)
     position: Vector2
-    amount: float = Field(gt=0.0)
+    amount: float = Field(ge=0.0)
 
 
 class Colony(BaseModel):
@@ -60,29 +60,33 @@ class LoadedRun(BaseModel):
     snapshots: list[SimulationState] = Field(default_factory=list)
 
 
-class PlayCommand(BaseModel):
+class _StrictCommandModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class PlayCommand(_StrictCommandModel):
     kind: Literal["play"] = "play"
 
 
-class PauseCommand(BaseModel):
+class PauseCommand(_StrictCommandModel):
     kind: Literal["pause"] = "pause"
 
 
-class StepCommand(BaseModel):
+class StepCommand(_StrictCommandModel):
     kind: Literal["step"] = "step"
     steps: int = Field(default=1, ge=1)
 
 
-class SeekCommand(BaseModel):
+class SeekCommand(_StrictCommandModel):
     kind: Literal["seek"] = "seek"
     tick: int = Field(ge=0)
 
 
-class ResetCommand(BaseModel):
+class ResetCommand(_StrictCommandModel):
     kind: Literal["reset"] = "reset"
 
 
-class SetSpeedCommand(BaseModel):
+class SetSpeedCommand(_StrictCommandModel):
     kind: Literal["set_speed"] = "set_speed"
     speed_multiplier: float = Field(gt=0.0)
 

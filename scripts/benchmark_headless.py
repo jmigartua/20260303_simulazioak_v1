@@ -116,10 +116,14 @@ def _single_run(
     )
     runner = scenario_impl["create_behavior_runner"](bounds=bounds, signal_grid=signal_grid)
 
+    def step_hook() -> None:
+        signal_grid.diffuse_step()
+        signal_grid.decay_step()
+
     tracemalloc.start()
     start = perf_counter()
     for _ in range(ticks):
-        state = engine.tick(state, runner)
+        state = engine.tick(state, runner, post_step_hook=step_hook)
     elapsed = perf_counter() - start
     _, peak_bytes = tracemalloc.get_traced_memory()
     tracemalloc.stop()

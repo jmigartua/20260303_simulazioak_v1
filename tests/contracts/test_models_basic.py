@@ -41,9 +41,12 @@ def test_agent_rejects_invalid_values() -> None:
         AgentState(id="a1", position=Vector2(x=0.0, y=0.0), state_label="")
 
 
-def test_food_amount_must_be_positive() -> None:
+def test_food_amount_must_be_non_negative() -> None:
+    allowed = FoodSource(id="f1", position=Vector2(x=1.0, y=1.0), amount=0.0)
+    assert allowed.amount == 0.0
+
     with pytest.raises(ValidationError):
-        FoodSource(id="f1", position=Vector2(x=1.0, y=1.0), amount=0.0)
+        FoodSource(id="f1", position=Vector2(x=1.0, y=1.0), amount=-0.1)
 
     with pytest.raises(ValidationError):
         FoodSource(id="", position=Vector2(x=1.0, y=1.0), amount=1.0)

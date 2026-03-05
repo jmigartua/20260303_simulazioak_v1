@@ -146,3 +146,22 @@ def test_ant_spec_override_applies_initial_state_and_speed() -> None:
     updated = runner(state.agents[0], state, rng)
     speed = (updated.velocity.x**2 + updated.velocity.y**2) ** 0.5
     assert pytest.approx(speed, rel=1e-6) == 2.5
+
+
+def test_food_amount_decrements_on_pickup() -> None:
+    state = build_initial_state(num_ants=1, width=20, height=20, seed=21)
+    food_pos = state.food_sources[0].position
+    forced_agent = state.agents[0].model_copy(
+        update={"position": food_pos, "state_label": "searching", "carrying": 0}
+    )
+    state = state.model_copy(update={"agents": [forced_agent]})
+    signal_grid = SignalGrid.from_config(state.signal_fields[0])
+    bounds = WorldBounds(width=20.0, height=20.0)
+    runner = create_ant_behavior_runner(bounds=bounds, signal_grid=signal_grid)
+    rng = random.Random(state.seed)
+
+    initial_amount = state.food_sources[0].amount
+    updated = runner(state.agents[0], state, rng)
+
+    assert updated.carrying == 1
+    assert state.food_sources[0].amount < initial_amount

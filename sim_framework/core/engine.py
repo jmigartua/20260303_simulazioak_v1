@@ -22,6 +22,7 @@ from sim_framework.contracts.models import (
 from sim_framework.contracts.ports import HistoryPort
 
 BehaviorRunner = Callable[[AgentState, SimulationState, random.Random], AgentState]
+PostStepHook = Callable[[], None]
 
 
 class SimulationEngine:
@@ -112,8 +113,11 @@ class SimulationEngine:
         state: SimulationState,
         behavior_runner: BehaviorRunner,
         history: HistoryPort | None,
+        post_step_hook: PostStepHook | None,
     ) -> SimulationState:
         updated_agents = self._advance_agents(state, behavior_runner)
+        if post_step_hook is not None:
+            post_step_hook()
         # Avoid deep-copying all agents on every tick; only clone static topology
         # structures shallowly to keep state snapshots isolated between ticks.
         next_state = state.model_copy(
@@ -145,16 +149,26 @@ class SimulationEngine:
         state: SimulationState,
         behavior_runner: BehaviorRunner,
         history: HistoryPort | None = None,
+        post_step_hook: PostStepHook | None = None,
     ) -> SimulationState:
         self._drain_commands(state.tick)
 
-        if self._seek_target is not None and history is not None:
-            state = history.rewind(self._seek_target, state)
+        if self._seek_target is not None:
+            if history is not None:
+                state = history.rewind(self._seek_target, state)
+            else:
+                self._emit(
+                    ErrorEvent(
+                        tick=state.tick,
+                        message="SeekCommand requires history support",
+                        agent_id=None,
+                    )
+                )
             self._seek_target = None
 
         can_advance = (not self._paused) or (self._pending_steps > 0)
         if not can_advance:
-            return state.model_copy(deep=True)
+            return state
 
         if self._paused:
             steps_to_run = 1
@@ -167,6 +181,11 @@ class SimulationEngine:
         for _ in range(steps_to_run):
             if self._pending_steps > 0:
                 self._pending_steps -= 1
-            next_state = self._run_single_step(next_state, behavior_runner, history)
+            next_state = self._run_single_step(
+                next_state,
+                behavior_runner,
+                history,
+                post_step_hook,
+            )
 
         return next_state

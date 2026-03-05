@@ -164,6 +164,13 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
         assert code == 400
         assert "Invalid command payload" in err["error"]
 
+        code, err = _post_json_error(
+            f"{base_url}/api/command",
+            {"kind": "reset", "unexpected": "x"},
+        )
+        assert code == 400
+        assert "Invalid command payload" in err["error"]
+
         _post_json(f"{base_url}/api/command", {"kind": "step", "steps": 1})
         after_switch_step = _wait_for_tick(base_url, at_least=1, timeout_s=1.0)
         assert after_switch_step["scenario"] == "drone_patrol"

@@ -23,6 +23,7 @@ def test_layer_resolution_rules() -> None:
     assert mod._layer_from_module("sim_framework.contracts.models") == "contracts"
     assert mod._layer_from_module("sim_framework.core.engine") == "core"
     assert mod._layer_from_module("sim_framework.scenarios.registry") == "scenarios"
+    assert mod._layer_from_module("sim_framework.adapters.web.runtime_bridge") == "adapters"
     assert mod._layer_from_module("sim_framework.app.cli") == "app"
     assert mod._layer_from_module("json") is None
     assert mod._layer_from_module("sim_framework") is None

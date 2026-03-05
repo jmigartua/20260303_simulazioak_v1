@@ -126,3 +126,9 @@ def test_invalid_command_payload_is_rejected() -> None:
     bridge = WebRuntimeBridge(BridgeConfig())
     with pytest.raises(ValueError):
         bridge.apply_command({"kind": "step", "steps": 0})
+
+
+def test_reset_payload_with_extra_fields_is_rejected() -> None:
+    bridge = WebRuntimeBridge(BridgeConfig())
+    with pytest.raises(ValueError):
+        bridge.apply_command({"kind": "reset", "unexpected": "x"})

@@ -23,7 +23,18 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--scenario", type=str, default="ants_foraging", choices=list_scenarios())
     parser.add_argument("--ticks", type=int, default=100)
-    parser.add_argument("--ants", type=int, default=40)
+    parser.add_argument(
+        "--agents",
+        type=int,
+        default=40,
+        help="Number of agents to initialize (works for all scenarios).",
+    )
+    parser.add_argument(
+        "--ants",
+        dest="agents",
+        type=int,
+        help=argparse.SUPPRESS,
+    )
     parser.add_argument("--width", type=int, default=30)
     parser.add_argument("--height", type=int, default=30)
     parser.add_argument(
@@ -98,8 +109,8 @@ def _snapshot_override(args: argparse.Namespace) -> bool | None:
 def _validate_positive(args: argparse.Namespace, parser: argparse.ArgumentParser) -> None:
     if args.ticks <= 0:
         parser.error("--ticks must be > 0")
-    if args.ants <= 0:
-        parser.error("--ants must be > 0")
+    if args.agents <= 0:
+        parser.error("--agents/--ants must be > 0")
     if args.width <= 0 or args.height <= 0:
         parser.error("--width/--height must be > 0")
 
@@ -185,6 +196,11 @@ def _load_agent_spec(
         parser.error(f"Scenario agent spec rejected: {exc}")
 
 
+def _evolve_signal_field(signal_grid: SignalGrid) -> None:
+    signal_grid.diffuse_step()
+    signal_grid.decay_step()
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
@@ -230,7 +246,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         state = _build_state_for_scenario(
             scenario["build_initial_state"],
             scenario_name=args.scenario,
-            agents=args.ants,
+            agents=args.agents,
             width=args.width,
             height=args.height,
             seed=args.seed,
@@ -249,10 +265,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     engine = create_engine(seed=state.seed, runtime=runtime)
     history = SnapshotHistory(snapshot_every=1)
+    step_hook = lambda: _evolve_signal_field(signal_grid)
     snapshots_for_persistence = [state.model_copy(deep=True)]
 
     for _ in range(args.ticks):
-        state = engine.tick(state, runner, history=history)
+        state = engine.tick(
+            state,
+            runner,
+            history=history,
+            post_step_hook=step_hook,
+        )
         snapshots_for_persistence.append(state.model_copy(deep=True))
 
     events = engine.drain_published_events()
@@ -266,6 +288,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "run": {
             "ticks_requested": args.ticks,
             "ticks_completed": state.tick,
+            "agents": len(state.agents),
             "ants": len(state.agents),
             "seed": state.seed,
             "world": {"width": args.width, "height": args.height},

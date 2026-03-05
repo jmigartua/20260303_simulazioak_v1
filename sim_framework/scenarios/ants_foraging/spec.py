@@ -228,6 +228,7 @@ def create_ant_behavior_runner(
             for food in state.food_sources:
                 if food.amount > 0 and _dist(agent.position, food.position) <= float(pickup_radius):
                     carrying = 1
+                    food.amount = max(0.0, food.amount - 1.0)
                     label = "carrying"
                     picked_this_tick = True
                     break
