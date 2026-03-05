@@ -58,6 +58,3 @@ class BehaviorRegistry:
 
     def names(self) -> list[str]:
         return sorted(self._registry.keys())
-
-
-DEFAULT_BEHAVIOR_REGISTRY = BehaviorRegistry()

@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import random
+
+from sim_framework.contracts.behaviors import BehaviorProtocol, BehaviorRegistry
 from sim_framework.contracts.models import AgentState, Colony, SignalField, SimulationState, Vector2
 from sim_framework.contracts.validators import (
     AgentAttributesSpec,
@@ -142,22 +145,57 @@ def create_drone_behavior_runner(
         Vector2(x=margin, y=bounds.height - margin),
     )
 
-    def run(agent: AgentState, state: SimulationState, _rng) -> AgentState:
-        idx = _drone_index(agent.id)
-        phase = ((state.tick // max(1, segment_ticks)) + idx) % len(waypoints)
-        target = waypoints[phase]
+    class DronePatrolBehavior(BehaviorProtocol):
+        def sense(self, agent: AgentState, state: SimulationState) -> dict[str, object]:
+            return {"agent": agent, "state": state}
 
-        dx = target.x - agent.position.x
-        dy = target.y - agent.position.y
-        ux, uy = normalize_vector(dx, dy)
+        def decide(
+            self,
+            perception: dict[str, object],
+            rng: random.Random,
+        ) -> dict[str, object]:
+            _ = rng
+            agent = perception["agent"]
+            state = perception["state"]
+            if not isinstance(agent, AgentState) or not isinstance(state, SimulationState):
+                raise TypeError("Invalid drone behavior perception payload")
 
-        next_agent = agent.model_copy(
-            update={
-                "velocity": Vector2(x=ux * max_speed, y=uy * max_speed),
-                "state_label": "patrolling",
-            }
-        )
-        signal_grid.deposit(next_agent.position, beacon_amount)
-        return apply_movement(next_agent, dt=1.0, bounds=bounds, mode=boundary_mode)
+            idx = _drone_index(agent.id)
+            phase = ((state.tick // max(1, segment_ticks)) + idx) % len(waypoints)
+            target = waypoints[phase]
+
+            dx = target.x - agent.position.x
+            dy = target.y - agent.position.y
+            ux, uy = normalize_vector(dx, dy)
+
+            next_agent = agent.model_copy(
+                update={
+                    "velocity": Vector2(x=ux * max_speed, y=uy * max_speed),
+                    "state_label": "patrolling",
+                }
+            )
+            return {"next_agent": next_agent}
+
+        def act(
+            self,
+            agent: AgentState,
+            decision: dict[str, object],
+            state: SimulationState,
+        ) -> AgentState:
+            _ = (agent, state)
+            next_agent = decision.get("next_agent")
+            if not isinstance(next_agent, AgentState):
+                raise TypeError("Invalid drone behavior decision payload")
+            signal_grid.deposit(next_agent.position, beacon_amount)
+            return apply_movement(next_agent, dt=1.0, bounds=bounds, mode=boundary_mode)
+
+    registry = BehaviorRegistry()
+    registry.register("drone_patrol", DronePatrolBehavior)
+    behavior = registry.create("drone_patrol")
+
+    def run(agent: AgentState, state: SimulationState, rng: random.Random) -> AgentState:
+        perception = behavior.sense(agent, state)
+        decision = behavior.decide(perception, rng)
+        return behavior.act(agent, decision, state)
 
     return run

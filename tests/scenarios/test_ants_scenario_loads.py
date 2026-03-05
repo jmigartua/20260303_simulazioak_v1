@@ -4,6 +4,7 @@ import random
 
 import pytest
 
+from sim_framework.contracts.behaviors import BehaviorRegistry
 from sim_framework.contracts.validators import StateMachineAgentSchemaSpec
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.physics import SpatialHash, WorldBounds
@@ -165,3 +166,30 @@ def test_food_amount_decrements_on_pickup() -> None:
 
     assert updated.carrying == 1
     assert state.food_sources[0].amount < initial_amount
+
+
+def test_ant_runner_uses_behavior_registry(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls = {"register": 0, "create": 0}
+    original_register = BehaviorRegistry.register
+    original_create = BehaviorRegistry.create
+
+    def register_spy(self: BehaviorRegistry, name, factory):
+        calls["register"] += 1
+        return original_register(self, name, factory)
+
+    def create_spy(self: BehaviorRegistry, name):
+        calls["create"] += 1
+        return original_create(self, name)
+
+    monkeypatch.setattr(BehaviorRegistry, "register", register_spy)
+    monkeypatch.setattr(BehaviorRegistry, "create", create_spy)
+
+    state = build_initial_state(num_ants=3, width=20, height=20, seed=22)
+    signal_grid = SignalGrid.from_config(state.signal_fields[0])
+    bounds = WorldBounds(width=20.0, height=20.0)
+    runner = create_ant_behavior_runner(bounds=bounds, signal_grid=signal_grid)
+    rng = random.Random(state.seed)
+    _ = runner(state.agents[0], state, rng)
+
+    assert calls["register"] >= 1
+    assert calls["create"] >= 1

@@ -32,6 +32,7 @@ All notable changes to this project are documented in this file.
   - `--save-run-id` to persist a run bundle.
   - `--load-run-id` to load and summarize a persisted run.
   - `--persistence-root` to control storage location.
+- Scenario behavior runners now instantiate through `BehaviorRegistry`, making behavior contracts part of runtime execution (not test-only infrastructure).
 - App CLI tests extended with save/load success paths and persistence-specific argument/error coverage.
 - Benchmark tooling is now scenario-aware (`--scenario`) for both `benchmark_headless.py` and `run_perf_snapshot_toggle.py`.
 - CLI scenario initialization now dispatches agent-count parameter by scenario signature (`num_ants` / `num_drones` / `num_agents`) to support multi-scenario execution.

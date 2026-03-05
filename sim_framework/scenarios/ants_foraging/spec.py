@@ -3,6 +3,7 @@ from __future__ import annotations
 import random
 from math import sqrt
 
+from sim_framework.contracts.behaviors import BehaviorProtocol, BehaviorRegistry
 from sim_framework.contracts.models import AgentState, Colony, FoodSource, SignalField, SimulationState, Vector2
 from sim_framework.contracts.validators import (
     AgentAttributesSpec,
@@ -205,47 +206,81 @@ def create_ant_behavior_runner(
             ay += dy * inv_dist_sq
         return normalize_vector(ax, ay)
 
+    class AntStateMachineBehavior(BehaviorProtocol):
+        def sense(self, agent: AgentState, state: SimulationState) -> dict[str, object]:
+            return {"agent": agent, "state": state}
+
+        def decide(
+            self,
+            perception: dict[str, object],
+            rng: random.Random,
+        ) -> dict[str, object]:
+            agent = perception["agent"]
+            state = perception["state"]
+            if not isinstance(agent, AgentState) or not isinstance(state, SimulationState):
+                raise TypeError("Invalid ant behavior perception payload")
+
+            carrying = agent.carrying
+            label = agent.state_label
+            picked_this_tick = False
+
+            # Transition: searching -> carrying when food is close.
+            if label != "carrying":
+                for food in state.food_sources:
+                    if food.amount > 0 and _dist(agent.position, food.position) <= float(pickup_radius):
+                        carrying = 1
+                        food.amount = max(0.0, food.amount - 1.0)
+                        label = "carrying"
+                        picked_this_tick = True
+                        break
+
+            if label == "carrying":
+                signal_grid.deposit(agent.position, float(deposit_amount))
+                dx = state.colony.position.x - agent.position.x
+                dy = state.colony.position.y - agent.position.y
+
+                if (not picked_this_tick) and _dist(agent.position, state.colony.position) <= float(drop_radius):
+                    carrying = 0
+                    label = "searching"
+            else:
+                direction = signal_grid.sense_gradient(agent.position, sensor_radius)
+                if direction is None:
+                    direction = normalize_vector(rng.uniform(-1.0, 1.0), rng.uniform(-1.0, 1.0))
+                dx, dy = direction
+
+            avoid_dx, avoid_dy = _neighbor_avoidance(agent, state)
+            dx += avoid_dx * avoid_weight
+            dy += avoid_dy * avoid_weight
+
+            ux, uy = normalize_vector(dx, dy)
+            next_agent = agent.model_copy(
+                update={
+                    "carrying": carrying,
+                    "state_label": label,
+                    "velocity": Vector2(x=ux * max_speed, y=uy * max_speed),
+                }
+            )
+            return {"next_agent": next_agent}
+
+        def act(
+            self,
+            agent: AgentState,
+            decision: dict[str, object],
+            state: SimulationState,
+        ) -> AgentState:
+            _ = state
+            next_agent = decision.get("next_agent")
+            if not isinstance(next_agent, AgentState):
+                raise TypeError("Invalid ant behavior decision payload")
+            return apply_movement(next_agent, dt=1.0, bounds=bounds, mode=boundary_mode)
+
+    registry = BehaviorRegistry()
+    registry.register("ant_state_machine", AntStateMachineBehavior)
+    behavior = registry.create("ant_state_machine")
+
     def run(agent: AgentState, state: SimulationState, rng: random.Random) -> AgentState:
-        carrying = agent.carrying
-        label = agent.state_label
-        picked_this_tick = False
-
-        # Transition: searching -> carrying when food is close.
-        if label != "carrying":
-            for food in state.food_sources:
-                if food.amount > 0 and _dist(agent.position, food.position) <= float(pickup_radius):
-                    carrying = 1
-                    food.amount = max(0.0, food.amount - 1.0)
-                    label = "carrying"
-                    picked_this_tick = True
-                    break
-
-        if label == "carrying":
-            signal_grid.deposit(agent.position, float(deposit_amount))
-            dx = state.colony.position.x - agent.position.x
-            dy = state.colony.position.y - agent.position.y
-
-            if (not picked_this_tick) and _dist(agent.position, state.colony.position) <= float(drop_radius):
-                carrying = 0
-                label = "searching"
-        else:
-            direction = signal_grid.sense_gradient(agent.position, sensor_radius)
-            if direction is None:
-                direction = normalize_vector(rng.uniform(-1.0, 1.0), rng.uniform(-1.0, 1.0))
-            dx, dy = direction
-
-        avoid_dx, avoid_dy = _neighbor_avoidance(agent, state)
-        dx += avoid_dx * avoid_weight
-        dy += avoid_dy * avoid_weight
-
-        ux, uy = normalize_vector(dx, dy)
-        next_agent = agent.model_copy(
-            update={
-                "carrying": carrying,
-                "state_label": label,
-                "velocity": Vector2(x=ux * max_speed, y=uy * max_speed),
-            }
-        )
-        return apply_movement(next_agent, dt=1.0, bounds=bounds, mode=boundary_mode)
+        perception = behavior.sense(agent, state)
+        decision = behavior.decide(perception, rng)
+        return behavior.act(agent, decision, state)
 
     return run

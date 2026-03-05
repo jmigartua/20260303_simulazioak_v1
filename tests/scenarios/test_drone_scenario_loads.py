@@ -4,6 +4,7 @@ import random
 
 import pytest
 
+from sim_framework.contracts.behaviors import BehaviorRegistry
 from sim_framework.contracts.validators import StateMachineAgentSchemaSpec
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.physics import WorldBounds
@@ -94,3 +95,30 @@ def test_drone_spec_override_applies_speed() -> None:
     updated = runner(state.agents[0], state, rng)
     speed = (updated.velocity.x**2 + updated.velocity.y**2) ** 0.5
     assert pytest.approx(speed, rel=1e-6) == 3.0
+
+
+def test_drone_runner_uses_behavior_registry(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls = {"register": 0, "create": 0}
+    original_register = BehaviorRegistry.register
+    original_create = BehaviorRegistry.create
+
+    def register_spy(self: BehaviorRegistry, name, factory):
+        calls["register"] += 1
+        return original_register(self, name, factory)
+
+    def create_spy(self: BehaviorRegistry, name):
+        calls["create"] += 1
+        return original_create(self, name)
+
+    monkeypatch.setattr(BehaviorRegistry, "register", register_spy)
+    monkeypatch.setattr(BehaviorRegistry, "create", create_spy)
+
+    state = build_drone_initial_state(num_drones=3, width=20, height=20, seed=23)
+    bounds = WorldBounds(width=20.0, height=20.0)
+    signal_grid = SignalGrid.from_config(state.signal_fields[0])
+    runner = create_drone_behavior_runner(bounds=bounds, signal_grid=signal_grid)
+    rng = random.Random(state.seed)
+    _ = runner(state.agents[0], state, rng)
+
+    assert calls["register"] >= 1
+    assert calls["create"] >= 1
