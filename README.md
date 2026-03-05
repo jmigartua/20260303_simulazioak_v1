@@ -132,3 +132,4 @@ Latest baseline snapshot in this repository:
 - Changelog: `CHANGELOG.md`
 - Milestone notes for commits 27-29: `Plans/milestone_0.1.1_notes.md`
 - UI/Desktop execution roadmap (R6/R9): `Plans/r6_r9_ui_desktop_roadmap_2026-03-04.md`
+- M2 rendering readiness gate: `Plans/m2_rendering_readiness_2026-03-05.md`
