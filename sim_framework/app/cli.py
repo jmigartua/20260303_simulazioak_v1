@@ -243,7 +243,6 @@ def main(argv: Sequence[str] | None = None) -> int:
             "ticks_requested": args.ticks,
             "ticks_completed": state.tick,
             "agents": len(state.agents),
-            "ants": len(state.agents),
             "seed": state.seed,
             "world": {"width": args.width, "height": args.height},
         },

@@ -57,7 +57,7 @@ def test_cli_headless_mode_disables_snapshot_events(capsys) -> None:
     assert payload["events"]["snapshot"] == 0
 
 
-def test_cli_explicit_override_can_enable_snapshot_events_in_headless_mode(capsys) -> None:
+def test_cli_legacy_ants_flag_still_works_for_backward_compat(capsys) -> None:
     payload = _run_cli(
         [
             "--scenario",
@@ -85,7 +85,7 @@ def test_cli_drone_patrol_runs_headless(capsys) -> None:
             "drone_patrol",
             "--ticks",
             "5",
-            "--ants",
+            "--agents",
             "10",
             "--runtime-mode",
             "headless",
@@ -97,7 +97,7 @@ def test_cli_drone_patrol_runs_headless(capsys) -> None:
     assert payload["runtime"]["mode"] == "headless"
     assert payload["run"]["ticks_completed"] == 5
     assert payload["run"]["agents"] == 10
-    assert payload["run"]["ants"] == 10
+    assert "ants" not in payload["run"]
 
 
 def test_cli_wrap_boundary_mode_is_reported(capsys) -> None:
@@ -107,7 +107,7 @@ def test_cli_wrap_boundary_mode_is_reported(capsys) -> None:
             "drone_patrol",
             "--ticks",
             "5",
-            "--ants",
+            "--agents",
             "10",
             "--runtime-mode",
             "headless",
@@ -143,7 +143,7 @@ def test_cli_applies_custom_agent_spec_from_json(tmp_path, capsys) -> None:
             "ants_foraging",
             "--ticks",
             "1",
-            "--ants",
+            "--agents",
             "5",
             "--runtime-mode",
             "headless",
@@ -232,7 +232,7 @@ def test_cli_writes_json_output_file(tmp_path, capsys) -> None:
             "ants_foraging",
             "--ticks",
             "5",
-            "--ants",
+            "--agents",
             "10",
             "--runtime-mode",
             "headless",
@@ -255,7 +255,7 @@ def test_cli_save_run_persists_bundle(tmp_path, capsys) -> None:
             "ants_foraging",
             "--ticks",
             "3",
-            "--ants",
+            "--agents",
             "8",
             "--runtime-mode",
             "headless",
@@ -284,7 +284,7 @@ def test_cli_save_run_persists_drone_bundle(tmp_path, capsys) -> None:
             "drone_patrol",
             "--ticks",
             "3",
-            "--ants",
+            "--agents",
             "6",
             "--runtime-mode",
             "headless",
@@ -312,7 +312,7 @@ def test_cli_load_run_prints_persistence_summary(tmp_path, capsys) -> None:
             "ants_foraging",
             "--ticks",
             "2",
-            "--ants",
+            "--agents",
             "6",
             "--runtime-mode",
             "headless",

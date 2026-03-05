@@ -38,6 +38,7 @@ All notable changes to this project are documented in this file.
 - CLI scenario initialization now dispatches agent-count parameter by scenario signature (`num_ants` / `num_drones` / `num_agents`) to support multi-scenario execution.
 - CLI now exposes `--boundary-mode` (`clamp`/`wrap`) and passes physics mode into scenario behavior runners.
 - CLI now supports scenario-compatible custom `StateMachineAgentSchemaSpec` payloads through `--agent-spec-json`.
+- CLI JSON output now standardizes on `run.agents`; legacy `run.ants` has been removed. Input alias `--ants` remains supported for backward compatibility.
 
 ## [0.1.2] - 2026-03-04
 
