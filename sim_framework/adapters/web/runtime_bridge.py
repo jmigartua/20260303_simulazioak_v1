@@ -88,6 +88,7 @@ class WebRuntimeBridge:
         self._runner = None
         self._signal_grid: SignalGrid | None = None
         self._bounds = WorldBounds(width=float(config.width), height=float(config.height))
+        self._max_tick_reached = 0
 
         self._rebuild()
 
@@ -131,6 +132,7 @@ class WebRuntimeBridge:
         self._runner = runner
         self._engine = engine
         self._history = history
+        self._max_tick_reached = 0
 
     def switch_scenario(self, scenario_name: str) -> None:
         with self._lock:
@@ -166,6 +168,7 @@ class WebRuntimeBridge:
             assert self._history is not None
             assert self._runner is not None
             self._state = self._engine.tick(self._state, self._runner, history=self._history)
+            self._max_tick_reached = max(self._max_tick_reached, self._state.tick)
             self._engine.drain_published_events()
 
     def apply_command(self, payload: dict[str, Any]) -> None:
@@ -222,6 +225,10 @@ class WebRuntimeBridge:
                     "agent_count": len(state.agents),
                     "carrying_agents": sum(1 for agent in state.agents if agent.carrying > 0),
                     "signal_total": self._signal_grid.total_signal(),
+                },
+                "timeline": {
+                    "current_tick": state.tick,
+                    "max_tick_reached": self._max_tick_reached,
                 },
                 "signal": {
                     "kind": self._signal_grid.kind,

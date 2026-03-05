@@ -52,6 +52,16 @@ def _wait_for_tick(base_url: str, *, at_least: int, timeout_s: float = 1.0) -> d
     raise AssertionError(f"tick did not reach {at_least} within {timeout_s}s")
 
 
+def _wait_for_exact_tick(base_url: str, *, tick: int, timeout_s: float = 1.0) -> dict:
+    deadline = time.time() + timeout_s
+    while time.time() < deadline:
+        payload = _get_json(f"{base_url}/api/state")
+        if payload["tick"] == tick:
+            return payload
+        time.sleep(0.02)
+    raise AssertionError(f"tick did not reach exact value {tick} within {timeout_s}s")
+
+
 def _wait_for_paused(base_url: str, *, paused: bool, timeout_s: float = 1.0) -> dict:
     deadline = time.time() + timeout_s
     while time.time() < deadline:
@@ -103,6 +113,8 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
         assert "Tick drift:" in html
         assert "Last capture:" in html
         assert "Capture JSON" in html
+        assert "Timeline" in html
+        assert "Jump Latest" in html
         assert "pixi.min.js" in html
 
         meta = _get_json(f"{base_url}/api/meta")
@@ -117,10 +129,17 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
         assert state["tick"] == 0
         assert "signal" in state
         assert "data" in state["signal"]
+        assert state["timeline"]["current_tick"] == 0
+        assert state["timeline"]["max_tick_reached"] == 0
 
         _post_json(f"{base_url}/api/command", {"kind": "step", "steps": 1})
         progressed = _wait_for_tick(base_url, at_least=1, timeout_s=1.0)
         assert progressed["tick"] >= 1
+        assert progressed["timeline"]["max_tick_reached"] >= progressed["tick"]
+
+        _post_json(f"{base_url}/api/command", {"kind": "seek", "tick": 0})
+        rewound = _wait_for_exact_tick(base_url, tick=0, timeout_s=1.0)
+        assert rewound["timeline"]["max_tick_reached"] >= 1
 
         switched = _post_json(f"{base_url}/api/scenario", {"scenario": "drone_patrol"})
         assert switched["scenario"] == "drone_patrol"

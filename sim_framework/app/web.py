@@ -103,6 +103,9 @@ _SHELL_HTML = """<!doctype html>
       border: 1px solid var(--line);
       background: #fff;
     }
+    input[type=range] {
+      width: 150px;
+    }
     input[type=checkbox] {
       width: auto;
     }
@@ -145,10 +148,17 @@ _SHELL_HTML = """<!doctype html>
         <button id="set-speed">Apply</button>
       </div>
       <div class="row">
+        <label for="timeline-slider">Timeline</label>
+        <input id="timeline-slider" type="range" min="0" max="0" value="0" />
+        <strong id="timeline-label">0 / 0</strong>
+      </div>
+      <div class="row">
         <label for="seek-tick">Seek tick</label>
         <input id="seek-tick" type="number" min="0" step="1" value="0" />
         <button id="seek-btn">Seek</button>
         <button id="rewind-10">Rewind 10</button>
+        <button id="rewind-50">Rewind 50</button>
+        <button id="jump-latest">Jump Latest</button>
       </div>
       <div class="row">
         <label for="show-signal">Signal overlay</label>
@@ -161,6 +171,8 @@ _SHELL_HTML = """<!doctype html>
 const canvas = document.getElementById("sim-canvas");
 const scenarioSelect = document.getElementById("scenario-select");
 const seekTickInput = document.getElementById("seek-tick");
+const timelineSlider = document.getElementById("timeline-slider");
+const timelineLabel = document.getElementById("timeline-label");
 const showSignalToggle = document.getElementById("show-signal");
 const rendererLabel = document.getElementById("renderer");
 const targetHzLabel = document.getElementById("target-hz");
@@ -457,7 +469,11 @@ function render() {
   document.getElementById("carrying").textContent = String(latest.metrics.carrying_agents);
   document.getElementById("signal").textContent = latest.metrics.signal_total.toFixed(2);
   latencyLabel.textContent = lastApiLatencyMs.toFixed(1);
-  seekTickInput.max = String(Math.max(0, latest.tick));
+  const maxTick = latest.timeline ? latest.timeline.max_tick_reached : latest.tick;
+  seekTickInput.max = String(Math.max(0, maxTick));
+  timelineSlider.max = String(Math.max(0, maxTick));
+  timelineSlider.value = String(Math.max(0, latest.tick));
+  timelineLabel.textContent = `${latest.tick} / ${maxTick}`;
   if (scenarioSelect.value !== latest.scenario) {
     scenarioSelect.value = latest.scenario;
   }
@@ -505,6 +521,29 @@ document.getElementById("seek-btn").onclick = () => {
 document.getElementById("rewind-10").onclick = () => {
   if (!latest) return;
   const tick = Math.max(0, latest.tick - 10);
+  seekTickInput.value = String(tick);
+  postCommand({kind: "seek", tick});
+};
+document.getElementById("rewind-50").onclick = () => {
+  if (!latest) return;
+  const tick = Math.max(0, latest.tick - 50);
+  seekTickInput.value = String(tick);
+  postCommand({kind: "seek", tick});
+};
+document.getElementById("jump-latest").onclick = () => {
+  if (!latest || !latest.timeline) return;
+  const tick = Math.max(0, latest.timeline.max_tick_reached);
+  seekTickInput.value = String(tick);
+  postCommand({kind: "seek", tick});
+};
+timelineSlider.oninput = () => {
+  const tick = Math.max(0, Math.floor(Number(timelineSlider.value)));
+  seekTickInput.value = String(tick);
+  const max = Number(timelineSlider.max || "0");
+  timelineLabel.textContent = `${tick} / ${max}`;
+};
+timelineSlider.onchange = () => {
+  const tick = Math.max(0, Math.floor(Number(timelineSlider.value)));
   seekTickInput.value = String(tick);
   postCommand({kind: "seek", tick});
 };

@@ -80,7 +80,9 @@ def test_seek_command_rewinds_to_previous_tick() -> None:
 
     bridge.apply_command({"kind": "seek", "tick": 1})
     bridge.tick_once()
-    assert bridge.state_payload()["tick"] == 1
+    payload = bridge.state_payload()
+    assert payload["tick"] == 1
+    assert payload["timeline"]["max_tick_reached"] >= 4
 
 
 def test_switch_scenario_rebuilds_without_restart() -> None:
@@ -102,6 +104,7 @@ def test_state_payload_exposes_signal_grid_for_overlay() -> None:
     assert signal["height"] == 10
     assert len(signal["data"]) == 10
     assert len(signal["data"][0]) == 12
+    assert payload["timeline"]["current_tick"] == payload["tick"]
 
 
 def test_meta_payload_exposes_tick_rate_contract() -> None:
