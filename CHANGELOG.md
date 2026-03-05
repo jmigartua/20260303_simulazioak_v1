@@ -22,6 +22,7 @@ All notable changes to this project are documented in this file.
 - M2 step-1 renderer upgrade: PixiJS-backed drawing pipeline for the web shell with automatic canvas fallback.
 - M2 rendering polish: scenario-specific visuals (drone waypoint path + glyphs, ant state coloring), signal-color mapping by field kind, and refresh-rate telemetry in UI.
 - M2 runtime telemetry: API latency and tick-drift indicators added to web shell for render/state sync observability.
+- M2 telemetry contract hardening: `/api/meta` now exposes `step_interval_ms` and `target_tick_hz`; HTTP smoke tests now cover invalid scenario and invalid command payload error paths.
 - Web runtime bridge (`sim_framework.adapters.web.runtime_bridge`) with scenario-aware composition and thread-safe command/state access.
 - New console script entry point: `sim-web`.
 - M1 tests for bridge command flow, scenario switching, and HTTP shell smoke behavior.

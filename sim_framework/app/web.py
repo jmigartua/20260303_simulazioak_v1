@@ -125,6 +125,7 @@ _SHELL_HTML = """<!doctype html>
     <aside class="panel">
       <h3 style="margin: 6px 0 10px 0;">M1 Live State</h3>
       <div class="stat">Renderer: <strong id="renderer">-</strong></div>
+      <div class="stat">Target tick Hz: <strong id="target-hz">-</strong></div>
       <div class="stat">Refresh Hz: <strong id="fps">0.0</strong></div>
       <div class="stat">API latency ms: <strong id="latency">0.0</strong></div>
       <div class="stat">Tick drift: <strong id="drift">0</strong></div>
@@ -158,6 +159,7 @@ const scenarioSelect = document.getElementById("scenario-select");
 const seekTickInput = document.getElementById("seek-tick");
 const showSignalToggle = document.getElementById("show-signal");
 const rendererLabel = document.getElementById("renderer");
+const targetHzLabel = document.getElementById("target-hz");
 const fpsLabel = document.getElementById("fps");
 const latencyLabel = document.getElementById("latency");
 const driftLabel = document.getElementById("drift");
@@ -465,6 +467,7 @@ async function refresh() {
 async function loadMeta() {
   const res = await fetch("/api/meta");
   meta = await res.json();
+  targetHzLabel.textContent = Number(meta.target_tick_hz).toFixed(2);
   scenarioSelect.innerHTML = "";
   for (const scenario of meta.available_scenarios) {
     const option = document.createElement("option");

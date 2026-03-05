@@ -104,6 +104,21 @@ def test_state_payload_exposes_signal_grid_for_overlay() -> None:
     assert len(signal["data"][0]) == 12
 
 
+def test_meta_payload_exposes_tick_rate_contract() -> None:
+    bridge = WebRuntimeBridge(
+        BridgeConfig(
+            scenario_name="ants_foraging",
+            agents=9,
+            step_interval_s=0.04,
+        )
+    )
+    meta = bridge.meta_payload()
+    assert meta["current_scenario"] == "ants_foraging"
+    assert meta["agents"] == 9
+    assert meta["step_interval_ms"] == 40
+    assert meta["target_tick_hz"] == 25.0
+
+
 def test_invalid_command_payload_is_rejected() -> None:
     bridge = WebRuntimeBridge(BridgeConfig())
     with pytest.raises(ValueError):

@@ -233,10 +233,13 @@ class WebRuntimeBridge:
 
     def meta_payload(self) -> dict[str, Any]:
         with self._lock:
+            target_tick_hz = 1.0 / self._config.step_interval_s
             return {
                 "available_scenarios": self.available_scenarios,
                 "current_scenario": self._config.scenario_name,
                 "boundary_mode": self._config.boundary_mode,
                 "runtime_mode": self._config.runtime_mode.value,
                 "agents": self._config.agents,
+                "step_interval_ms": int(self._config.step_interval_s * 1000),
+                "target_tick_hz": round(target_tick_hz, 2),
             }
