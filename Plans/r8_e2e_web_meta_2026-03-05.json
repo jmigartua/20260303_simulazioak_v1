@@ -1,0 +1,12 @@
+{
+  "available_scenarios": [
+    "ants_foraging",
+    "drone_patrol"
+  ],
+  "current_scenario": "drone_patrol",
+  "boundary_mode": "clamp",
+  "runtime_mode": "interactive",
+  "agents": 10,
+  "step_interval_ms": 50,
+  "target_tick_hz": 20.0
+}

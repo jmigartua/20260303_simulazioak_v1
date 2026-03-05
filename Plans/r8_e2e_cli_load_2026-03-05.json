@@ -1,0 +1,11 @@
+{
+  "mode": "loaded",
+  "persistence": {
+    "root": "Plans/runs",
+    "run_id": "r8-e2e-20260305",
+    "scenario_name": "ants_foraging",
+    "seed": 42,
+    "snapshots": 7,
+    "last_tick": 6
+  }
+}

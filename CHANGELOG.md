@@ -26,6 +26,7 @@ All notable changes to this project are documented in this file.
 - Web runtime bridge (`sim_framework.adapters.web.runtime_bridge`) with scenario-aware composition and thread-safe command/state access.
 - New console script entry point: `sim-web`.
 - M1 tests for bridge command flow, scenario switching, and HTTP shell smoke behavior.
+- R8 end-to-end reproducibility bundle in `Plans/` covering CLI save/load and web-shell capture/screenshot export with deterministic artifact hashes.
 
 ### Changed
 - Public CLI now supports persistence flows:

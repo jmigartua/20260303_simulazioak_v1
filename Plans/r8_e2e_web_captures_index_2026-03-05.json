@@ -1,0 +1,14 @@
+{
+  "captures": [
+    {
+      "name": "capture_drone_patrol_tick3_20260305T054103920828Z.json",
+      "path": "Plans/captures_r8_2026-03-05/capture_drone_patrol_tick3_20260305T054103920828Z.json",
+      "size_bytes": 19555,
+      "scenario": "drone_patrol",
+      "tick": 3,
+      "captured_at_utc": "2026-03-05T05:41:03.919487+00:00",
+      "capture_digest": "72b0ff70ac3e64bf324b0d2c3977ede171fd2117dd9204fd031785ac70fb2606",
+      "kind": "state_capture"
+    }
+  ]
+}

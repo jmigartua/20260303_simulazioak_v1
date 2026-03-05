@@ -1,0 +1,36 @@
+{
+  "scenario": "ants_foraging",
+  "runtime": {
+    "mode": "headless",
+    "emit_snapshot_events": false
+  },
+  "run": {
+    "ticks_requested": 6,
+    "ticks_completed": 6,
+    "agents": 12,
+    "seed": 42,
+    "world": {
+      "width": 30,
+      "height": 30
+    }
+  },
+  "physics": {
+    "boundary_mode": "clamp"
+  },
+  "scenario_config": {
+    "agent_spec_source": "builtin"
+  },
+  "events": {
+    "published": 6,
+    "snapshot": 0
+  },
+  "metrics": {
+    "carrying_agents": 8,
+    "signal_total": 50.458804454912
+  },
+  "persistence": {
+    "root": "Plans/runs",
+    "saved_run_id": "r8-e2e-20260305",
+    "snapshots_saved": 7
+  }
+}
