@@ -118,6 +118,7 @@ M1 controls currently available in the shell:
 - tick-rate contract from `/api/meta` (`step_interval_ms`, `target_tick_hz`) for render pacing sanity
 - timing-behavior contract tests cover real-time tick advance on `play` and stabilization on `pause`
 - capture/export workflow via `Capture JSON` button and `/api/capture` endpoint (writes timestamped JSON under `--capture-root`)
+- capture management workflow via `/api/captures` and `/api/capture/delete` (refresh/delete from UI without restart)
 - timeline replay interactions: slider-based seek, rewind-10/rewind-50, and `Jump Latest` using `timeline.max_tick_reached`
 
 Latest baseline snapshot in this repository:

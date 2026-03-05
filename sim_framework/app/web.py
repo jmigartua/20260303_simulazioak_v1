@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -112,6 +113,9 @@ _SHELL_HTML = """<!doctype html>
     #scenario-select {
       width: 170px;
     }
+    #capture-list {
+      width: 220px;
+    }
   </style>
 </head>
 <body>
@@ -136,6 +140,7 @@ _SHELL_HTML = """<!doctype html>
       <div class="stat">API latency ms: <strong id="latency">0.0</strong></div>
       <div class="stat">Tick drift: <strong id="drift">0</strong></div>
       <div class="stat">Last capture: <strong id="capture-path">-</strong></div>
+      <div class="stat">Capture files: <strong id="capture-count">0</strong></div>
       <div class="stat">Scenario: <strong id="scenario">-</strong></div>
       <div class="stat">Tick: <strong id="tick">0</strong></div>
       <div class="stat">Paused: <strong id="paused">true</strong></div>
@@ -164,6 +169,14 @@ _SHELL_HTML = """<!doctype html>
         <label for="show-signal">Signal overlay</label>
         <input id="show-signal" type="checkbox" />
       </div>
+      <div class="row">
+        <label for="capture-list">Captures</label>
+        <select id="capture-list"></select>
+      </div>
+      <div class="row">
+        <button id="refresh-captures">Refresh Captures</button>
+        <button id="delete-capture">Delete Capture</button>
+      </div>
     </aside>
   </div>
 <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.4.2/dist/pixi.min.js"></script>
@@ -180,6 +193,8 @@ const fpsLabel = document.getElementById("fps");
 const latencyLabel = document.getElementById("latency");
 const driftLabel = document.getElementById("drift");
 const capturePathLabel = document.getElementById("capture-path");
+const captureCountLabel = document.getElementById("capture-count");
+const captureList = document.getElementById("capture-list");
 let latest = null;
 let meta = null;
 let pixiApp = null;
@@ -267,7 +282,54 @@ async function captureJson() {
   const capture = await postJson("/api/capture", {});
   latest = capture.state;
   capturePathLabel.textContent = capture.capture_file;
+  await refreshCaptures(capture.capture_name || null);
   render();
+}
+
+async function refreshCaptures(preferredName = null) {
+  try {
+    const res = await fetch("/api/captures");
+    if (!res.ok) return;
+    const payload = await res.json();
+    const captures = Array.isArray(payload.captures) ? payload.captures : [];
+    const previous = preferredName || captureList.value || "";
+    captureList.innerHTML = "";
+    for (const capture of captures) {
+      const option = document.createElement("option");
+      option.value = String(capture.name || "");
+      const tick = Number.isFinite(capture.tick) ? capture.tick : "?";
+      option.textContent = `${capture.name} (tick ${tick})`;
+      captureList.appendChild(option);
+    }
+    if (captures.length > 0) {
+      const chosen = captures.some((item) => item.name === previous)
+        ? previous
+        : captures[0].name;
+      captureList.value = chosen;
+    }
+    captureCountLabel.textContent = String(captures.length);
+  } catch (_err) {
+    // Keep UI usable when capture listing endpoint is unavailable.
+  }
+}
+
+async function deleteSelectedCapture() {
+  const name = captureList.value;
+  if (!name) return;
+  const payload = await postJson("/api/capture/delete", {name});
+  const captures = Array.isArray(payload.captures) ? payload.captures : [];
+  captureList.innerHTML = "";
+  for (const capture of captures) {
+    const option = document.createElement("option");
+    option.value = String(capture.name || "");
+    const tick = Number.isFinite(capture.tick) ? capture.tick : "?";
+    option.textContent = `${capture.name} (tick ${tick})`;
+    captureList.appendChild(option);
+  }
+  captureCountLabel.textContent = String(captures.length);
+  if (captures.length === 0) {
+    capturePathLabel.textContent = "-";
+  }
 }
 
 function drawSignalOverlay(state, sx, sy) {
@@ -553,10 +615,19 @@ document.getElementById("switch-scenario").onclick = () => {
 document.getElementById("capture-json").onclick = () => {
   captureJson();
 };
+document.getElementById("refresh-captures").onclick = () => {
+  refreshCaptures();
+};
+document.getElementById("delete-capture").onclick = () => {
+  deleteSelectedCapture();
+};
 showSignalToggle.onchange = () => render();
 
 initRenderer();
-loadMeta().then(refresh);
+loadMeta().then(() => {
+  refresh();
+  refreshCaptures();
+});
 setInterval(refresh, 120);
 </script>
 </body>
@@ -565,11 +636,18 @@ setInterval(refresh, 120);
 
 
 def _capture_payload(bridge: WebRuntimeBridge) -> dict[str, Any]:
-    return {
+    payload = {
         "captured_at_utc": datetime.now(timezone.utc).isoformat(),
         "state": bridge.state_payload(),
         "meta": bridge.meta_payload(),
     }
+    stable_blob = json.dumps(
+        {"state": payload["state"], "meta": payload["meta"]},
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    payload["capture_digest"] = hashlib.sha256(stable_blob.encode("utf-8")).hexdigest()
+    return payload
 
 
 def _write_capture_file(capture_root: Path, payload: dict[str, Any]) -> Path:
@@ -581,6 +659,50 @@ def _write_capture_file(capture_root: Path, payload: dict[str, Any]) -> Path:
     out_path = capture_root / f"capture_{scenario}_tick{tick}_{timestamp}.json"
     out_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     return out_path
+
+
+def _capture_path_from_name(capture_root: Path, name: str) -> Path:
+    if not name:
+        raise ValueError("capture name must be non-empty")
+    if "/" in name or "\\" in name:
+        raise ValueError("capture name must be a plain filename")
+    if not name.endswith(".json"):
+        raise ValueError("capture name must end with .json")
+    root = capture_root.resolve()
+    candidate = (capture_root / name).resolve()
+    if candidate.parent != root:
+        raise ValueError("capture name points outside capture root")
+    return candidate
+
+
+def _capture_index_entry(path: Path) -> dict[str, Any]:
+    entry: dict[str, Any] = {
+        "name": path.name,
+        "path": str(path),
+        "size_bytes": path.stat().st_size,
+    }
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return entry
+
+    state = payload.get("state", {})
+    entry["scenario"] = state.get("scenario")
+    entry["tick"] = state.get("tick")
+    entry["captured_at_utc"] = payload.get("captured_at_utc")
+    entry["capture_digest"] = payload.get("capture_digest")
+    return entry
+
+
+def _list_capture_index(capture_root: Path) -> list[dict[str, Any]]:
+    if not capture_root.exists():
+        return []
+    files = sorted(
+        capture_root.glob("capture_*.json"),
+        key=lambda item: item.stat().st_mtime,
+        reverse=True,
+    )
+    return [_capture_index_entry(path) for path in files]
 
 
 def _make_handler(bridge: WebRuntimeBridge, *, capture_root: Path):
@@ -612,6 +734,9 @@ def _make_handler(bridge: WebRuntimeBridge, *, capture_root: Path):
             if self.path == "/api/meta":
                 self._json(bridge.meta_payload())
                 return
+            if self.path == "/api/captures":
+                self._json({"captures": _list_capture_index(capture_root)})
+                return
 
             if self.path == "/health":
                 self._json({"ok": True})
@@ -620,7 +745,12 @@ def _make_handler(bridge: WebRuntimeBridge, *, capture_root: Path):
             self._json({"error": "not found"}, status=404)
 
         def do_POST(self) -> None:  # noqa: N802 - stdlib hook name
-            if self.path not in {"/api/command", "/api/scenario", "/api/capture"}:
+            if self.path not in {
+                "/api/command",
+                "/api/scenario",
+                "/api/capture",
+                "/api/capture/delete",
+            }:
                 self._json({"error": "not found"}, status=404)
                 return
 
@@ -630,8 +760,10 @@ def _make_handler(bridge: WebRuntimeBridge, *, capture_root: Path):
                 self._json(
                     {
                         "capture_file": str(out_path),
+                        "capture_name": out_path.name,
                         "state": payload["state"],
                         "captured_at_utc": payload["captured_at_utc"],
+                        "capture_digest": payload["capture_digest"],
                     },
                     status=200,
                 )
@@ -650,6 +782,28 @@ def _make_handler(bridge: WebRuntimeBridge, *, capture_root: Path):
                 return
 
             try:
+                if self.path == "/api/capture/delete":
+                    name = payload.get("name")
+                    if not isinstance(name, str):
+                        self._json({"error": "name must be a string"}, status=400)
+                        return
+                    try:
+                        target = _capture_path_from_name(capture_root, name)
+                    except ValueError as exc:
+                        self._json({"error": str(exc)}, status=400)
+                        return
+                    if not target.exists():
+                        self._json({"error": f"capture not found: {name}"}, status=404)
+                        return
+                    target.unlink()
+                    self._json(
+                        {
+                            "deleted": name,
+                            "captures": _list_capture_index(capture_root),
+                        },
+                        status=200,
+                    )
+                    return
                 if self.path == "/api/scenario":
                     scenario_name = payload.get("scenario")
                     if not isinstance(scenario_name, str) or not scenario_name:

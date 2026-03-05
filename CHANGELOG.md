@@ -27,6 +27,7 @@ All notable changes to this project are documented in this file.
 - M2 exit artifact: `Plans/m2_rendering_readiness_2026-03-05.md` documenting acceptance checklist, reproducibility commands, and M3 entry criteria.
 - M3 slice-1 capture/export workflow: `/api/capture` endpoint + `Capture JSON` UI action writes timestamped JSON artifacts to `--capture-root`.
 - M3 slice-2 replay timeline interactions: state payload now includes `timeline.max_tick_reached`; UI adds slider seek, rewind-50, and jump-to-latest controls.
+- M3 slice-3 capture management parity: `/api/captures` index + `/api/capture/delete` endpoint, plus deterministic `capture_digest` metadata and UI refresh/delete actions.
 - Web runtime bridge (`sim_framework.adapters.web.runtime_bridge`) with scenario-aware composition and thread-safe command/state access.
 - New console script entry point: `sim-web`.
 - M1 tests for bridge command flow, scenario switching, and HTTP shell smoke behavior.

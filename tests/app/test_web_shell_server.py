@@ -112,7 +112,10 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
         assert "API latency ms:" in html
         assert "Tick drift:" in html
         assert "Last capture:" in html
+        assert "Capture files:" in html
         assert "Capture JSON" in html
+        assert "Refresh Captures" in html
+        assert "Delete Capture" in html
         assert "Timeline" in html
         assert "Jump Latest" in html
         assert "pixi.min.js" in html
@@ -162,12 +165,29 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
 
         capture = _post_json(f"{base_url}/api/capture", {})
         capture_file = capture["capture_file"]
+        capture_name = capture["capture_name"]
         assert capture["state"]["scenario"] == "drone_patrol"
         assert capture_file.startswith(str(capture_root))
+        assert isinstance(capture["capture_digest"], str)
+        assert len(capture["capture_digest"]) == 64
 
         capture_json = json.loads((capture_root / Path(capture_file).name).read_text(encoding="utf-8"))
         assert capture_json["state"]["scenario"] == "drone_patrol"
         assert "captured_at_utc" in capture_json
+        assert capture_json["capture_digest"] == capture["capture_digest"]
+
+        listing = _get_json(f"{base_url}/api/captures")
+        assert len(listing["captures"]) == 1
+        assert listing["captures"][0]["name"] == capture_name
+        assert listing["captures"][0]["scenario"] == "drone_patrol"
+
+        deleted = _post_json(f"{base_url}/api/capture/delete", {"name": capture_name})
+        assert deleted["deleted"] == capture_name
+        assert deleted["captures"] == []
+
+        code, err = _post_json_error(f"{base_url}/api/capture/delete", {"name": "../bad.json"})
+        assert code == 400
+        assert "plain filename" in err["error"]
     finally:
         server.shutdown()
         thread.join(timeout=1.0)
