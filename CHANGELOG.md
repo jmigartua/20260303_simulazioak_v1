@@ -2,15 +2,9 @@
 
 All notable changes to this project are documented in this file.
 
-## [0.1.2] - 2026-03-04
+## [Unreleased]
 
-### Release
-- Promote release candidate `0.1.2rc2` to stable `0.1.2`.
-- No additional code changes beyond the `0.1.2rc2` tested baseline.
-
-### Post-0.1.2 (main branch, unreleased)
-
-#### Added
+### Added
 - JSON file persistence adapter (`sim_framework.adapters.persistence.JsonFilePersistence`) implementing `PersistencePort` save/load for run manifests and snapshots.
 - Adapter-level tests covering protocol conformance, round-trip integrity, serialized bundle contract, and missing-run errors.
 - New `drone_patrol` scenario with registry integration and dedicated scenario/integration tests.
@@ -33,7 +27,7 @@ All notable changes to this project are documented in this file.
 - New console script entry point: `sim-web`.
 - M1 tests for bridge command flow, scenario switching, and HTTP shell smoke behavior.
 
-#### Changed
+### Changed
 - Public CLI now supports persistence flows:
   - `--save-run-id` to persist a run bundle.
   - `--load-run-id` to load and summarize a persisted run.
@@ -43,6 +37,12 @@ All notable changes to this project are documented in this file.
 - CLI scenario initialization now dispatches agent-count parameter by scenario signature (`num_ants` / `num_drones` / `num_agents`) to support multi-scenario execution.
 - CLI now exposes `--boundary-mode` (`clamp`/`wrap`) and passes physics mode into scenario behavior runners.
 - CLI now supports scenario-compatible custom `StateMachineAgentSchemaSpec` payloads through `--agent-spec-json`.
+
+## [0.1.2] - 2026-03-04
+
+### Release
+- Promote release candidate `0.1.2rc2` to stable `0.1.2`.
+- No additional code changes beyond the `0.1.2rc2` tested baseline.
 
 ## [0.1.2rc2] - 2026-03-04
 
@@ -69,4 +69,4 @@ All notable changes to this project are documented in this file.
 
 ### Infrastructure
 - CI workflow on Python 3.11 for editable install, test execution, and architectural import-flow checks.
-- `scripts/check_import_flow.py` to enforce layer direction: `contracts <- core <- scenarios <- app`.
+- `scripts/check_import_flow.py` to enforce layer direction: `contracts <- core <- scenarios <- adapters <- app`.

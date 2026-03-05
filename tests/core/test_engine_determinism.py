@@ -76,7 +76,11 @@ def test_command_drain_happens_at_tick_boundary() -> None:
 
     later_events = engine.drain_published_events()
     snapshot_events = [event for event in later_events if event.kind == "snapshot"]
+    metric_events = [event for event in later_events if event.kind == "metric"]
     assert len(snapshot_events) == 2
+    assert len(metric_events) == 2
+    assert all(event.name == "agents_count" for event in metric_events)
+    assert all(event.value == 1.0 for event in metric_events)
 
 
 def test_speed_multiplier_accelerates_steps_when_running() -> None:
@@ -91,7 +95,11 @@ def test_speed_multiplier_accelerates_steps_when_running() -> None:
 
     events = engine.drain_published_events()
     snapshot_events = [event for event in events if event.kind == "snapshot"]
+    metric_events = [event for event in events if event.kind == "metric"]
     assert len(snapshot_events) == 3
+    assert len(metric_events) == 3
+    assert all(event.name == "agents_count" for event in metric_events)
+    assert all(event.value == 1.0 for event in metric_events)
 
 
 def test_speed_multiplier_does_not_batch_paused_step_command() -> None:
@@ -121,7 +129,11 @@ def test_can_disable_snapshot_event_emission_for_headless_mode() -> None:
 
     events = engine.drain_published_events()
     snapshot_events = [event for event in events if event.kind == "snapshot"]
+    metric_events = [event for event in events if event.kind == "metric"]
     assert not snapshot_events
+    assert len(metric_events) == 1
+    assert metric_events[0].name == "agents_count"
+    assert metric_events[0].value == 1.0
 
 
 def test_tick_clones_static_topology_without_deep_copying_agents() -> None:

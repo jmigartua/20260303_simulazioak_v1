@@ -41,10 +41,14 @@ def test_per_agent_error_isolation_keeps_loop_alive() -> None:
     events = engine.drain_published_events()
     error_events = [event for event in events if event.kind == "error"]
     snapshot_events = [event for event in events if event.kind == "snapshot"]
+    metric_events = [event for event in events if event.kind == "metric"]
 
     assert len(error_events) == 1
     assert error_events[0].agent_id == "bad"
     assert len(snapshot_events) == 1
+    assert len(metric_events) == 1
+    assert metric_events[0].name == "agents_count"
+    assert metric_events[0].value == 1.0
 
 
 def test_engine_continues_after_error_on_next_tick() -> None:

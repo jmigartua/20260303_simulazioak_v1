@@ -9,6 +9,7 @@ from sim_framework.contracts.models import (
     ControlCommand,
     ErrorEvent,
     LifecycleEvent,
+    MetricEvent,
     PauseCommand,
     PlayCommand,
     ResetCommand,
@@ -134,6 +135,14 @@ class SimulationEngine:
 
         if history is not None:
             history.snapshot(next_state, next_state.tick)
+
+        self._emit(
+            MetricEvent(
+                tick=next_state.tick,
+                name="agents_count",
+                value=float(len(next_state.agents)),
+            )
+        )
 
         if self._emit_snapshot_events:
             self._emit(

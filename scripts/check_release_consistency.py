@@ -12,6 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PYPROJECT_PATH = PROJECT_ROOT / "pyproject.toml"
 CHANGELOG_PATH = PROJECT_ROOT / "CHANGELOG.md"
 CHANGELOG_HEADING_RE = re.compile(r"^## \[(?P<version>[^\]]+)\]")
+UNRELEASED_HEADING = "unreleased"
 
 
 def load_project_version(pyproject_path: Path) -> str:
@@ -33,13 +34,20 @@ def validate_consistency(project_version: str, versions: list[str]) -> list[str]
     if not versions:
         errors.append("CHANGELOG.md has no version headings (expected '## [x.y.z]').")
         return errors
-    if project_version not in versions:
+
+    released_versions = [v for v in versions if v.strip().lower() != UNRELEASED_HEADING]
+    if not released_versions:
+        errors.append("CHANGELOG.md has no released version headings (expected '## [x.y.z]').")
+        return errors
+
+    if project_version not in released_versions:
         errors.append(
             f"pyproject version '{project_version}' missing from CHANGELOG.md headings."
         )
-    if versions[0] != project_version:
+    if released_versions[0] != project_version:
         errors.append(
-            f"latest changelog heading is '{versions[0]}', expected '{project_version}'."
+            "latest released changelog heading is "
+            f"'{released_versions[0]}', expected '{project_version}'."
         )
     return errors
 
