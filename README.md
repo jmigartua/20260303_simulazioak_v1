@@ -110,6 +110,7 @@ M1 controls currently available in the shell:
 - refresh telemetry (`Refresh Hz`) for basic runtime smoothness sanity checks
 - sync telemetry (`API latency ms`, `Tick drift`) to monitor polling responsiveness and state progression
 - tick-rate contract from `/api/meta` (`step_interval_ms`, `target_tick_hz`) for render pacing sanity
+- timing-behavior contract tests cover real-time tick advance on `play` and stabilization on `pause`
 
 Latest baseline snapshot in this repository:
 - `Plans/perf_baseline_2026-03-03.json`

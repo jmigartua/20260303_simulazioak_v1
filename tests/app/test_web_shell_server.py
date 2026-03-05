@@ -51,6 +51,16 @@ def _wait_for_tick(base_url: str, *, at_least: int, timeout_s: float = 1.0) -> d
     raise AssertionError(f"tick did not reach {at_least} within {timeout_s}s")
 
 
+def _wait_for_paused(base_url: str, *, paused: bool, timeout_s: float = 1.0) -> dict:
+    deadline = time.time() + timeout_s
+    while time.time() < deadline:
+        payload = _get_json(f"{base_url}/api/state")
+        if payload["paused"] is paused:
+            return payload
+        time.sleep(0.02)
+    raise AssertionError(f"paused state did not reach {paused} within {timeout_s}s")
+
+
 def test_web_shell_serves_html_and_state_and_accepts_commands() -> None:
     bridge = WebRuntimeBridge(
         BridgeConfig(
@@ -121,6 +131,47 @@ def test_web_shell_serves_html_and_state_and_accepts_commands() -> None:
         _post_json(f"{base_url}/api/command", {"kind": "step", "steps": 1})
         after_switch_step = _wait_for_tick(base_url, at_least=1, timeout_s=1.0)
         assert after_switch_step["scenario"] == "drone_patrol"
+    finally:
+        server.shutdown()
+        thread.join(timeout=1.0)
+
+
+def test_play_advances_ticks_and_pause_stabilizes_tick() -> None:
+    bridge = WebRuntimeBridge(
+        BridgeConfig(
+            scenario_name="ants_foraging",
+            agents=8,
+            width=20,
+            height=20,
+            seed=42,
+            step_interval_s=0.01,
+        )
+    )
+    server = WebShellServer(host="127.0.0.1", port=0, bridge=bridge)
+    server.start()
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+
+    try:
+        base_url = f"http://127.0.0.1:{server.port}"
+        initial = _get_json(f"{base_url}/api/state")
+        assert initial["tick"] == 0
+        assert initial["paused"] is True
+
+        _post_json(f"{base_url}/api/command", {"kind": "play"})
+        progressed = _wait_for_tick(base_url, at_least=5, timeout_s=1.0)
+        assert progressed["paused"] is False
+        start_tick = progressed["tick"]
+
+        _post_json(f"{base_url}/api/command", {"kind": "pause"})
+        paused_payload = _wait_for_paused(base_url, paused=True, timeout_s=1.0)
+        paused_tick = paused_payload["tick"]
+
+        time.sleep(0.12)
+        after_sleep = _get_json(f"{base_url}/api/state")
+        # Allow at most one residual tick if pause landed between loop iterations.
+        assert after_sleep["tick"] - paused_tick <= 1
+        assert after_sleep["tick"] >= start_tick
     finally:
         server.shutdown()
         thread.join(timeout=1.0)
