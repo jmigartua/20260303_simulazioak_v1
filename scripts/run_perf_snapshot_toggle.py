@@ -8,6 +8,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
+from sim_framework.app.parsing import parse_agents_csv
 from sim_framework.scenarios.registry import list_scenarios
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -15,16 +16,7 @@ BENCHMARK_SCRIPT = PROJECT_ROOT / "scripts" / "benchmark_headless.py"
 
 
 def _parse_agents(raw: str) -> list[int]:
-    parts = [p.strip() for p in raw.split(",") if p.strip()]
-    if not parts:
-        raise argparse.ArgumentTypeError("agents list cannot be empty")
-    try:
-        values = [int(p) for p in parts]
-    except ValueError as exc:
-        raise argparse.ArgumentTypeError("agents must be comma-separated integers") from exc
-    if any(v <= 0 for v in values):
-        raise argparse.ArgumentTypeError("all agents values must be > 0")
-    return values
+    return parse_agents_csv(raw)
 
 
 def _run_benchmark(

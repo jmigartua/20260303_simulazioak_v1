@@ -1,26 +1,13 @@
-from __future__ import annotations
-
-import importlib.util
 import json
 import sys
 from pathlib import Path
 
-
-def _load_module(rel_path: str, module_name: str):
-    root = Path(__file__).resolve().parents[2]
-    script_path = root / rel_path
-    spec = importlib.util.spec_from_file_location(module_name, script_path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError(f"Cannot load module from {script_path}")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[module_name] = module
-    spec.loader.exec_module(module)
-    return module
+from tests.tooling.helpers import load_module
 
 
 def test_build_state_dispatch_supports_ants_and_drones() -> None:
-    mod = _load_module("scripts/benchmark_headless.py", "benchmark_headless_dispatch")
-    scenarios_mod = _load_module("sim_framework/scenarios/registry.py", "scenario_registry_for_bench")
+    mod = load_module("scripts/benchmark_headless.py", "benchmark_headless_dispatch")
+    scenarios_mod = load_module("sim_framework/scenarios/registry.py", "scenario_registry_for_bench")
     ants = scenarios_mod.get_scenario("ants_foraging")
     drones = scenarios_mod.get_scenario("drone_patrol")
 
@@ -48,7 +35,7 @@ def test_build_state_dispatch_supports_ants_and_drones() -> None:
 
 
 def test_single_run_supports_drone_patrol() -> None:
-    mod = _load_module("scripts/benchmark_headless.py", "benchmark_headless_single_run")
+    mod = load_module("scripts/benchmark_headless.py", "benchmark_headless_single_run")
     run = mod._single_run(
         scenario="drone_patrol",
         agents=10,
@@ -66,7 +53,7 @@ def test_single_run_supports_drone_patrol() -> None:
 
 
 def test_main_writes_json_with_scenario_config(tmp_path: Path, monkeypatch) -> None:
-    mod = _load_module("scripts/benchmark_headless.py", "benchmark_headless_main")
+    mod = load_module("scripts/benchmark_headless.py", "benchmark_headless_main")
     json_out = tmp_path / "bench.json"
 
     monkeypatch.setattr(
@@ -94,4 +81,3 @@ def test_main_writes_json_with_scenario_config(tmp_path: Path, monkeypatch) -> N
     assert payload["config"]["emit_snapshot_events"] is False
     assert payload["runs"][0]["scenario"] == "drone_patrol"
     assert payload["summaries"][0]["scenario"] == "drone_patrol"
-

@@ -12,7 +12,14 @@ from sim_framework.contracts.validators import (
     validate_known_behavior_names,
 )
 from sim_framework.core.environment import SignalGrid
-from sim_framework.core.physics import BoundaryMode, SpatialHash, WorldBounds, apply_movement
+from sim_framework.core.physics import (
+    BoundaryMode,
+    SpatialHash,
+    WorldBounds,
+    apply_movement,
+    normalize_vector,
+)
+from sim_framework.scenarios.state_machine import behavior_params
 
 ANT_WORKER_SPEC = StateMachineAgentSchemaSpec(
     agent_type="ant_worker",
@@ -91,18 +98,6 @@ def _effective_ant_spec(
     return validate_ant_agent_spec(agent_spec or ANT_WORKER_SPEC)
 
 
-def _behavior_params(
-    spec: StateMachineAgentSchemaSpec,
-    *,
-    state_name: str,
-    behavior_name: str,
-) -> dict[str, object]:
-    for step in spec.states[state_name].behaviors:
-        if step.name == behavior_name:
-            return step.params
-    raise ValueError(f"Behavior '{behavior_name}' not found in state '{state_name}'")
-
-
 def build_initial_state(
     num_ants: int = 20,
     width: int = 30,
@@ -151,14 +146,6 @@ def _dist(a: Vector2, b: Vector2) -> float:
     dy = a.y - b.y
     return sqrt(dx * dx + dy * dy)
 
-
-def _normalize(dx: float, dy: float) -> tuple[float, float]:
-    mag = sqrt(dx * dx + dy * dy)
-    if mag == 0.0:
-        return 0.0, 0.0
-    return dx / mag, dy / mag
-
-
 def create_ant_behavior_runner(
     bounds: WorldBounds,
     signal_grid: SignalGrid,
@@ -172,17 +159,17 @@ def create_ant_behavior_runner(
 
     max_speed = spec.attributes.max_speed
     sensor_radius = spec.attributes.sensor_radius
-    pickup_radius = _behavior_params(
+    pickup_radius = behavior_params(
         spec,
         state_name="searching",
         behavior_name="check_food",
     )["pickup_radius"]
-    drop_radius = _behavior_params(
+    drop_radius = behavior_params(
         spec,
         state_name="carrying",
         behavior_name="move_to_colony",
     )["arrival_radius"]
-    deposit_amount = _behavior_params(
+    deposit_amount = behavior_params(
         spec,
         state_name="carrying",
         behavior_name="deposit_pheromone",
@@ -216,7 +203,7 @@ def create_ant_behavior_runner(
             inv_dist_sq = 1.0 / dist_sq
             ax += dx * inv_dist_sq
             ay += dy * inv_dist_sq
-        return _normalize(ax, ay)
+        return normalize_vector(ax, ay)
 
     def run(agent: AgentState, state: SimulationState, rng: random.Random) -> AgentState:
         carrying = agent.carrying
@@ -244,14 +231,14 @@ def create_ant_behavior_runner(
         else:
             direction = signal_grid.sense_gradient(agent.position, sensor_radius)
             if direction is None:
-                direction = _normalize(rng.uniform(-1.0, 1.0), rng.uniform(-1.0, 1.0))
+                direction = normalize_vector(rng.uniform(-1.0, 1.0), rng.uniform(-1.0, 1.0))
             dx, dy = direction
 
         avoid_dx, avoid_dy = _neighbor_avoidance(agent, state)
         dx += avoid_dx * avoid_weight
         dy += avoid_dy * avoid_weight
 
-        ux, uy = _normalize(dx, dy)
+        ux, uy = normalize_vector(dx, dy)
         next_agent = agent.model_copy(
             update={
                 "carrying": carrying,

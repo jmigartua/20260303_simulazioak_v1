@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 import cProfile
-import inspect
 import json
 import pstats
 import statistics
@@ -13,9 +12,11 @@ from io import StringIO
 from pathlib import Path
 from time import perf_counter
 
+from sim_framework.app.parsing import parse_agents_csv
 from sim_framework.core.engine import SimulationEngine
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.physics import WorldBounds
+from sim_framework.scenarios.composition import build_state_for_scenario
 from sim_framework.scenarios.registry import get_scenario, list_scenarios
 
 
@@ -50,16 +51,7 @@ class BenchmarkSummary:
 
 
 def _parse_agents(raw: str) -> list[int]:
-    parts = [p.strip() for p in raw.split(",") if p.strip()]
-    if not parts:
-        raise argparse.ArgumentTypeError("agents list cannot be empty")
-    try:
-        parsed = [int(p) for p in parts]
-    except ValueError as exc:
-        raise argparse.ArgumentTypeError("agents must be comma-separated integers") from exc
-    if any(v <= 0 for v in parsed):
-        raise argparse.ArgumentTypeError("all agents values must be > 0")
-    return parsed
+    return parse_agents_csv(raw)
 
 
 def _build_state_for_scenario(
@@ -71,22 +63,15 @@ def _build_state_for_scenario(
     height: int,
     seed: int,
 ):
-    signature = inspect.signature(build_fn)
-    kwargs = {"width": width, "height": height, "seed": seed}
-
-    if "num_ants" in signature.parameters:
-        kwargs["num_ants"] = agents
-    elif "num_drones" in signature.parameters:
-        kwargs["num_drones"] = agents
-    elif "num_agents" in signature.parameters:
-        kwargs["num_agents"] = agents
-    else:
-        raise ValueError(
-            f"Scenario '{scenario}' does not expose a supported agent-count parameter "
-            "(expected one of: num_ants, num_drones, num_agents)."
-        )
-
-    return build_fn(**kwargs)
+    # Compatibility wrapper for tooling tests that introspect this symbol.
+    return build_state_for_scenario(
+        build_fn,
+        scenario_name=scenario,
+        agents=agents,
+        width=width,
+        height=height,
+        seed=seed,
+    )
 
 
 def _single_run(

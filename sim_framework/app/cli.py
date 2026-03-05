@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import inspect
 import json
 from pathlib import Path
 from typing import Sequence
@@ -12,6 +11,7 @@ from sim_framework.contracts.validators import StateMachineAgentSchemaSpec
 from sim_framework.core.environment import SignalGrid
 from sim_framework.core.history import SnapshotHistory
 from sim_framework.core.physics import BoundaryMode, WorldBounds
+from sim_framework.scenarios.composition import build_state_for_scenario, create_runner_for_scenario
 from sim_framework.scenarios.registry import get_scenario, list_scenarios
 
 from sim_framework.app.runtime import RuntimeConfig, RuntimeMode, create_engine
@@ -123,52 +123,6 @@ def _emit_payload(payload: dict, json_out: Path | None) -> None:
         json_out.write_text(encoded + "\n", encoding="utf-8")
 
 
-def _build_state_for_scenario(
-    build_fn,
-    *,
-    scenario_name: str,
-    agents: int,
-    width: int,
-    height: int,
-    seed: int,
-    agent_spec: StateMachineAgentSchemaSpec | None,
-):
-    signature = inspect.signature(build_fn)
-    kwargs = {"width": width, "height": height, "seed": seed}
-
-    if "num_ants" in signature.parameters:
-        kwargs["num_ants"] = agents
-    elif "num_drones" in signature.parameters:
-        kwargs["num_drones"] = agents
-    elif "num_agents" in signature.parameters:
-        kwargs["num_agents"] = agents
-    else:
-        raise ValueError(
-            f"Scenario '{scenario_name}' does not expose a supported agent-count parameter "
-            "(expected one of: num_ants, num_drones, num_agents)."
-        )
-    if "agent_spec" in signature.parameters:
-        kwargs["agent_spec"] = agent_spec
-    return build_fn(**kwargs)
-
-
-def _create_runner_for_scenario(
-    runner_factory,
-    *,
-    bounds: WorldBounds,
-    signal_grid: SignalGrid,
-    boundary_mode: BoundaryMode,
-    agent_spec: StateMachineAgentSchemaSpec | None,
-):
-    signature = inspect.signature(runner_factory)
-    kwargs = {"bounds": bounds, "signal_grid": signal_grid}
-    if "boundary_mode" in signature.parameters:
-        kwargs["boundary_mode"] = boundary_mode
-    if "agent_spec" in signature.parameters:
-        kwargs["agent_spec"] = agent_spec
-    return runner_factory(**kwargs)
-
-
 def _load_agent_spec(
     *,
     path: Path,
@@ -243,7 +197,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
 
     try:
-        state = _build_state_for_scenario(
+        state = build_state_for_scenario(
             scenario["build_initial_state"],
             scenario_name=args.scenario,
             agents=args.agents,
@@ -256,7 +210,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         parser.error(str(exc))
     bounds = WorldBounds(width=float(args.width), height=float(args.height))
     signal_grid = SignalGrid.from_config(state.signal_fields[0])
-    runner = _create_runner_for_scenario(
+    runner = create_runner_for_scenario(
         scenario["create_behavior_runner"],
         bounds=bounds,
         signal_grid=signal_grid,

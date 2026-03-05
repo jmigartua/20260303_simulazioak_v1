@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-import inspect
 import threading
 import time
 from dataclasses import dataclass, replace
-from typing import Any
 
 from pydantic import TypeAdapter
 
@@ -13,6 +11,7 @@ from sim_framework.core.environment import SignalGrid
 from sim_framework.core.history import SnapshotHistory
 from sim_framework.core.physics import WorldBounds
 from sim_framework.core.runtime import RuntimeConfig, RuntimeMode, create_engine
+from sim_framework.scenarios.composition import build_state_for_scenario, create_runner_for_scenario
 from sim_framework.scenarios.registry import get_scenario, list_scenarios
 
 
@@ -29,47 +28,6 @@ class BridgeConfig:
     boundary_mode: str = "clamp"
     runtime_mode: RuntimeMode = RuntimeMode.INTERACTIVE
     step_interval_s: float = 0.05
-
-
-def _build_state_for_scenario(
-    build_fn,
-    *,
-    scenario_name: str,
-    agents: int,
-    width: int,
-    height: int,
-    seed: int,
-) -> SimulationState:
-    signature = inspect.signature(build_fn)
-    kwargs: dict[str, Any] = {"width": width, "height": height, "seed": seed}
-
-    if "num_ants" in signature.parameters:
-        kwargs["num_ants"] = agents
-    elif "num_drones" in signature.parameters:
-        kwargs["num_drones"] = agents
-    elif "num_agents" in signature.parameters:
-        kwargs["num_agents"] = agents
-    else:
-        raise ValueError(
-            f"Scenario '{scenario_name}' does not expose a supported agent-count parameter "
-            "(expected one of: num_ants, num_drones, num_agents)."
-        )
-    return build_fn(**kwargs)
-
-
-def _create_runner_for_scenario(
-    runner_factory,
-    *,
-    bounds: WorldBounds,
-    signal_grid: SignalGrid,
-    boundary_mode: str,
-):
-    signature = inspect.signature(runner_factory)
-    kwargs = {"bounds": bounds, "signal_grid": signal_grid}
-    if "boundary_mode" in signature.parameters:
-        kwargs["boundary_mode"] = boundary_mode
-    return runner_factory(**kwargs)
-
 
 class WebRuntimeBridge:
     """Thread-safe runtime bridge used by the M1 web shell."""
@@ -123,7 +81,7 @@ class WebRuntimeBridge:
 
     def _rebuild(self) -> None:
         scenario = get_scenario(self._config.scenario_name)
-        state = _build_state_for_scenario(
+        state = build_state_for_scenario(
             scenario["build_initial_state"],
             scenario_name=self._config.scenario_name,
             agents=self._config.agents,
@@ -132,7 +90,7 @@ class WebRuntimeBridge:
             seed=self._config.seed,
         )
         signal_grid = SignalGrid.from_config(state.signal_fields[0])
-        runner = _create_runner_for_scenario(
+        runner = create_runner_for_scenario(
             scenario["create_behavior_runner"],
             bounds=self._bounds,
             signal_grid=signal_grid,

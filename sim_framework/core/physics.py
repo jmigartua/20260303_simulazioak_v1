@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from math import ceil, floor
+from math import ceil, floor, sqrt
 from typing import Literal
 
 from sim_framework.contracts.models import AgentState, Vector2
@@ -25,6 +25,13 @@ def _clamp(value: float, low: float, high: float) -> float:
 
 def _wrap(value: float, modulus: float) -> float:
     return value % modulus
+
+
+def normalize_vector(dx: float, dy: float) -> tuple[float, float]:
+    mag = sqrt(dx * dx + dy * dy)
+    if mag == 0.0:
+        return 0.0, 0.0
+    return dx / mag, dy / mag
 
 
 def apply_movement(

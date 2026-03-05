@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from math import sqrt
-
 from sim_framework.contracts.models import AgentState, Colony, SignalField, SimulationState, Vector2
 from sim_framework.contracts.validators import (
     AgentAttributesSpec,
@@ -11,7 +9,8 @@ from sim_framework.contracts.validators import (
     validate_known_behavior_names,
 )
 from sim_framework.core.environment import SignalGrid
-from sim_framework.core.physics import BoundaryMode, WorldBounds, apply_movement
+from sim_framework.core.physics import BoundaryMode, WorldBounds, apply_movement, normalize_vector
+from sim_framework.scenarios.state_machine import behavior_params
 
 DRONE_SCOUT_SPEC = StateMachineAgentSchemaSpec(
     agent_type="drone_scout",
@@ -66,18 +65,6 @@ def _effective_drone_spec(
     return validate_drone_agent_spec(agent_spec or DRONE_SCOUT_SPEC)
 
 
-def _behavior_params(
-    spec: StateMachineAgentSchemaSpec,
-    *,
-    state_name: str,
-    behavior_name: str,
-) -> dict[str, object]:
-    for step in spec.states[state_name].behaviors:
-        if step.name == behavior_name:
-            return step.params
-    raise ValueError(f"Behavior '{behavior_name}' not found in state '{state_name}'")
-
-
 def build_initial_state(
     num_drones: int = 12,
     width: int = 40,
@@ -113,14 +100,6 @@ def build_initial_state(
         seed=seed,
     )
 
-
-def _normalize(dx: float, dy: float) -> tuple[float, float]:
-    mag = sqrt(dx * dx + dy * dy)
-    if mag == 0.0:
-        return 0.0, 0.0
-    return dx / mag, dy / mag
-
-
 def _drone_index(agent_id: str) -> int:
     suffix = agent_id.rsplit("-", maxsplit=1)[-1]
     try:
@@ -142,14 +121,14 @@ def create_drone_behavior_runner(
 
     max_speed = spec.attributes.max_speed
     segment_ticks = int(
-        _behavior_params(
+        behavior_params(
             spec,
             state_name="patrolling",
             behavior_name="select_waypoint",
         )["segment_ticks"]
     )
     beacon_amount = float(
-        _behavior_params(
+        behavior_params(
             spec,
             state_name="patrolling",
             behavior_name="broadcast_beacon",
@@ -170,7 +149,7 @@ def create_drone_behavior_runner(
 
         dx = target.x - agent.position.x
         dy = target.y - agent.position.y
-        ux, uy = _normalize(dx, dy)
+        ux, uy = normalize_vector(dx, dy)
 
         next_agent = agent.model_copy(
             update={

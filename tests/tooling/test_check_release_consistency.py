@@ -1,24 +1,10 @@
-from __future__ import annotations
-
-import importlib.util
-import sys
 from pathlib import Path
 
-
-def _load_module(rel_path: str, module_name: str):
-    root = Path(__file__).resolve().parents[2]
-    script_path = root / rel_path
-    spec = importlib.util.spec_from_file_location(module_name, script_path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError(f"Cannot load module from {script_path}")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[module_name] = module
-    spec.loader.exec_module(module)
-    return module
+from tests.tooling.helpers import load_module
 
 
 def test_validate_consistency_success() -> None:
-    mod = _load_module(
+    mod = load_module(
         "scripts/check_release_consistency.py",
         "check_release_consistency",
     )
@@ -27,7 +13,7 @@ def test_validate_consistency_success() -> None:
 
 
 def test_validate_consistency_missing_project_version() -> None:
-    mod = _load_module(
+    mod = load_module(
         "scripts/check_release_consistency.py",
         "check_release_consistency_missing",
     )
@@ -37,7 +23,7 @@ def test_validate_consistency_missing_project_version() -> None:
 
 
 def test_changelog_versions_parser(tmp_path: Path) -> None:
-    mod = _load_module(
+    mod = load_module(
         "scripts/check_release_consistency.py",
         "check_release_consistency_parser",
     )

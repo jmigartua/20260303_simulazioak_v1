@@ -1,23 +1,10 @@
-from __future__ import annotations
-
-import importlib.util
 import json
 import sys
 from pathlib import Path
 
 import pytest
 
-
-def _load_module(rel_path: str, module_name: str):
-    root = Path(__file__).resolve().parents[2]
-    script_path = root / rel_path
-    spec = importlib.util.spec_from_file_location(module_name, script_path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError(f"Cannot load module from {script_path}")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[module_name] = module
-    spec.loader.exec_module(module)
-    return module
+from tests.tooling.helpers import load_module
 
 
 def _payload(
@@ -48,7 +35,7 @@ def _payload(
 
 
 def test_parse_agents_valid_and_invalid_inputs() -> None:
-    mod = _load_module("scripts/run_perf_snapshot_toggle.py", "run_perf_snapshot_toggle")
+    mod = load_module("scripts/run_perf_snapshot_toggle.py", "run_perf_snapshot_toggle")
 
     assert mod._parse_agents("100,300") == [100, 300]
     assert mod._parse_agents(" 40 , 80 ") == [40, 80]
@@ -61,7 +48,7 @@ def test_parse_agents_valid_and_invalid_inputs() -> None:
 
 
 def test_determinism_pair_counting() -> None:
-    mod = _load_module("scripts/run_perf_snapshot_toggle.py", "run_perf_snapshot_toggle")
+    mod = load_module("scripts/run_perf_snapshot_toggle.py", "run_perf_snapshot_toggle")
     on_payload = _payload(emit_snapshot_events=True, agents=100, us=1000.0, mem=10.0)
     off_payload = _payload(emit_snapshot_events=False, agents=100, us=900.0, mem=1.0)
 
@@ -74,7 +61,7 @@ def test_determinism_pair_counting() -> None:
 
 
 def test_write_comparison_generates_expected_markdown(tmp_path: Path) -> None:
-    mod = _load_module("scripts/run_perf_snapshot_toggle.py", "run_perf_snapshot_toggle")
+    mod = load_module("scripts/run_perf_snapshot_toggle.py", "run_perf_snapshot_toggle")
     on_payload = _payload(emit_snapshot_events=True, agents=100, us=1000.0, mem=10.0)
     off_payload = _payload(emit_snapshot_events=False, agents=100, us=900.0, mem=1.0)
     out = tmp_path / "comparison.md"
@@ -91,7 +78,7 @@ def test_write_comparison_generates_expected_markdown(tmp_path: Path) -> None:
 def test_main_generates_json_and_markdown_with_stable_contract(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    mod = _load_module("scripts/run_perf_snapshot_toggle.py", "run_perf_snapshot_toggle_main")
+    mod = load_module("scripts/run_perf_snapshot_toggle.py", "run_perf_snapshot_toggle_main")
 
     def fake_run_benchmark(
         *,
