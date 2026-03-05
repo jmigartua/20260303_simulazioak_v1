@@ -98,6 +98,12 @@ Run the M1 visible app shell (browser + canvas + live controls):
 sim-web --scenario drone_patrol --agents 20 --boundary-mode wrap
 ```
 
+Optional capture root for UI JSON exports:
+
+```bash
+sim-web --capture-root /tmp/sim-captures
+```
+
 M1 controls currently available in the shell:
 - `Play`, `Pause`, `Step`, `Reset`
 - scenario switch without server restart (`ants_foraging` <-> `drone_patrol`)
@@ -111,6 +117,7 @@ M1 controls currently available in the shell:
 - sync telemetry (`API latency ms`, `Tick drift`) to monitor polling responsiveness and state progression
 - tick-rate contract from `/api/meta` (`step_interval_ms`, `target_tick_hz`) for render pacing sanity
 - timing-behavior contract tests cover real-time tick advance on `play` and stabilization on `pause`
+- capture/export workflow via `Capture JSON` button and `/api/capture` endpoint (writes timestamped JSON under `--capture-root`)
 
 Latest baseline snapshot in this repository:
 - `Plans/perf_baseline_2026-03-03.json`

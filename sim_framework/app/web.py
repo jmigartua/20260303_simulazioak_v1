@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from typing import Any, Sequence
 
 from sim_framework.adapters.web.runtime_bridge import BridgeConfig, WebRuntimeBridge
@@ -119,6 +121,7 @@ _SHELL_HTML = """<!doctype html>
         <button id="pause">Pause</button>
         <button id="step">Step</button>
         <button id="reset" class="secondary">Reset</button>
+        <button id="capture-json">Capture JSON</button>
       </div>
       <canvas id="sim-canvas" width="900" height="600"></canvas>
     </section>
@@ -129,6 +132,7 @@ _SHELL_HTML = """<!doctype html>
       <div class="stat">Refresh Hz: <strong id="fps">0.0</strong></div>
       <div class="stat">API latency ms: <strong id="latency">0.0</strong></div>
       <div class="stat">Tick drift: <strong id="drift">0</strong></div>
+      <div class="stat">Last capture: <strong id="capture-path">-</strong></div>
       <div class="stat">Scenario: <strong id="scenario">-</strong></div>
       <div class="stat">Tick: <strong id="tick">0</strong></div>
       <div class="stat">Paused: <strong id="paused">true</strong></div>
@@ -163,6 +167,7 @@ const targetHzLabel = document.getElementById("target-hz");
 const fpsLabel = document.getElementById("fps");
 const latencyLabel = document.getElementById("latency");
 const driftLabel = document.getElementById("drift");
+const capturePathLabel = document.getElementById("capture-path");
 let latest = null;
 let meta = null;
 let pixiApp = null;
@@ -243,6 +248,13 @@ async function switchScenario(scenarioName) {
   if (meta) {
     meta.current_scenario = scenarioName;
   }
+  render();
+}
+
+async function captureJson() {
+  const capture = await postJson("/api/capture", {});
+  latest = capture.state;
+  capturePathLabel.textContent = capture.capture_file;
   render();
 }
 
@@ -499,6 +511,9 @@ document.getElementById("rewind-10").onclick = () => {
 document.getElementById("switch-scenario").onclick = () => {
   switchScenario(scenarioSelect.value);
 };
+document.getElementById("capture-json").onclick = () => {
+  captureJson();
+};
 showSignalToggle.onchange = () => render();
 
 initRenderer();
@@ -510,7 +525,26 @@ setInterval(refresh, 120);
 """
 
 
-def _make_handler(bridge: WebRuntimeBridge):
+def _capture_payload(bridge: WebRuntimeBridge) -> dict[str, Any]:
+    return {
+        "captured_at_utc": datetime.now(timezone.utc).isoformat(),
+        "state": bridge.state_payload(),
+        "meta": bridge.meta_payload(),
+    }
+
+
+def _write_capture_file(capture_root: Path, payload: dict[str, Any]) -> Path:
+    capture_root.mkdir(parents=True, exist_ok=True)
+    state = payload.get("state", {})
+    scenario = str(state.get("scenario", "unknown"))
+    tick = int(state.get("tick", 0))
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    out_path = capture_root / f"capture_{scenario}_tick{tick}_{timestamp}.json"
+    out_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    return out_path
+
+
+def _make_handler(bridge: WebRuntimeBridge, *, capture_root: Path):
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, _format: str, *_args) -> None:
             return
@@ -547,8 +581,21 @@ def _make_handler(bridge: WebRuntimeBridge):
             self._json({"error": "not found"}, status=404)
 
         def do_POST(self) -> None:  # noqa: N802 - stdlib hook name
-            if self.path not in {"/api/command", "/api/scenario"}:
+            if self.path not in {"/api/command", "/api/scenario", "/api/capture"}:
                 self._json({"error": "not found"}, status=404)
+                return
+
+            if self.path == "/api/capture":
+                payload = _capture_payload(bridge)
+                out_path = _write_capture_file(capture_root, payload)
+                self._json(
+                    {
+                        "capture_file": str(out_path),
+                        "state": payload["state"],
+                        "captured_at_utc": payload["captured_at_utc"],
+                    },
+                    status=200,
+                )
                 return
 
             length = int(self.headers.get("Content-Length", "0"))
@@ -581,9 +628,20 @@ def _make_handler(bridge: WebRuntimeBridge):
 
 
 class WebShellServer:
-    def __init__(self, *, host: str, port: int, bridge: WebRuntimeBridge) -> None:
+    def __init__(
+        self,
+        *,
+        host: str,
+        port: int,
+        bridge: WebRuntimeBridge,
+        capture_root: Path | None = None,
+    ) -> None:
         self._bridge = bridge
-        self._httpd = ThreadingHTTPServer((host, port), _make_handler(bridge))
+        self._capture_root = capture_root or Path("captures")
+        self._httpd = ThreadingHTTPServer(
+            (host, port),
+            _make_handler(bridge, capture_root=self._capture_root),
+        )
 
     @property
     def port(self) -> int:
@@ -628,6 +686,12 @@ def _build_parser() -> argparse.ArgumentParser:
         default=50,
         help="Background simulation step interval in milliseconds.",
     )
+    parser.add_argument(
+        "--capture-root",
+        type=Path,
+        default=Path("captures"),
+        help="Directory where /api/capture writes JSON snapshots.",
+    )
     return parser
 
 
@@ -654,7 +718,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             step_interval_s=args.step_interval_ms / 1000.0,
         )
     )
-    server = WebShellServer(host=args.host, port=args.port, bridge=bridge)
+    server = WebShellServer(
+        host=args.host,
+        port=args.port,
+        bridge=bridge,
+        capture_root=args.capture_root,
+    )
     server.start()
 
     print(

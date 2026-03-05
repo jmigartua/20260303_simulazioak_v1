@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import threading
 import time
+from pathlib import Path
 from urllib import error
 from urllib import request
 
@@ -61,7 +62,7 @@ def _wait_for_paused(base_url: str, *, paused: bool, timeout_s: float = 1.0) -> 
     raise AssertionError(f"paused state did not reach {paused} within {timeout_s}s")
 
 
-def test_web_shell_serves_html_and_state_and_accepts_commands() -> None:
+def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
     bridge = WebRuntimeBridge(
         BridgeConfig(
             scenario_name="ants_foraging",
@@ -72,7 +73,13 @@ def test_web_shell_serves_html_and_state_and_accepts_commands() -> None:
             step_interval_s=0.01,
         )
     )
-    server = WebShellServer(host="127.0.0.1", port=0, bridge=bridge)
+    capture_root = tmp_path / "captures"
+    server = WebShellServer(
+        host="127.0.0.1",
+        port=0,
+        bridge=bridge,
+        capture_root=capture_root,
+    )
     server.start()
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
@@ -94,6 +101,8 @@ def test_web_shell_serves_html_and_state_and_accepts_commands() -> None:
         assert "Refresh Hz:" in html
         assert "API latency ms:" in html
         assert "Tick drift:" in html
+        assert "Last capture:" in html
+        assert "Capture JSON" in html
         assert "pixi.min.js" in html
 
         meta = _get_json(f"{base_url}/api/meta")
@@ -131,6 +140,15 @@ def test_web_shell_serves_html_and_state_and_accepts_commands() -> None:
         _post_json(f"{base_url}/api/command", {"kind": "step", "steps": 1})
         after_switch_step = _wait_for_tick(base_url, at_least=1, timeout_s=1.0)
         assert after_switch_step["scenario"] == "drone_patrol"
+
+        capture = _post_json(f"{base_url}/api/capture", {})
+        capture_file = capture["capture_file"]
+        assert capture["state"]["scenario"] == "drone_patrol"
+        assert capture_file.startswith(str(capture_root))
+
+        capture_json = json.loads((capture_root / Path(capture_file).name).read_text(encoding="utf-8"))
+        assert capture_json["state"]["scenario"] == "drone_patrol"
+        assert "captured_at_utc" in capture_json
     finally:
         server.shutdown()
         thread.join(timeout=1.0)
