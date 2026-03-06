@@ -3,7 +3,15 @@ from __future__ import annotations
 import random
 
 from sim_framework.contracts.behaviors import BehaviorProtocol, BehaviorRegistry
-from sim_framework.contracts.models import AgentState, Colony, SignalField, SimulationState, Vector2
+from sim_framework.contracts.models import (
+    AgentState,
+    Colony,
+    SignalField,
+    SimulationState,
+    TerrainObstacle,
+    Vector2,
+    WorldZone,
+)
 from sim_framework.contracts.validators import (
     AgentAttributesSpec,
     BehaviorStepSpec,
@@ -99,7 +107,27 @@ def build_initial_state(
         agents=agents,
         food_sources=[],
         colony=Colony(id="base-1", position=center),
+        obstacles=[
+            TerrainObstacle(
+                id="relay-pillar",
+                kind="pillar",
+                position=Vector2(x=max(1.0, center.x - 1.5), y=max(1.0, center.y - 1.5)),
+                width=3.0,
+                height=3.0,
+            )
+        ],
+        zones=[
+            WorldZone(
+                id="patrol-ring",
+                kind="patrol",
+                position=Vector2(x=2.0, y=2.0),
+                width=max(1.0, width - 4.0),
+                height=max(1.0, height - 4.0),
+                label="Patrol Loop",
+            )
+        ],
         signal_fields=[SignalField(kind="radio", width=width, height=height, decay=0.99, diffusion=0.05)],
+        delivered_food=0,
         seed=seed,
     )
 

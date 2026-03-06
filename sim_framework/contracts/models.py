@@ -32,6 +32,23 @@ class Colony(BaseModel):
     position: Vector2
 
 
+class TerrainObstacle(BaseModel):
+    id: str = Field(min_length=1)
+    kind: Literal["wall", "rock", "pillar"] = "wall"
+    position: Vector2
+    width: float = Field(gt=0.0)
+    height: float = Field(gt=0.0)
+
+
+class WorldZone(BaseModel):
+    id: str = Field(min_length=1)
+    kind: Literal["nest", "forage", "patrol", "corridor"] = "nest"
+    position: Vector2
+    width: float = Field(gt=0.0)
+    height: float = Field(gt=0.0)
+    label: str | None = None
+
+
 class SignalField(BaseModel):
     kind: Literal["pheromone", "radio", "thermal"] = "pheromone"
     width: int = Field(gt=0)
@@ -45,7 +62,12 @@ class SimulationState(BaseModel):
     agents: list[AgentState] = Field(default_factory=list)
     food_sources: list[FoodSource] = Field(default_factory=list)
     colony: Colony
+    obstacles: list[TerrainObstacle] = Field(default_factory=list)
+    zones: list[WorldZone] = Field(default_factory=list)
     signal_fields: list[SignalField] = Field(default_factory=list)
+    delivered_food: int = Field(default=0, ge=0)
+    food_discovered: bool = False
+    released_agents: int = Field(default=4, ge=0)
     seed: int = Field(default=42)
 
 

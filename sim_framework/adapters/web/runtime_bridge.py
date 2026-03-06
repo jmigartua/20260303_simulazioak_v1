@@ -207,6 +207,29 @@ class WebRuntimeBridge:
                     }
                     for source in state.food_sources
                 ],
+                "obstacles": [
+                    {
+                        "id": obstacle.id,
+                        "kind": obstacle.kind,
+                        "x": obstacle.position.x,
+                        "y": obstacle.position.y,
+                        "width": obstacle.width,
+                        "height": obstacle.height,
+                    }
+                    for obstacle in state.obstacles
+                ],
+                "zones": [
+                    {
+                        "id": zone.id,
+                        "kind": zone.kind,
+                        "x": zone.position.x,
+                        "y": zone.position.y,
+                        "width": zone.width,
+                        "height": zone.height,
+                        "label": zone.label,
+                    }
+                    for zone in state.zones
+                ],
                 "agents": [
                     {
                         "id": agent.id,
@@ -220,7 +243,12 @@ class WebRuntimeBridge:
                 "metrics": {
                     "agent_count": len(state.agents),
                     "carrying_agents": sum(1 for agent in state.agents if agent.carrying > 0),
+                    "waiting_agents": sum(1 for agent in state.agents if agent.state_label == "waiting"),
+                    "food_remaining": round(sum(source.amount for source in state.food_sources), 2),
                     "signal_total": signal_grid.total_signal(),
+                    "delivered_food": state.delivered_food,
+                    "food_discovered": state.food_discovered,
+                    "released_agents": state.released_agents,
                 },
                 "timeline": {
                     "current_tick": state.tick,

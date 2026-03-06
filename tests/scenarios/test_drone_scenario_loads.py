@@ -42,6 +42,9 @@ def test_build_initial_state_has_drones_and_radio_field() -> None:
     assert state.signal_fields
     assert state.signal_fields[0].kind == "radio"
     assert all(agent.state_label == "patrolling" for agent in state.agents)
+    assert state.delivered_food == 0
+    assert len(state.obstacles) == 1
+    assert state.zones[0].kind == "patrol"
 
 
 def test_behavior_runner_keeps_agents_in_bounds_and_emits_signal() -> None:

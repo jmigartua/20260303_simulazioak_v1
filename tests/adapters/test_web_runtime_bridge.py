@@ -105,6 +105,13 @@ def test_state_payload_exposes_signal_grid_for_overlay() -> None:
     assert len(signal["data"]) == 10
     assert len(signal["data"][0]) == 12
     assert payload["timeline"]["current_tick"] == payload["tick"]
+    assert payload["metrics"]["delivered_food"] == 0
+    assert payload["metrics"]["waiting_agents"] >= 0
+    assert payload["metrics"]["released_agents"] == 4
+    assert payload["metrics"]["food_discovered"] is False
+    assert payload["metrics"]["food_remaining"] > 0.0
+    assert len(payload["obstacles"]) >= 1
+    assert {zone["kind"] for zone in payload["zones"]} >= {"nest", "forage"}
 
 
 def test_meta_payload_exposes_tick_rate_contract() -> None:

@@ -110,6 +110,8 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
         assert "Reset" in html
         assert "Switch Scenario" in html
         assert "Signal overlay" in html
+        assert "Simulation Stage" in html
+        assert "Scene Legend" in html
         assert "Renderer:" in html
         assert "Target tick Hz:" in html
         assert "Refresh Hz:" in html
@@ -117,6 +119,9 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
         assert "Tick drift:" in html
         assert "Last capture:" in html
         assert "Capture files:" in html
+        assert "Food Remaining" in html
+        assert "Delivered" in html
+        assert "Delivery Progress" in html
         assert "Capture JSON" in html
         assert "Capture PNG" in html
         assert "Refresh Captures" in html
@@ -137,6 +142,10 @@ def test_web_shell_serves_html_and_state_and_accepts_commands(tmp_path) -> None:
         assert state["tick"] == 0
         assert "signal" in state
         assert "data" in state["signal"]
+        assert "obstacles" in state
+        assert "zones" in state
+        assert state["metrics"]["delivered_food"] == 0
+        assert state["metrics"]["food_remaining"] > 0.0
         assert state["timeline"]["current_tick"] == 0
         assert state["timeline"]["max_tick_reached"] == 0
 

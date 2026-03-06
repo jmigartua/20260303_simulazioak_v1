@@ -127,9 +127,14 @@ class SimulationEngine:
                 "agents": updated_agents,
                 "food_sources": [food.model_copy(deep=False) for food in state.food_sources],
                 "colony": state.colony.model_copy(deep=False),
+                "obstacles": [item.model_copy(deep=False) for item in state.obstacles],
+                "zones": [item.model_copy(deep=False) for item in state.zones],
                 "signal_fields": [
                     field.model_copy(deep=False) for field in state.signal_fields
                 ],
+                "delivered_food": state.delivered_food,
+                "food_discovered": state.food_discovered,
+                "released_agents": state.released_agents,
             },
         )
 

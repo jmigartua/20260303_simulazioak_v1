@@ -7,7 +7,9 @@ from sim_framework.contracts.models import (
     FoodSource,
     SignalField,
     SimulationState,
+    TerrainObstacle,
     Vector2,
+    WorldZone,
 )
 
 
@@ -73,12 +75,47 @@ def test_simulation_state_builds() -> None:
         agents=[AgentState(id="a1", position=Vector2(x=0.0, y=0.0))],
         food_sources=[FoodSource(id="f1", position=Vector2(x=5.0, y=5.0), amount=10.0)],
         colony=Colony(id="c1", position=Vector2(x=2.0, y=2.0)),
+        obstacles=[
+            TerrainObstacle(
+                id="o1",
+                position=Vector2(x=3.0, y=3.0),
+                width=2.0,
+                height=1.0,
+            )
+        ],
+        zones=[
+            WorldZone(
+                id="z1",
+                kind="nest",
+                position=Vector2(x=1.0, y=1.0),
+                width=4.0,
+                height=4.0,
+                label="Nest",
+            )
+        ],
         signal_fields=[SignalField(kind="pheromone", width=20, height=20)],
+        delivered_food=2,
         seed=42,
     )
     assert state.tick == 0
     assert len(state.agents) == 1
     assert state.colony.id == "c1"
+    assert state.delivered_food == 2
+    assert state.zones[0].label == "Nest"
+
+
+def test_simulation_state_world_semantics_default_to_empty() -> None:
+    state = SimulationState(
+        tick=0,
+        agents=[],
+        food_sources=[],
+        colony=Colony(id="c1", position=Vector2(x=0.0, y=0.0)),
+        signal_fields=[],
+        seed=42,
+    )
+    assert state.obstacles == []
+    assert state.zones == []
+    assert state.delivered_food == 0
 
 
 def test_simulation_state_requires_colony() -> None:
